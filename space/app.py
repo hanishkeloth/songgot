@@ -5,19 +5,20 @@ import gradio as gr
 from huggingface_hub import hf_hub_download
 from llama_cpp import Llama
 
-REPO = os.environ.get("SONGGOT_REPO", "palette-lab/songgot")
+REPO = os.environ.get("SONGGOT_REPO", "palette-lab/songgot")  # tokenizer (vocab-only GGUF)
+WEIGHTS_REPO = os.environ.get("SONGGOT_WEIGHTS_REPO", "palette-lab/songgot-12l")  # the 12-layer model, 11.4 percent on FunctionChat SingleCall
 
 
-def _get(name):
+def _get(name, repo=None):
     try:
-        return hf_hub_download(REPO, name)
+        return hf_hub_download(repo or REPO, name)
     except Exception as e:  # file not uploaded yet
         print("missing", name, e)
         return None
 
 
 vocab = _get("songgot-vocab.gguf")
-weights = _get("songgot-nano-q8_0.gguf")
+weights = _get("songgot-q8_0.gguf", WEIGHTS_REPO)
 tok = Llama(model_path=vocab, vocab_only=True, verbose=False) if vocab else None
 llm = Llama(model_path=weights, n_ctx=1024, n_threads=2, verbose=False) if weights else None
 

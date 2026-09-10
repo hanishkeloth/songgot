@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Songgot Pocket (송곳 포켓)</title>
-<meta name="description" content="Korean-first on-device assistant. Turns what you say into actions, fully offline in the browser, powered by the 39M-parameter Songgot model.">
+<meta name="description" content="Korean-first on-device assistant. Turns what you say into actions, fully offline in the browser, powered by the 50M-parameter Songgot model.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -48,7 +48,7 @@ details.raw{margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;
 </head>
 <body>
 <header>
-  <div class="logo">songgot · <span>pocket</span></div><div class="model" id="model">Songgot-nano · Q8_0 · 39M</div>
+  <div class="logo">songgot · <span>pocket</span></div><div class="model" id="model">Songgot · Q8_0 · 50M</div>
   <div class="status"><span class="dot" id="dot"></span><span id="status">loading</span></div>
 </header>
 <div class="bar"><i id="bar"></i></div>
@@ -58,7 +58,7 @@ details.raw{margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;
   <input id="input" placeholder="무엇을 도와드릴까요? (예: 내일 아침 7시에 알람 맞춰줘)" aria-label="요청" enterkeyhint="send">
   <button class="send" id="send" type="submit" disabled>보내기</button>
 </form>
-<div class="foot">기기 안에서만 실행됩니다. 서버로 전송되는 데이터가 없습니다. Runs entirely on this device, nothing leaves it. Songgot 39M, Apache 2.0 · <a href="../">paper</a></div>
+<div class="foot">기기 안에서만 실행됩니다. 서버로 전송되는 데이터가 없습니다. Runs entirely on this device, nothing leaves it. Songgot 50M, Apache 2.0 · <a href="../">paper</a></div>
 <script type="module" src="app.js"></script>
 </body>
 </html>

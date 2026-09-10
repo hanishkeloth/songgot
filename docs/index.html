@@ -270,10 +270,13 @@ written by the build from the run logs; a row reads "training" until its run has
 <h2>6. Honest reading</h2>
 <ul>
 <li>
-<p>Songgot-nano sees 320M pretraining tokens; the Needle 2 recipe used 200B, about 600 times
-  more. We expect that gap to show first in argument values (paraphrased places and times) and in
-  rare tools, and we report every condition whatever it says. Where Songgot loses, this section
-  will say so with the failing items named.</p>
+<p>Songgot-nano, 320M pretraining tokens and one post-training epoch on the v3 set, scores 0.0 on
+  both call and name accuracy. It answers with tool names from its own post-training catalogue
+  (create_event, get_subway_arrival, lookup_exchange_rate) instead of the names in the prompt, and
+  "none" for 105 of the 500 items. The 12-layer model pretrained on 6B tokens copies the right name
+  54 percent of the time from the same data. At 320M tokens the model has not learned to copy from
+  context at all; the Needle 2 recipe used 200B. The nano weights stay published as the measured
+  floor of the recipe, and the 12-layer model is the one in the app.</p>
 </li>
 <li>
 <p>The template-generated Korean data is narrow by construction; a teacher-generated set from
@@ -289,14 +292,14 @@ written by the build from the run logs; a row reads "training" until its run has
 github.com/hanishkeloth/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
 notice in the model card.</p>
 <h2>8. On the device</h2>
-<p>Songgot Pocket (hanishkeloth.github.io/songgot/app) is the model running inside the browser: llama.cpp
-compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (42 MB) fetched once and kept in the browser
-cache, no server in the loop. It installs as a web app on iOS, Android and desktop and keeps working with
+<p>Songgot Pocket (hanishkeloth.github.io/songgot/app) is the 12-layer model running inside the browser:
+llama.cpp compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (54 MB) fetched once and kept in the
+browser cache, no server in the loop. It installs as a web app on iOS, Android and desktop and keeps working with
 the network off. The app shows the model at most six candidate tools per request (chosen by character
 bigram overlap with a 58-tool Korean catalogue), renders the returned call as a card, and performs the
 calls it can do locally (alarms, timers, notes, calendar files) while handing the rest to the right site
-when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.7 s per request from
-prompt to parsed call. Phone numbers follow once the post-trained weights are up.</p></main>
+when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread, with the 39M weights: 1.7 s
+per request from prompt to parsed call.</p></main>
 <section class="faq"><h2>Questions and answers</h2><details><summary>What is Songgot?</summary><p>Songgot (송곳, Korean for awl) is a Korean-first tiny agentic language model for tool calling and structured extraction on the device, trained from scratch by Hanish Keloth at Palette and released under Apache 2.0.</p></details><details><summary>How big is it?</summary><p>The Mac-trained Songgot-nano has 39M parameters (8 layers, hidden 512, GQA); the GPU-trained Songgot has about 50M parameters (12 layers). Both use a 32k Korean-first SentencePiece tokenizer and export to GGUF for llama.cpp.</p></details><details><summary>How is it different from Needle 2?</summary><p>Needle 2 (Cactus Compute, July 2026) is English only: its 8k tokenizer spends 3.47 tokens per Hangul syllable against Songgot's 0.90, and in our FunctionChat-Bench run it answered no Korean item. Songgot is built for Korean first and evaluated on a Korean benchmark.</p></details><details><summary>What data was used?</summary><p>fineweb-edu sample-10BT (ODC-By), Korean Wikipedia 20231101.ko (CC BY-SA 3.0), glaive-function-calling-v2 (Apache 2.0) and template-generated Korean tool calls released with the code. No AI-Hub data and no closed-model outputs.</p></details><details><summary>How is it evaluated?</summary><p>On Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions) with a deterministic exact-match scorer on function name and arguments, so anyone can reproduce the numbers offline. Comparators run under identical prompts: Qwen3-0.6B, FunctionGemma-270M and Needle 2.</p></details><details><summary>Where are the weights and code?</summary><p>Weights and tokenizer at https://huggingface.co/palette-lab/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/Hanish/songgot.</p></details></section>
 <section class="faq" id="about"><h2>About the author</h2><p style="color:var(--ink2)">Songgot is built by <strong>Hanish Keloth</strong>, CTO at <a href="https://www.pltt.xyz" style="color:var(--ink)">Palette</a> (Seoul and Bengaluru), where he leads Palette OS, a company operating system in which governed AI agents draft the documents Korean companies run on. Palette publishes its Korean models and benchmarks in the open: Palette-K-Midm (first of seven on PALETTE-BENCH-KO v0.2, 2026-08-21), Palette-K-Doc, Palette-K-Speech and Palette Video, all at <a href="https://huggingface.co/palette-lab" style="color:var(--ink)">hf.co/palette-lab</a>. Songgot continues that line at the smallest possible size.</p><p style="color:var(--ink2)"><a href="https://github.com/hanishkeloth" style="color:var(--ink)">GitHub</a> · <a href="https://www.linkedin.com/in/hanishkeloth/" style="color:var(--ink)">LinkedIn</a> · <a href="https://huggingface.co/palette-lab" style="color:var(--ink)">Hugging Face</a></p></section>
 <footer>Songgot is released under Apache 2.0 by <a href="https://github.com/hanishkeloth">Hanish Keloth</a>, CTO at Palette. Korean Wikipedia text is CC BY-SA 3.0; FunctionChat-Bench is Apache 2.0 (Kakao). Numbers on this page come from the run logs in the repository; nothing is estimated. <a href="llms.txt">llms.txt</a> · <a href="paper.md">paper.md</a> · <a href="sitemap.xml">sitemap</a></footer>

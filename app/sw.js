@@ -1,6 +1,6 @@
 // Songgot Pocket service worker: caches the app shell and the model so the app works with no network.
 // Model files are large, so they are cached on first successful fetch (not at install) to keep install fast.
-const VERSION = "songgot-pocket-v1";
+const VERSION = "songgot-pocket-v2";
 const SHELL = ["./", "./index.html", "./app.js", "./tools.json", "./manifest.webmanifest",
   "./vendor/wllama/dist/index.js", "./vendor/wllama/dist/wllama.wasm", "./icons/icon-192.png", "./icons/icon-512.png"];
 

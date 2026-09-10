@@ -3,9 +3,9 @@
 // then performs the ones it can do locally and hands the rest to the right site when online.
 import { Wllama } from "./vendor/wllama/dist/index.js";
 
-const HF_MODEL = "https://huggingface.co/palette-lab/songgot/resolve/main/songgot-nano-q8_0.gguf";
-const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL("./models/songgot-nano-q8_0.gguf", location.href).href : HF_MODEL;
-const MODEL_LABEL = "Songgot-nano Q8_0 · 39M · 42 MB";
+const HF_MODEL = "https://huggingface.co/palette-lab/songgot-12l/resolve/main/songgot-q8_0.gguf";  // the 12-layer model: 11.4% on FunctionChat SingleCall; nano scored 0
+const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL("./models/songgot-q8_0.gguf", location.href).href : HF_MODEL;
+const MODEL_LABEL = "Songgot Q8_0 · 50M · 54 MB";
 const $ = (id) => document.getElementById(id);
 const chat = $("chat"), input = $("input"), send = $("send"), status = $("status"), dot = $("dot"), bar = $("bar"), chips = $("chips");
 const params = new URLSearchParams(location.search);

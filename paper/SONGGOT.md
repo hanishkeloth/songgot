@@ -144,10 +144,13 @@ written by the build from the run logs; a row reads "training" until its run has
 
 ## 6. Honest reading
 
-- Songgot-nano sees 320M pretraining tokens; the Needle 2 recipe used 200B, about 600 times
-  more. We expect that gap to show first in argument values (paraphrased places and times) and in
-  rare tools, and we report every condition whatever it says. Where Songgot loses, this section
-  will say so with the failing items named.
+- Songgot-nano, 320M pretraining tokens and one post-training epoch on the v3 set, scores 0.0 on
+  both call and name accuracy. It answers with tool names from its own post-training catalogue
+  (create_event, get_subway_arrival, lookup_exchange_rate) instead of the names in the prompt, and
+  "none" for 105 of the 500 items. The 12-layer model pretrained on 6B tokens copies the right name
+  54 percent of the time from the same data. At 320M tokens the model has not learned to copy from
+  context at all; the Needle 2 recipe used 200B. The nano weights stay published as the measured
+  floor of the recipe, and the 12-layer model is the one in the app.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
@@ -163,11 +166,11 @@ notice in the model card.
 
 ## 8. On the device
 
-Songgot Pocket (hanishkeloth.github.io/songgot/app) is the model running inside the browser: llama.cpp
-compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (42 MB) fetched once and kept in the browser
-cache, no server in the loop. It installs as a web app on iOS, Android and desktop and keeps working with
+Songgot Pocket (hanishkeloth.github.io/songgot/app) is the 12-layer model running inside the browser:
+llama.cpp compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (54 MB) fetched once and kept in the
+browser cache, no server in the loop. It installs as a web app on iOS, Android and desktop and keeps working with
 the network off. The app shows the model at most six candidate tools per request (chosen by character
 bigram overlap with a 58-tool Korean catalogue), renders the returned call as a card, and performs the
 calls it can do locally (alarms, timers, notes, calendar files) while handing the rest to the right site
-when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.7 s per request from
-prompt to parsed call. Phone numbers follow once the post-trained weights are up.
+when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread, with the 39M weights: 1.7 s
+per request from prompt to parsed call.
