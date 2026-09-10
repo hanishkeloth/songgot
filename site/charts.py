@@ -91,7 +91,7 @@ def figures():
             r = json.loads(p.read_text()) if path.endswith(".json") else F.score(str(p))
             series.append((name, [r["by_condition"][c]["call_acc"] * 100 for c in conds], col))
     figs["fig2_bench"] = grouped_bars("Figure 2. FunctionChat-Bench SingleCall call accuracy by tool condition (percent)", conds, series,
-                                      note="Exact match on name and arguments, 100 items per condition. Needle 2 is English only and answered no Korean item.")
+                                      note="Exact match, 100 items per condition. Needle 2 is English only and answered none.")
     pts = loss_points()
     tail = f"run in progress, {pts[-1][0]:,} of 9,765 steps" if pts and pts[-1][0] < 9765 else "complete"
     figs["fig3_loss"] = loss_curve("Figure 3. Songgot-nano pretraining loss, Apple M5 Max, MLX bf16, from the run log", pts, note=tail)
