@@ -1,7 +1,7 @@
 # Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device
 
-Hanish Keloth, Palette (Seoul and Bengaluru). Draft of 2026-09-10. Numbers marked TBD are filled
-from the run logs before release; nothing here is estimated.
+Hanish Keloth, Palette (Seoul and Bengaluru). Draft of 2026-09-10. Songgot rows in Table 2 are
+written from the run logs as each training run finishes; nothing on this page is estimated.
 
 ## Abstract
 
