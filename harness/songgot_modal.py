@@ -31,6 +31,7 @@ image = (
         "torch==2.6.0", "transformers==4.51.3", "sentencepiece>=0.2.0", "datasets==3.6.0",
         "huggingface_hub[hf_transfer]", "numpy<2.3", "safetensors", "tqdm", "gguf",
     )
+    .pip_install("llama-cpp-python", extra_index_url="https://abetlen.github.io/llama-cpp-python/whl/cpu")
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "1", "TOKENIZERS_PARALLELISM": "false"})
 )
 
@@ -279,13 +280,20 @@ def render(example: dict) -> tuple[str, str]:
 
 
 @app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 3, memory=65536)
-def sft(epochs: int = 3, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final"):
+def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final"):
+    """Post-training with llama.cpp's tokenizer (vocab-only GGUF on the volume), the same ids the app,
+    the evaluator and every GGUF user produce. See harness/songgot_tok.py for why."""
     import random
     import torch
     from transformers import LlamaForCausalLM
-    import sentencepiece as spm
-    tokd = f"{V}/tok"; sp = spm.SentencePieceProcessor(model_file=f"{tokd}/spm.model")
-    pad = sp.encode("<|pad|>")[-1]
+    from llama_cpp import Llama
+    tokd = f"{V}/tok"; llm = Llama(model_path=f"{tokd}/songgot-vocab.gguf", vocab_only=True, verbose=False)
+
+    class _SP:
+        def encode(self, s): return llm.tokenize(s.encode("utf-8"), add_bos=False, special=True)
+        def bos_id(self): return llm.token_bos()
+        def eos_id(self): return llm.token_eos()
+    sp = _SP(); pad = 3 + SPECIAL.index("<|pad|>")
     rows = [json.loads(l) for l in open(f"{V}/sft/train.jsonl", encoding="utf-8")]
     random.Random(0).shuffle(rows)
     print(f"[sft] {len(rows)} examples", flush=True)
@@ -321,6 +329,9 @@ def sft(epochs: int = 3, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
     import shutil; shutil.copy(f"{tokd}/spm.model", f"{out_dir}/tokenizer.model")
     json.dump({"bos_token": "<s>", "eos_token": "</s>", "pad_token": "<|pad|>", "unk_token": "<unk>", "additional_special_tokens": SPECIAL,
                "model_max_length": 2048, "tokenizer_class": "LlamaTokenizer", "legacy": False}, open(f"{out_dir}/tokenizer_config.json", "w"), indent=1)
+    json.dump({sp_: 3 + i for i, sp_ in enumerate(SPECIAL)}, open(f"{out_dir}/added_tokens.json", "w"), indent=1)
+    json.dump({"bos_token": "<s>", "eos_token": "</s>", "unk_token": "<unk>", "pad_token": "<|pad|>", "additional_special_tokens": SPECIAL},
+              open(f"{out_dir}/special_tokens_map.json", "w"), indent=1)
     vol.commit(); print("[sft] DONE", flush=True)
     return {"steps": steps}
 
