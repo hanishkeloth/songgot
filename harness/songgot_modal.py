@@ -290,7 +290,7 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
         del shards["inst"]
     # each rank owns every world-th shard and reads it into RAM once: random 2 KB reads through a memmap on the
     # network volume ran at 0.01M tok/s on corpus v2 (about 1,000 shards, 49 GB); sequential reads are fast
-    mm = {l: [np.fromfile(f"{tokd}/{f}", dtype=np.uint16) for f in fs[rank::world]] for l, fs in shards.items()}
+    mm = {l: [np.fromfile(f"{tokd}/{f}", dtype=np.uint16) for f in (fs[rank::world] if len(fs) >= world else fs)] for l, fs in shards.items()}  # small buckets (inst) load fully on every rank
     if rank == 0:
         print(f"[pre] rank 0 holds {sum(len(m) for ms in mm.values() for m in ms)/1e9:.2f}B tokens of {len(shards['ko'])+len(shards['en'])} shards", flush=True)
     wts = {l: np.array([len(m) for m in ms], dtype=np.float64) for l, ms in mm.items()}
