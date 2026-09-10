@@ -30,6 +30,12 @@ status = (f"## Status ({stamp})\nWeights in this repo are {A.name}, {label}: {A.
 import re
 t = re.sub(r"## Status \([^)]*\)\n.*?(?=\n## |\Z)", status.rstrip("\n"), t, count=1, flags=re.S)
 card.write_text(t)
+if A.repo == "palette-lab/songgot-12l":  # the Pocket app serves these weights: bump the cache-busting version and the label
+    import time as _t
+    app_js = ROOT / "app/app.js"; js = app_js.read_text()
+    js = re.sub(r'const MODEL_VERSION = "[^"]*";', f'const MODEL_VERSION = "{_t.strftime("%Y-%m-%d")}-{re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")}";', js)
+    js = re.sub(r'const MODEL_LABEL = "[^"]*";', f'const MODEL_LABEL = "Songgot Q8_0 · {A.params} · 54 MB · {r["call_acc"]*100:.1f}% FunctionChat";', js)
+    app_js.write_text(js)
 subprocess.run([str(ROOT / ".venv/bin/python"), str(ROOT / "site/build.py")], check=True, cwd=ROOT)
 subprocess.run(["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
                 f"--print-to-pdf={ROOT/'docs/songgot.pdf'}", "--virtual-time-budget=5000", f"file://{ROOT/'docs/index.html'}"], cwd=ROOT, timeout=120)
