@@ -49,7 +49,7 @@ body = markdown.markdown(md, extensions=["tables", "fenced_code"])
 faq_html = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in FAQ)
 jsonld = [
     {"@context": "https://schema.org", "@type": "ScholarlyArticle", "headline": TITLE, "name": TITLE, "description": DESC,
-     "author": {"@type": "Person", "name": "Hanish Keloth", "url": "https://github.com/hanishkeloth", "affiliation": {"@type": "Organization", "name": "Palette"}},
+     "author": {"@type": "Person", "name": "Hanish Keloth", "jobTitle": "CTO", "url": "https://github.com/hanishkeloth", "sameAs": ["https://www.linkedin.com/in/hanishkeloth/", "https://huggingface.co/imcapsule"], "affiliation": {"@type": "Organization", "name": "Palette", "url": "https://www.pltt.xyz"}},
      "publisher": {"@type": "Organization", "name": "Palette"}, "datePublished": TODAY, "dateModified": TODAY, "inLanguage": ["en", "ko"],
      "url": SITE, "mainEntityOfPage": SITE, "license": "https://www.apache.org/licenses/LICENSE-2.0",
      "keywords": ["Korean", "tool calling", "function calling", "tiny language model", "on-device", "small language model", "Needle 2", "FunctionChat-Bench", "agentic AI", "SentencePiece tokenizer"],
@@ -105,6 +105,7 @@ footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);
 </section>
 <main>{body.replace("<table>", '<div class="tbl"><table>').replace("</table>", "</table></div>")}</main>
 <section class="faq"><h2>Questions and answers</h2>{faq_html}</section>
+<section class="faq" id="about"><h2>About the author</h2><p style="color:var(--ink2)">Songgot is built by <strong>Hanish Keloth</strong>, CTO at <a href="https://www.pltt.xyz" style="color:var(--ink)">Palette</a> (Seoul and Bengaluru), where he leads Palette OS, a company operating system in which governed AI agents draft the documents Korean companies run on. Palette publishes its Korean models and benchmarks in the open: Palette-K-Midm (first of seven on PALETTE-BENCH-KO v0.2, 2026-08-21), Palette-K-Doc, Palette-K-Speech and Palette Video, all at <a href="https://huggingface.co/imcapsule" style="color:var(--ink)">hf.co/imcapsule</a>. Songgot continues that line at the smallest possible size.</p><p style="color:var(--ink2)"><a href="https://github.com/hanishkeloth" style="color:var(--ink)">GitHub</a> · <a href="https://www.linkedin.com/in/hanishkeloth/" style="color:var(--ink)">LinkedIn</a> · <a href="https://huggingface.co/imcapsule" style="color:var(--ink)">Hugging Face</a></p></section>
 <footer>Songgot is released under Apache 2.0 by <a href="https://github.com/hanishkeloth">Hanish Keloth</a>, CTO at Palette. Korean Wikipedia text is CC BY-SA 3.0; FunctionChat-Bench is Apache 2.0 (Kakao). Numbers on this page come from the run logs in the repository; nothing is estimated. <a href="llms.txt">llms.txt</a> · <a href="paper.md">paper.md</a> · <a href="sitemap.xml">sitemap</a></footer>
 </body></html>"""
 (DOCS / "index.html").write_text(html, encoding="utf-8")
@@ -122,6 +123,9 @@ Author: Hanish Keloth (Palette). Published {TODAY}. Licence: Apache 2.0.
 {facts}
 - Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries: Songgot 32k 0.90, Gemma 3 262k 0.98, Qwen3 151k 1.15, Needle 2 8k 3.47.
 - Comparator call accuracy (exact match, 500 items): Qwen3-0.6B 43.2 percent, FunctionGemma-270M 2.2 percent, Needle 2 0.0 percent.
+
+## About the author
+Hanish Keloth, CTO at Palette (Seoul and Bengaluru), leads Palette OS and publishes Korean models and benchmarks in the open (Palette-K-Midm, Palette-K-Doc, Palette-K-Speech, Palette Video at huggingface.co/imcapsule). GitHub: https://github.com/hanishkeloth. LinkedIn: https://www.linkedin.com/in/hanishkeloth/
 
 ## Links
 - Paper (HTML): {SITE}

@@ -47,3 +47,14 @@ model card), glaive-function-calling-v2 (Apache 2.0), and template-generated Kor
 ## Licence
 
 Apache 2.0. Songgot is a Palette project by Hanish Keloth.
+
+## About
+
+Songgot is built and maintained by **Hanish Keloth**, CTO at [Palette](https://www.pltt.xyz) (Seoul and Bengaluru), where he leads Palette OS, a company operating system in which governed AI agents draft the documents Korean companies run on. Palette publishes its Korean models and benchmarks in the open: Palette-K-Midm (first of seven on PALETTE-BENCH-KO v0.2, 2026-08-21), Palette-K-Doc, Palette-K-Speech and Palette Video, all on [hf.co/imcapsule](https://huggingface.co/imcapsule). Songgot continues that line at the smallest possible size: a Korean-first agentic model that runs on the device.
+
+- GitHub: [github.com/hanishkeloth](https://github.com/hanishkeloth)
+- LinkedIn: [linkedin.com/in/hanishkeloth](https://www.linkedin.com/in/hanishkeloth/)
+- Hugging Face: [huggingface.co/imcapsule](https://huggingface.co/imcapsule)
+- Paper: [hanishkeloth.github.io/songgot](https://hanishkeloth.github.io/songgot/)
+
+Questions, issues and pull requests are welcome in this repository.

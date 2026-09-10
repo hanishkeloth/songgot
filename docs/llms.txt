@@ -14,6 +14,9 @@ Author: Hanish Keloth (Palette). Published 2026-09-10. Licence: Apache 2.0.
 - Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries: Songgot 32k 0.90, Gemma 3 262k 0.98, Qwen3 151k 1.15, Needle 2 8k 3.47.
 - Comparator call accuracy (exact match, 500 items): Qwen3-0.6B 43.2 percent, FunctionGemma-270M 2.2 percent, Needle 2 0.0 percent.
 
+## About the author
+Hanish Keloth, CTO at Palette (Seoul and Bengaluru), leads Palette OS and publishes Korean models and benchmarks in the open (Palette-K-Midm, Palette-K-Doc, Palette-K-Speech, Palette Video at huggingface.co/imcapsule). GitHub: https://github.com/hanishkeloth. LinkedIn: https://www.linkedin.com/in/hanishkeloth/
+
 ## Links
 - Paper (HTML): https://hanishkeloth.github.io/songgot/
 - Paper (Markdown): https://hanishkeloth.github.io/songgot/paper.md
