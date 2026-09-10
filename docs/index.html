@@ -167,6 +167,17 @@ the three common JSON shapes at random. The last one came from reading failures:
 57 no-parameter tools use <code>{"type":"object","properties":{},"required":[]}</code>, our set had almost only
 bare <code>{}</code>, and the model had learned the shape instead of the rule. Each set was scored before the next
 was built; Table 2 carries the published one and the text names the others.</p>
+<p>v6 (2026-09-10 evening) attacks the real limit of v3-v5: those sets contain only 645 distinct real tools
+(the rest of their 47k names are restylings), while the benchmark's 25 tools are all new to the model.
+Our own teacher (Palette-K-Midm, no closed model) invents tool schemas for 60 Korean service domains in
+six naming styles, writes three Korean requests in different registers for each tool together with the
+exact call, and then, in a second pass with three distractor tools present, re-derives the call from the
+request alone; a pair is kept only when tool name, argument keys and values agree (99 percent agree on
+the name, 58 percent on everything). Three runs gave 19,293 invented tools and 36,216 verified rows;
+with close distractors drawn from the same domain, 30 percent of rows restyled and 5 percent turned into
+negatives, v6 has 152,494 rows over 113,197 distinct tool names. On the same 6B-token base, v6 lifts
+call accuracy from 11.4 to 23.8 percent and name accuracy from 53.6 to 63.8: the single largest step in
+this paper, and it came from data, not parameters or RL.</p>
 <p>Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
 format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only

@@ -56,6 +56,12 @@ def p_schema(domain, style, k, sub="", avoid=()):
             "매개변수가 전혀 없는 도구도 가끔 넣으세요(그때 properties는 {}). 서로 다른 기능이어야 하며 설명이나 코드 블록 없이 JSON 배열만 출력하세요.")
 
 
+def p_siblings(tool, k=4):
+    return (f"아래 도구와 혼동하기 쉬운, 같은 서비스 안의 비슷하지만 다른 기능의 도구 {k}개를 만드세요. 이름은 원래 도구와 같은 표기법(예: snake_case면 snake_case)으로, "
+            "기능은 서로 겹치지 않아야 합니다(예: 조회 vs 수정 vs 취소 vs 목록). 각 항목은 name, description(한국어 한 문장), parameters(JSON Schema)를 가지며 JSON 배열만 출력하세요.\n\n"
+            f"원래 도구: {json.dumps(tool, ensure_ascii=False)}")
+
+
 def p_pairs(tool, styles):
     return ("아래 도구 스키마를 보고, 이 도구를 호출하게 만드는 서로 다른 한국어 사용자 요청 3개와 각 요청에 정확히 대응하는 호출 JSON을 만드세요.\n"
             f"요청 1의 말투: {styles[0]}. 요청 2의 말투: {styles[1]}. 요청 3의 말투: {styles[2]}.\n"
@@ -136,7 +142,7 @@ def valid_tool(t) -> bool:
 
 
 @app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
-def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-lab/palette-k-midm", dst: str = "sft/synth_v6.jsonl", seed: int = 6):
+def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-lab/palette-k-midm", dst: str = "sft/synth_v6.jsonl", seed: int = 6, sibling_share: float = 0.0):
     from vllm import LLM, SamplingParams
     from transformers import AutoTokenizer
     rng = random.Random(seed)
@@ -172,6 +178,18 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
             if valid_tool(t) and t["name"].lower() not in seen:
                 seen.add(t["name"].lower()); tools.append({"domain": d, "tool": {"name": t["name"], "description": t["description"], "parameters": t["parameters"]}})
     say(f"[synth] stage 0: {len(prompts)} prompts -> {len(tools)} tools ({len(existing)} from the catalogue, {n_bad} unparseable) in {time.time()-t0:.0f}s")
+    # stage 0b: confusable siblings for a share of the invented tools, so "close" distractor sets are hard
+    if sibling_share > 0:
+        base_idx = [i for i, e in enumerate(tools) if e["domain"] != "catalogue"]
+        pick = rng.sample(base_idx, int(len(base_idx) * sibling_share))
+        outs = llm.generate([chat(p_siblings(tools[i]["tool"])) for i in pick], SamplingParams(temperature=0.9, top_p=0.95, max_tokens=1000, stop=["<|im_end|>", "<|endoftext|>"]))
+        n_sib = 0
+        for i, o in zip(pick, outs):
+            arr = first_json(o.outputs[0].text, "list")
+            for t in (arr if isinstance(arr, list) else []):
+                if valid_tool(t) and t["name"].lower() not in seen:
+                    seen.add(t["name"].lower()); tools.append({"domain": tools[i]["domain"], "tool": {"name": t["name"], "description": t["description"], "parameters": t["parameters"]}, "sibling_of": tools[i]["tool"]["name"]}); n_sib += 1
+        say(f"[synth] stage 0b: {len(pick)} parents -> {n_sib} sibling tools in {time.time()-t0:.0f}s")
     json.dump(tools, open(f"{V}/{dst}".replace(".jsonl", "_tools.json"), "w", encoding="utf-8"), ensure_ascii=False); vol.commit()
 
     # stage 1: requests + calls
@@ -196,7 +214,8 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
     # stage 2: verify with distractors present
     prompts = []
     for p in pairs:
-        others = rng.sample([t for t in tools if t is not tools[p["i"]]], 3)
+        fam = [t for t in tools if t is not tools[p["i"]] and (t.get("sibling_of") == tools[p["i"]]["tool"]["name"] or tools[p["i"]].get("sibling_of") in (t["tool"]["name"], t.get("sibling_of")))]
+        others = rng.sample(fam, min(2, len(fam))) + rng.sample([t for t in tools if t is not tools[p["i"]] and t not in fam], 3 - min(2, len(fam)))
         shown = [tools[p["i"]]["tool"]] + [t["tool"] for t in others]; rng.shuffle(shown)
         prompts.append(chat(p_verify(p["query"], shown)))
     outs = llm.generate(prompts, SamplingParams(temperature=0.0, max_tokens=250, stop=["<|im_end|>", "<|endoftext|>"]))
@@ -217,5 +236,5 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
 
 
 @app.local_entrypoint()
-def main(passes: int = 3, dst: str = "sft/synth_v6.jsonl", seed: int = 6):
-    print(synth.remote(passes, 5, "palette-lab/palette-k-midm", dst, seed))
+def main(passes: int = 3, dst: str = "sft/synth_v6.jsonl", seed: int = 6, sibling_share: float = 0.0):
+    print(synth.remote(passes, 5, "palette-lab/palette-k-midm", dst, seed, sibling_share))
