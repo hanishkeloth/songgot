@@ -287,7 +287,13 @@ def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
     import torch
     from transformers import LlamaForCausalLM
     from llama_cpp import Llama
-    tokd = f"{V}/tok"; llm = Llama(model_path=f"{tokd}/songgot-vocab.gguf", vocab_only=True, verbose=False)
+    vol.reload()
+    tokd = f"{V}/tok"; vocab_path = f"{tokd}/songgot-vocab.gguf"
+    if not os.path.exists(vocab_path):  # volume view can lag a CLI upload; the same file is on the Hub
+        from huggingface_hub import hf_hub_download
+        vocab_path = hf_hub_download("palette-lab/songgot", "songgot-vocab.gguf")
+        print(f"[sft] vocab from the Hub: {vocab_path}", flush=True)
+    llm = Llama(model_path=vocab_path, vocab_only=True, verbose=False)
 
     class _SP:
         def encode(self, s): return llm.tokenize(s.encode("utf-8"), add_bos=False, special=True)
