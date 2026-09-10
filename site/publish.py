@@ -7,6 +7,8 @@ ap = argparse.ArgumentParser(); ap.add_argument("ckpt"); ap.add_argument("score"
 ap.add_argument("--repo", default="palette-lab/songgot"); ap.add_argument("--name", default="Songgot-nano")
 ap.add_argument("--params", default="39M"); ap.add_argument("--gguf", default="songgot-nano"); ap.add_argument("--desc", default="8 layers, 39M parameters, pretrained on an Apple M5 Max with MLX on 320M tokens")
 A = ap.parse_args(); ckpt, score_path, label = pathlib.Path(A.ckpt), pathlib.Path(A.score), A.label
+import fcntl
+_lock = open(ROOT / "logs/publish.lock", "w"); fcntl.flock(_lock, fcntl.LOCK_EX)  # one publish at a time: pipelines finish minutes apart and all commit to the same repo
 r = json.loads(score_path.read_text()); bc = r["by_condition"]; C = ["exact", "4_random", "4_close", "8_random", "8_close"]
 row = f"| {A.name} ({label}) | {A.params} | " + " | ".join(f"{bc[c]['call_acc']*100:.1f}" for c in C) + f" | {r['call_acc']*100:.1f} | {r['name_acc']*100:.1f} |"
 card = ROOT / "MODEL_CARD.md"; t = card.read_text()
@@ -34,7 +36,9 @@ subprocess.run(["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", 
 subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
 subprocess.run(["git", "-c", "user.name=Hanish Keloth", "-c", "user.email=4217831+hanishkeloth@users.noreply.github.com", "commit", "-q", "-m",
                 f"{A.name} {label}: {r['call_acc']*100:.1f} percent call accuracy on FunctionChat SingleCall"], cwd=ROOT)
-subprocess.run(["git", "push", "-q", "origin", "main"], cwd=ROOT, check=True)
+if subprocess.run(["git", "push", "-q", "origin", "main"], cwd=ROOT).returncode:  # another publish pushed first: rebase and retry, never skip the Hub upload
+    subprocess.run(["git", "pull", "-q", "--rebase", "origin", "main"], cwd=ROOT)
+    subprocess.run(["git", "push", "-q", "origin", "main"], cwd=ROOT)
 from huggingface_hub import HfApi
 api = HfApi()
 api.create_repo(A.repo, repo_type="model", exist_ok=True)

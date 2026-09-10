@@ -164,6 +164,8 @@ def rl(init: str = "sft/final", out: str = "rl/final", data: str = "sft/train.js
             loss = (pg + kl * klt).mean() * (min(32, len(seqs) - i) / len(seqs))
             loss.backward(); total += loss.item()
         torch.nn.utils.clip_grad_norm_(policy.parameters(), 1.0); opt.step()
+        if step and step % 100 == 0:  # checkpoint every 100 steps so a cancelled container loses little
+            policy.save_pretrained(f"{V}/ckpt/{out}", safe_serialization=True); vol.commit()
         if step % 5 == 0:
             msg = f"[rl] step {step}/{steps} loss {total:.4f} mean_reward {np.mean(mean_r):.3f} exact {np.mean(exact_r):.3f} seqs {len(seqs)} elapsed {(time.time()-t0)/60:.1f}m"
             print(msg, flush=True); open(f"{V}/rl.log", "a").write(time.strftime("%F %T ") + msg + "\n")

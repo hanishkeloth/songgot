@@ -282,7 +282,7 @@ def render(example: dict) -> tuple[str, str]:
 
 
 @app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 3, memory=65536)
-def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final", out: str = "sft/final"):
+def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final", out: str = "sft/final", data: str = "sft/train.jsonl"):
     """Post-training with llama.cpp's tokenizer (vocab-only GGUF on the volume), the same ids the app,
     the evaluator and every GGUF user produce. See harness/songgot_tok.py for why."""
     import random
@@ -302,7 +302,7 @@ def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
         def bos_id(self): return llm.token_bos()
         def eos_id(self): return llm.token_eos()
     sp = _SP(); pad = 3 + SPECIAL.index("<|pad|>")
-    rows = [json.loads(l) for l in open(f"{V}/sft/train.jsonl", encoding="utf-8")]
+    rows = [json.loads(l) for l in open(f"{V}/{data}", encoding="utf-8")]
     random.Random(0).shuffle(rows)
     print(f"[sft] {len(rows)} examples", flush=True)
     dev = torch.device("cuda")
@@ -327,10 +327,10 @@ def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
             ids, lab, att = ids.to(dev), lab.to(dev), att.to(dev)
             for g in opt.param_groups:
                 g["lr"] = lr * min(1.0, (s + 1) / 100) * (0.5 * (1 + math.cos(math.pi * s / max(1, steps))))
-            out = model(input_ids=ids, attention_mask=att, labels=lab)
-            out.loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); opt.zero_grad(set_to_none=True)
+            o = model(input_ids=ids, attention_mask=att, labels=lab)  # not `out`: that is the output directory name
+            o.loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); opt.zero_grad(set_to_none=True)
             if s % 50 == 0:
-                msg = f"[sft] ep {ep} step {s}/{steps} loss {out.loss.item():.4f}"
+                msg = f"[sft] ep {ep} step {s}/{steps} loss {o.loss.item():.4f}"
                 print(msg, flush=True); open(f"{V}/sft.log", "a").write(time.strftime("%F %T ") + msg + "\n")
             s += 1
     out_dir = f"{V}/ckpt/{out}"; model.save_pretrained(out_dir, safe_serialization=True)

@@ -104,8 +104,23 @@ was built; Table 2 carries the published one and the text names the others.
 Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
 format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only
-signal). Each stage is scored on the benchmark and only a stage that improves the score is
-published; Table 2 reports the published one.
+signal). Each stage is scored on the benchmark and a stage that lowers the score is not published;
+Table 2 reports the published one. For the 12-layer model the RL stage tied the SFT score (11.4
+percent before and after), and the published weights carry it.
+
+What the RL stage measured. Three runs on the 12-layer model, 16 prompts x 8 samples per step, KL to
+the frozen SFT model. Run 1 drew prompts from the post-training set: the group mean reward was
+0.97-0.99 over the first 100 steps, the eight samples of a group almost always agreed, and the
+benchmark did not move. Run 2 drew the same queries with every tool renamed to a name that never
+appears in training: reward 0.84-0.99 over 140 steps, because the model reproduces the gold call for
+a query it was trained on even when the tool is called something else. Run 3 used prompts the model
+had never seen (1,575 Korean rewrites of glaive requests held out of post-training, their renamed
+copies, and 3,000 held-out English rows): reward 0.70-0.85 with exact matches at 0.58-0.69, and real
+disagreement inside each group, the first run with a gradient worth following. After 200 of those
+steps the benchmark was still 11.4 percent, identical in every condition. A model this small
+memorises its post-training queries, so on-policy RL can only teach what SFT has not already fixed,
+and 200 steps of it on 3,200 novel prompts did not reach the benchmark's tools. The RL stage is
+kept in the recipe as a measured negative, not as a source of the published number.
 
 ## 5. Evaluation
 
@@ -120,6 +135,7 @@ written by the build from the run logs; a row reads "training" until its run has
 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
+| Songgot-nano (Mac, 320M tokens) | 39M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | Songgot (8xH100, 6B tokens) | 50M | 26.0 | 12.0 | 10.0 | 7.0 | 2.0 | 11.4 | 53.6 |
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |

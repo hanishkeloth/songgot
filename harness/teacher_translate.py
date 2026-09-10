@@ -47,10 +47,10 @@ def prompt_for(query: str, call: dict, style: str) -> str:
 
 
 @app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 2, memory=65536)
-def translate(limit: int = 12000, model_id: str = "palette-lab/palette-k-midm"):
+def translate(limit: int = 12000, model_id: str = "palette-lab/palette-k-midm", src: str = "data/glaive_en_calls.jsonl", dst: str = "sft/ko_trans.jsonl"):
     from vllm import LLM, SamplingParams
     from transformers import AutoTokenizer
-    rows = [json.loads(l) for l in open(f"{V}/data/glaive_en_calls.jsonl", encoding="utf-8")][:limit]
+    rows = [json.loads(l) for l in open(f"{V}/{src}", encoding="utf-8")][:limit]
     tok = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
     llm = LLM(model=model_id, tensor_parallel_size=2, trust_remote_code=True, max_model_len=2048,
               gpu_memory_utilization=0.9, dtype="bfloat16", enforce_eager=True)
@@ -62,7 +62,7 @@ def translate(limit: int = 12000, model_id: str = "palette-lab/palette-k-midm"):
     os.makedirs(f"{V}/sft", exist_ok=True)
     n_ok = n_bad = 0
     hangul = re.compile(r"[가-힣]")
-    with open(f"{V}/sft/ko_trans.jsonl", "w", encoding="utf-8") as f:
+    with open(f"{V}/{dst}", "w", encoding="utf-8") as f:
         for r, o in zip(rows, outs):
             ko = o.outputs[0].text.strip().strip("`\"'“”")
             vals = [str(v) for v in r["call"].get("arguments", {}).values() if isinstance(v, (str, int, float))]
@@ -77,5 +77,5 @@ def translate(limit: int = 12000, model_id: str = "palette-lab/palette-k-midm"):
 
 
 @app.local_entrypoint()
-def main(limit: int = 12000):
-    print(translate.remote(limit))
+def main(limit: int = 12000, src: str = "data/glaive_en_calls.jsonl", dst: str = "sft/ko_trans.jsonl"):
+    print(translate.remote(limit, "palette-lab/palette-k-midm", src, dst))
