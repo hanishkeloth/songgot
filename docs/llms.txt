@@ -1,0 +1,22 @@
+# Songgot (송곳)
+
+> Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.
+
+Author: Hanish Keloth (Palette). Published 2026-09-10. Licence: Apache 2.0.
+
+## Facts
+- What is Songgot? Songgot (송곳, Korean for awl) is a Korean-first tiny agentic language model for tool calling and structured extraction on the device, trained from scratch by Hanish Keloth at Palette and released under Apache 2.0.
+- How big is it? The Mac-trained Songgot-nano has 39M parameters (8 layers, hidden 512, GQA); the GPU-trained Songgot has about 50M parameters (12 layers). Both use a 32k Korean-first SentencePiece tokenizer and export to GGUF for llama.cpp.
+- How is it different from Needle 2? Needle 2 (Cactus Compute, July 2026) is English only: its 8k tokenizer spends 3.47 tokens per Hangul syllable against Songgot's 0.90, and in our FunctionChat-Bench run it answered no Korean item. Songgot is built for Korean first and evaluated on a Korean benchmark.
+- What data was used? fineweb-edu sample-10BT (ODC-By), Korean Wikipedia 20231101.ko (CC BY-SA 3.0), glaive-function-calling-v2 (Apache 2.0) and template-generated Korean tool calls released with the code. No AI-Hub data and no closed-model outputs.
+- How is it evaluated? On Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions) with a deterministic exact-match scorer on function name and arguments, so anyone can reproduce the numbers offline. Comparators run under identical prompts: Qwen3-0.6B, FunctionGemma-270M and Needle 2.
+- Where are the weights and code? Weights and tokenizer at https://huggingface.co/imcapsule/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/imcapsule/songgot.
+- Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries: Songgot 32k 0.90, Gemma 3 262k 0.98, Qwen3 151k 1.15, Needle 2 8k 3.47.
+- Comparator call accuracy (exact match, 500 items): Qwen3-0.6B 43.2 percent, FunctionGemma-270M 2.2 percent, Needle 2 0.0 percent.
+
+## Links
+- Paper (HTML): https://hanishkeloth.github.io/songgot/
+- Paper (Markdown): https://hanishkeloth.github.io/songgot/paper.md
+- Code: https://github.com/hanishkeloth/songgot
+- Weights: https://huggingface.co/imcapsule/songgot
+- Demo: https://huggingface.co/spaces/imcapsule/songgot

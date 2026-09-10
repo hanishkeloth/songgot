@@ -20,8 +20,8 @@ datasets:
 
 A Korean-first tiny agentic model for tool calling on the device, trained from scratch by Hanish Keloth (Palette). Apache 2.0.
 
-- Paper: https://hanishkeloth.github.io/songgot-
-- Code, data generators, scorer: https://github.com/hanishkeloth/songgot-
+- Paper: https://hanishkeloth.github.io/songgot
+- Code, data generators, scorer: https://github.com/hanishkeloth/songgot
 - Demo: https://huggingface.co/spaces/imcapsule/songgot
 
 ## Numbers
