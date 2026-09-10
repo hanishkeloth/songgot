@@ -107,9 +107,21 @@ function renderCall(r) {
     const acts = actionsFor(r.call); if (acts.length) { const act = el("div", "act"); acts.forEach((x) => act.appendChild(x)); card.appendChild(act); }
     wrap.appendChild(card);
   }
-  const det = el("details", "raw"); det.appendChild(el("summary", "", `모델 출력 · ${r.ms} ms · 후보 도구 ${r.candidates.map((t) => t.name).join(", ")}`)); const pre = el("pre", "", r.text); det.appendChild(pre); wrap.appendChild(det);
+  const det = el("details", "raw"); const u = r.usage || {}; const gen = u.completion_tokens || 0; const tps = gen && r.ms ? (gen / (r.ms / 1000)).toFixed(1) : "-";
+  wrap.appendChild(el("div", "meta", `${u.prompt_tokens || "-"} prompt tok · ${gen} gen tok · ${tps} tok/s · ${r.ms} ms · on device`));
+  det.appendChild(el("summary", "", `모델 출력 · 후보 도구 ${r.candidates.map((t) => t.name).join(", ")}`)); const pre = el("pre", "", r.text); det.appendChild(pre); wrap.appendChild(det);
   push(wrap);
+  if (r.call && r.call.name && r.call.name !== "none") followups(r.call.name);
   return wrap;
+}
+function followups(name) {
+  const F = [[/alarm|timer|reminder/, ["30분 뒤로 미뤄줘", "알람 취소해줘", "매일 반복해줘"]], [/weather/, ["내일은?", "주말 날씨 알려줘", "미세먼지는?"]],
+             [/navigat|transit|route|bus|subway|taxi/, ["차로 가면 얼마나 걸려?", "택시 불러줘", "근처 맛집 찾아줘"]], [/music|play|song/, ["다음 곡", "볼륨 줄여줘", "잔잔한 노래 틀어줘"]],
+             [/message|chat|sms|mail|call|phone/, ["10분 늦는다고 보내줘", "아빠한테도 보내줘", "전화 걸어줘"]], [/calendar|event|schedule|meeting/, ["다음 주 같은 시간에도 잡아줘", "장소는 강남으로", "내일 일정 알려줘"]]];
+  const hit = F.find(([re]) => re.test(name)); if (!hit) return;
+  const row = el("div", "chips"); row.style.padding = "0"; row.style.alignSelf = "flex-start";
+  hit[1].forEach((t) => { const c = el("button", "chip", t); c.type = "button"; c.onclick = () => { row.remove(); handle(t); }; row.appendChild(c); });
+  push(row);
 }
 
 // ---------- chat loop ----------

@@ -18,6 +18,7 @@
 body{display:flex;flex-direction:column;height:100dvh}
 header{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
 .logo{font-family:"Black Han Sans",sans-serif;font-size:20px;letter-spacing:.01em}.logo span{color:var(--accent)}
+.model{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin-left:6px}
 .status{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ink3)}.dot.ok{background:var(--accent)}.dot.busy{background:#ffb84d}
 .bar{height:2px;background:var(--line);position:relative}.bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent);transition:width .2s}
@@ -47,7 +48,7 @@ details.raw{margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;
 </head>
 <body>
 <header>
-  <div class="logo">songgot · <span>pocket</span></div>
+  <div class="logo">songgot · <span>pocket</span></div><div class="model" id="model">Songgot-nano · Q8_0 · 39M</div>
   <div class="status"><span class="dot" id="dot"></span><span id="status">loading</span></div>
 </header>
 <div class="bar"><i id="bar"></i></div>
@@ -57,7 +58,7 @@ details.raw{margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;
   <input id="input" placeholder="무엇을 도와드릴까요? (예: 내일 아침 7시에 알람 맞춰줘)" aria-label="요청" enterkeyhint="send">
   <button class="send" id="send" type="submit" disabled>보내기</button>
 </form>
-<div class="foot">기기 안에서만 실행됩니다. 서버로 전송되는 데이터가 없습니다. Songgot 39M, Apache 2.0 · <a href="../">paper</a></div>
+<div class="foot">기기 안에서만 실행됩니다. 서버로 전송되는 데이터가 없습니다. Runs entirely on this device, nothing leaves it. Songgot 39M, Apache 2.0 · <a href="../">paper</a></div>
 <script type="module" src="app.js"></script>
 </body>
 </html>
