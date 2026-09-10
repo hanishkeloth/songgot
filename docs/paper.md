@@ -41,7 +41,11 @@ Exports to safetensors, GGUF (f16, Q8_0, Q4_K_M) and runs under llama.cpp.
 
 SentencePiece BPE, 32,000 pieces, byte fallback, digits split, trained on a 300 MB sample:
 Korean Wikipedia 50 percent, fineweb-edu 40 percent, tool-schema JSON 10 percent. Special
-tokens `<|system|> <|user|> <|call|> <|end|> <|pad|>`.
+tokens `<|system|> <|user|> <|call|> <|end|> <|pad|>`. Post-training, evaluation and the app share one
+tokenizer: llama.cpp's, driven through its Python bindings with a vocabulary-only GGUF (the five
+specials typed as user-defined tokens). SentencePiece folds newlines into spaces and inserts a
+space piece before each special; llama.cpp does neither, and it is what every GGUF user runs, so
+the model is trained and scored on those ids.
 
 Table 1. Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries (2,071 syllables).
 
@@ -68,13 +72,22 @@ Pretraining (all disclosed, all licence-clean):
 
 ![Figure 4. Pretraining corpus in tokens under the Songgot tokenizer](fig4_data.png)
 
-Post-training (85,408 examples): 64,000 Korean tool calls generated from hand-written frames
-for 58 Korean tools (messaging, calendar, transit, home appliances, commerce, public services,
-health, work, information), with register variants (반말, 존댓말, 격식, 사투리, typos), Korean date
-and time words resolved against a fixed calendar, and 4,000 "no tool applies" negatives;
-21,408 English examples from glaive-function-calling-v2 (Apache 2.0). No closed model produced
-a label. A disjointness gate aborts the build if any training tool name or query appears in
+Post-training (67,503 examples, set v2): 64,000 Korean tool calls generated from hand-written
+frames for 57 Korean tools (messaging, calendar, transit, home appliances, commerce, public
+services, health, work, information), with register variants (반말, 존댓말, 격식, 사투리, typos),
+Korean date and time words resolved against a fixed calendar, and 4,000 "no tool applies"
+negatives; 3,503 English calls from glaive-function-calling-v2 (Apache 2.0) plus English negatives
+capped so that "no tool" is 8.5 percent of the set. Each prompt carries 1, 3 to 6 or 8 tools;
+half of the multi-tool Korean prompts use close distractors (tools from the target's own category),
+half random ones, mirroring the benchmark's conditions. No closed model produced a label. A
+disjointness gate aborts the build if any training tool name or query appears in
 FunctionChat-Bench; three tool names had to be renamed because of it.
+
+Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
+similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
+format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only
+signal). Each stage is scored on the benchmark and only a stage that improves the score is
+published; Table 2 reports the published one.
 
 ## 5. Evaluation
 

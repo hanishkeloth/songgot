@@ -148,17 +148,21 @@ def songgot_prompt(item, tools=None):
 
 
 def predict_songgot(model_dir: str, rows, device="cpu", max_new=160, emit=None):
-    import torch, sentencepiece as spm
+    """Greedy decoding with the HF weights; tokenization is llama.cpp's (harness/songgot_tok.py), the
+    same ids the app and every GGUF user produce, so this number describes the shipped path."""
+    import sys, torch
     from transformers import AutoModelForCausalLM
-    sp = spm.SentencePieceProcessor(model_file=str(pathlib.Path(model_dir) / "tokenizer.model"))
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "harness"))
+    from songgot_tok import Tok
+    tok = Tok()
     model = AutoModelForCausalLM.from_pretrained(model_dir, dtype=torch.float32).to(device).eval()
-    end_id = sp.encode("<|end|>")[0]; pad_id = sp.encode("<|pad|>")[0]
+    end_id, pad_id, eos_id = tok.end_id, tok.pad_id, tok.eos_id
     outs = []
     for i, it in enumerate(rows):
-        ids = torch.tensor([[sp.bos_id()] + sp.encode(songgot_prompt(it))]).to(device)
+        ids = torch.tensor([tok.encode(songgot_prompt(it), bos=True)]).to(device)
         with torch.no_grad():
-            g = model.generate(input_ids=ids, max_new_tokens=max_new, do_sample=False, eos_token_id=[end_id, sp.eos_id()], pad_token_id=pad_id)
-        text = sp.decode([int(x) for x in g[0][ids.shape[1]:].tolist() if int(x) not in (end_id, sp.eos_id(), pad_id)])
+            g = model.generate(input_ids=ids, max_new_tokens=max_new, do_sample=False, eos_token_id=[end_id, eos_id], pad_token_id=pad_id)
+        text = tok.decode([int(x) for x in g[0][ids.shape[1]:].tolist() if int(x) not in (end_id, eos_id, pad_id)])
         outs.append({"id": it["id"], "output": text.strip()})
         emit(outs[-1]) if emit else None
         if i % 50 == 0:

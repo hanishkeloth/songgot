@@ -46,6 +46,10 @@ def save_hf(model, a, out: pathlib.Path):
     import shutil; shutil.copy(VOL / "tok" / "spm.model", out / "tokenizer.model")
     json.dump({"bos_token": "<s>", "eos_token": "</s>", "pad_token": "<|pad|>", "unk_token": "<unk>", "additional_special_tokens": sm.SPECIAL,
                "model_max_length": 2048, "tokenizer_class": "LlamaTokenizer", "legacy": False}, open(out / "tokenizer_config.json", "w"), indent=1)
+    # llama.cpp export reads these to type the five specials as USER_DEFINED (single tokens at inference)
+    json.dump({s: 3 + i for i, s in enumerate(sm.SPECIAL)}, open(out / "added_tokens.json", "w"), indent=1)
+    json.dump({"bos_token": "<s>", "eos_token": "</s>", "unk_token": "<unk>", "pad_token": "<|pad|>", "additional_special_tokens": list(sm.SPECIAL)},
+              open(out / "special_tokens_map.json", "w"), indent=1)
 
 
 def load_hf(init: pathlib.Path, a: L.ModelArgs):
@@ -141,8 +145,19 @@ def cmd_sft(a):
     init = pathlib.Path(a.init); cfg = json.load(open(init / "config.json"))
     args = args_for(cfg["num_hidden_layers"], cfg["hidden_size"], cfg["intermediate_size"], cfg["num_attention_heads"], cfg["num_key_value_heads"])
     model = load_hf(init, args)
-    import sentencepiece as spm
-    sp = spm.SentencePieceProcessor(model_file=str(VOL / "tok" / "spm.model")); pad = sp.encode("<|pad|>")[0]
+    if getattr(a, "tok", "gguf") == "gguf":
+        # llama.cpp's tokenizer (see songgot_tok.py): what the app, GGUF users and the evaluator use
+        from songgot_tok import Tok
+        tok = Tok()
+
+        class _SP:
+            def encode(self, s): return tok.encode(s)
+            def bos_id(self): return tok.bos_id
+            def eos_id(self): return tok.eos_id
+        sp = _SP(); pad = tok.pad_id
+    else:
+        import sentencepiece as spm
+        sp = spm.SentencePieceProcessor(model_file=str(VOL / "tok" / "spm.model")); pad = sp.encode("<|pad|>")[0]
     rows = [json.loads(l) for l in open(a.data, encoding="utf-8")]; random.Random(0).shuffle(rows)
     if a.limit:
         rows = rows[: a.limit]
@@ -169,7 +184,7 @@ def cmd_sft(a):
                 msg = f"[sft] ep {ep} step {s}/{steps} loss {loss.item():.4f} elapsed {(time.time()-t0)/60:.1f}m"
                 print(msg, flush=True); log.write(time.strftime("%F %T ") + msg + "\n"); log.flush()
             s += 1
-    out = VOL / "ckpt" / "sft_mlx" / "final"; save_hf(model, args, out); print("[sft] DONE", flush=True)
+    out = pathlib.Path(a.out) if a.out else VOL / "ckpt" / "sft_mlx" / "final"; save_hf(model, args, out); print("[sft] DONE", flush=True)
 
 
 if __name__ == "__main__":
@@ -178,5 +193,7 @@ if __name__ == "__main__":
     ap.add_argument("--heads", type=int, default=8); ap.add_argument("--kv", type=int, default=2); ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--seconds", type=int, default=45); ap.add_argument("--bf16", action="store_true"); ap.add_argument("--tokens", type=float, default=6e8); ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--p-ko", type=float, default=0.5); ap.add_argument("--ckpt-every", type=int, default=2000)
-    ap.add_argument("--data"); ap.add_argument("--init"); ap.add_argument("--epochs", type=int, default=3); ap.add_argument("--max-len", type=int, default=1024); ap.add_argument("--limit", type=int, default=0)
-    a = ap.parse_args(); {"bench": cmd_bench, "pretrain": cmd_pretrain, "sft": cmd_sft}[a.cmd](a)
+    ap.add_argument("--data"); ap.add_argument("--init"); ap.add_argument("--epochs", type=int, default=3); ap.add_argument("--max-len", type=int, default=1024); ap.add_argument("--limit", type=int, default=0); ap.add_argument("--cpu", action="store_true"); ap.add_argument("--out", default=""); ap.add_argument("--tok", default="gguf", choices=["gguf", "sp"])
+    a = ap.parse_args()
+    if a.cpu: mx.set_default_device(mx.cpu)
+    {"bench": cmd_bench, "pretrain": cmd_pretrain, "sft": cmd_sft}[a.cmd](a)
