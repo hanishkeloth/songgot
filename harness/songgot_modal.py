@@ -155,10 +155,10 @@ def prep(en_tokens_target: float = 3.2e9, ko_repeat: int = 1, tok_sample_mb: int
 
 
 # ----------------------------------------------------------------------------- model
-def make_config():
+def make_config(hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2):
     from transformers import LlamaConfig
-    return LlamaConfig(vocab_size=VOCAB, hidden_size=512, intermediate_size=1408, num_hidden_layers=12,
-                       num_attention_heads=8, num_key_value_heads=2, max_position_embeddings=2048,
+    return LlamaConfig(vocab_size=VOCAB, hidden_size=hidden, intermediate_size=inter, num_hidden_layers=layers,
+                       num_attention_heads=heads, num_key_value_heads=kv, max_position_embeddings=2048,
                        rope_theta=10000.0, rms_norm_eps=1e-5, tie_word_embeddings=True,
                        bos_token_id=1, eos_token_id=2, pad_token_id=None, attention_bias=False, mlp_bias=False)
 
@@ -204,7 +204,7 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
         x = torch.from_numpy(x).to(dev, non_blocking=True)
         return x[:, :-1], x[:, 1:]
 
-    model = LlamaForCausalLM(make_config()).to(dev)
+    model = LlamaForCausalLM(make_config(cfg.get("hidden", 512), cfg.get("inter", 1408), cfg.get("layers", 12), cfg.get("heads", 8), cfg.get("kv", 2))).to(dev)
     if rank == 0:
         n = sum(p.numel() for p in model.parameters())
         print(f"[pre] params {n/1e6:.1f}M, world {world}, tokens/step {world*B*T}", flush=True)
@@ -223,7 +223,7 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
         return lr_min + 0.5 * (lr_max - lr_min) * (1 + math.cos(math.pi * r))
 
     start = 0
-    ck = f"{V}/ckpt/pre"
+    ck = f"{V}/ckpt/{cfg.get('tag', 'pre')}"
     os.makedirs(ck, exist_ok=True)
     if os.path.exists(f"{ck}/latest.pt"):
         st = torch.load(f"{ck}/latest.pt", map_location=dev)
@@ -260,11 +260,13 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
 
 
 @app.function(image=image, volumes={V: vol}, gpu="H100:8", timeout=60 * 60 * 8, memory=262144)
-def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000):
+def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000,
+             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre"):
     import torch.multiprocessing as mp
     world = 8
     steps = int(tokens // (world * batch_per_gpu * SEQ))
-    cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every}
+    cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every,
+           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag}
     print(f"[pre] launching {world} ranks, {steps} steps", flush=True)
     mp.spawn(_ddp_worker, args=(world, cfg), nprocs=world, join=True)
     return {"steps": steps}
@@ -280,7 +282,7 @@ def render(example: dict) -> tuple[str, str]:
 
 
 @app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 3, memory=65536)
-def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final"):
+def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final", out: str = "sft/final"):
     """Post-training with llama.cpp's tokenizer (vocab-only GGUF on the volume), the same ids the app,
     the evaluator and every GGUF user produce. See harness/songgot_tok.py for why."""
     import random
@@ -331,7 +333,7 @@ def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
                 msg = f"[sft] ep {ep} step {s}/{steps} loss {out.loss.item():.4f}"
                 print(msg, flush=True); open(f"{V}/sft.log", "a").write(time.strftime("%F %T ") + msg + "\n")
             s += 1
-    out_dir = f"{V}/ckpt/sft/final"; model.save_pretrained(out_dir, safe_serialization=True)
+    out_dir = f"{V}/ckpt/{out}"; model.save_pretrained(out_dir, safe_serialization=True)
     import shutil; shutil.copy(f"{tokd}/spm.model", f"{out_dir}/tokenizer.model")
     json.dump({"bos_token": "<s>", "eos_token": "</s>", "pad_token": "<|pad|>", "unk_token": "<unk>", "additional_special_tokens": SPECIAL,
                "model_max_length": 2048, "tokenizer_class": "LlamaTokenizer", "legacy": False}, open(f"{out_dir}/tokenizer_config.json", "w"), indent=1)
@@ -351,11 +353,11 @@ gguf_image = image.run_commands(
 
 
 @app.function(image=gguf_image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 30)
-def export_gguf(src: str = "sft/final"):
+def export_gguf(src: str = "sft/final", dst: str = "export", name: str = "songgot"):
     import subprocess
-    d = f"{V}/ckpt/{src}"; out = f"{V}/export"; os.makedirs(out, exist_ok=True)
-    subprocess.run(["python", "/opt/llama.cpp/convert_hf_to_gguf.py", d, "--outfile", f"{out}/songgot-f16.gguf", "--outtype", "f16"], check=True)
+    d = f"{V}/ckpt/{src}"; out = f"{V}/{dst}"; os.makedirs(out, exist_ok=True)
+    subprocess.run(["python", "/opt/llama.cpp/convert_hf_to_gguf.py", d, "--outfile", f"{out}/{name}-f16.gguf", "--outtype", "f16"], check=True)
     for q in ("Q8_0", "Q4_K_M"):
-        subprocess.run(["/opt/llama.cpp/build/bin/llama-quantize", f"{out}/songgot-f16.gguf", f"{out}/songgot-{q.lower()}.gguf", q], check=True)
+        subprocess.run(["/opt/llama.cpp/build/bin/llama-quantize", f"{out}/{name}-f16.gguf", f"{out}/{name}-{q.lower()}.gguf", q], check=True)
     vol.commit()
     return {f: os.path.getsize(f"{out}/{f}") for f in os.listdir(out)}
