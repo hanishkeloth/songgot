@@ -24,6 +24,8 @@ A Korean-first tiny agentic model for tool calling on the device, trained from s
 - Code, data generators, scorer: https://github.com/hanishkeloth/songgot
 - Demo: https://huggingface.co/spaces/Hanish/songgot
 
+Try it on the device: https://hanishkeloth.github.io/songgot/app/ (runs in the browser, works offline after the first load).
+
 ## Numbers
 Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions), exact match on function name and arguments, scorer in the repo. Comparators run with identical tools and queries in their own documented formats.
 

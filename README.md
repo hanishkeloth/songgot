@@ -8,6 +8,8 @@ Korean-first tokenizer, licence-clean data, and no closed-model labels.
 - Paper: `paper/SONGGOT.md`
 - Benchmark: Kakao FunctionChat-Bench SingleCall, scored by exact match (`eval/functionchat_exact.py`)
 
+Try it on the device: https://hanishkeloth.github.io/songgot/app/ (runs in the browser, works offline after the first load).
+
 ## Figures
 
 ![Tokens per Hangul syllable](docs/fig1_tokens.png)

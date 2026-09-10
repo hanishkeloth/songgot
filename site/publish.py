@@ -32,6 +32,11 @@ from huggingface_hub import HfApi
 api = HfApi()
 api.upload_folder(repo_id="palette-lab/songgot", repo_type="model", folder_path=str(ckpt), allow_patterns=["config.json", "model.safetensors", "tokenizer.model", "tokenizer_config.json"],
                   commit_message=f"Songgot-nano weights, {label}")
+gg = ROOT / "vol" / "export_gguf"; gg.mkdir(parents=True, exist_ok=True)
+subprocess.run([str(ROOT / ".venv/bin/python"), str(ROOT / "tools/llama.cpp/convert_hf_to_gguf.py"), str(ckpt), "--outfile", str(gg / "songgot-nano-f16.gguf"), "--outtype", "f16"], check=True, cwd=ROOT)
+for q in ("Q8_0", "Q4_K_M"):
+    subprocess.run([str(ROOT / "tools/llama.cpp/build/bin/llama-quantize"), str(gg / "songgot-nano-f16.gguf"), str(gg / f"songgot-nano-{q.lower()}.gguf"), q], check=True, cwd=ROOT)
+api.upload_folder(repo_id="palette-lab/songgot", repo_type="model", folder_path=str(gg), allow_patterns=["*.gguf"], commit_message=f"GGUF exports, {label}")
 api.upload_file(path_or_fileobj=str(card), path_in_repo="README.md", repo_id="palette-lab/songgot", repo_type="model", commit_message=f"Model card: {label}")
 try:
     api.restart_space("Hanish/songgot")

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Songgot Pocket (송곳 포켓)</title>
+<meta name="description" content="Korean-first on-device assistant. Turns what you say into actions, fully offline in the browser, powered by the 39M-parameter Songgot model.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="theme-color" content="#0e0f11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0f11;--panel:#16181c;--panel2:#1d2026;--line:#262a30;--ink:#f2f0ea;--ink2:#b8b4aa;--ink3:#7f7b72;--accent:#d8ff3d;--user:#243b12}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;line-height:1.5}
+body{display:flex;flex-direction:column;height:100dvh}
+header{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+.logo{font-family:"Black Han Sans",sans-serif;font-size:20px;letter-spacing:.01em}.logo span{color:var(--accent)}
+.status{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ink3)}.dot.ok{background:var(--accent)}.dot.busy{background:#ffb84d}
+.bar{height:2px;background:var(--line);position:relative}.bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent);transition:width .2s}
+main{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.msg{max-width:min(78ch,92%);padding:10px 14px;border-radius:14px;white-space:pre-wrap;word-break:break-word}
+.msg.user{align-self:flex-end;background:var(--user);border:1px solid #33531a;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.sys{align-self:center;color:var(--ink3);font-size:13px;text-align:center;background:transparent}
+.card{margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.card .head{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-weight:600}
+.card .head small{font-family:"IBM Plex Mono",monospace;color:var(--ink3);font-weight:400;font-size:11px;margin-left:auto}
+.card .body{padding:8px 12px;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:14px}
+.card .body b{color:var(--ink3);font-weight:500;font-family:"IBM Plex Mono",monospace;font-size:12px;padding-top:2px}
+.card .act{display:flex;gap:8px;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--line)}
+.card .act a,.card .act button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 10px;border-radius:8px;font-size:13px;text-decoration:none;cursor:pointer;font-family:inherit}
+.card .act .primary{background:var(--accent);color:#0e0f11;border-color:var(--accent);font-weight:600}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);margin-top:6px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 0;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink2);padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit}
+form{display:flex;gap:8px;padding:10px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg)}
+input{flex:1;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none}input:focus{border-color:var(--accent)}
+button.send{background:var(--accent);color:#0e0f11;border:0;border-radius:12px;padding:0 18px;font-weight:600;font-size:15px;font-family:inherit;cursor:pointer}button.send:disabled{opacity:.4;cursor:default}
+details.raw{margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3)}details.raw pre{margin:6px 0 0;white-space:pre-wrap;color:var(--ink2)}
+.foot{font-size:12px;color:var(--ink3);text-align:center;padding:0 16px 6px}.foot a{color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){main{scroll-behavior:auto}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">songgot · <span>pocket</span></div>
+  <div class="status"><span class="dot" id="dot"></span><span id="status">loading</span></div>
+</header>
+<div class="bar"><i id="bar"></i></div>
+<main id="chat" aria-live="polite"></main>
+<div class="chips" id="chips"></div>
+<form id="form" autocomplete="off">
+  <input id="input" placeholder="무엇을 도와드릴까요? (예: 내일 아침 7시에 알람 맞춰줘)" aria-label="요청" enterkeyhint="send">
+  <button class="send" id="send" type="submit" disabled>보내기</button>
+</form>
+<div class="foot">기기 안에서만 실행됩니다. 서버로 전송되는 데이터가 없습니다. Songgot 39M, Apache 2.0 · <a href="../">paper</a></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -114,3 +114,14 @@ written by the build from the run logs; a row reads "training" until its run has
 Weights and tokenizer: hf.co/palette-lab/songgot. Code, data generators, scorer, paper:
 github.com/hanishkeloth/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
 notice in the model card.
+
+## 8. On the device
+
+Songgot Pocket (hanishkeloth.github.io/songgot/app) is the model running inside the browser: llama.cpp
+compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (42 MB) fetched once and kept in the browser
+cache, no server in the loop. It installs as a web app on iOS, Android and desktop and keeps working with
+the network off. The app shows the model at most six candidate tools per request (chosen by character
+bigram overlap with a 58-tool Korean catalogue), renders the returned call as a card, and performs the
+calls it can do locally (alarms, timers, notes, calendar files) while handing the rest to the right site
+when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.7 s per request from
+prompt to parsed call. Phone numbers follow once the post-trained weights are up.

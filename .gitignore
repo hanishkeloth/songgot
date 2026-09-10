@@ -11,3 +11,5 @@ eval/*.json
 !eval/score_*.json
 site/node_modules/
 .DS_Store
+app/models/
+app/vendor/wllama/package/

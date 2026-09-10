@@ -1,0 +1,15 @@
+{
+  "name": "Songgot Pocket (송곳 포켓)",
+  "short_name": "Songgot",
+  "description": "Korean-first on-device assistant: turns requests into actions, fully offline in the browser.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e0f11",
+  "theme_color": "#0e0f11",
+  "lang": "ko",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

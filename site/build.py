@@ -10,6 +10,9 @@ import markdown
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"; DOCS.mkdir(exist_ok=True)
+import shutil
+shutil.rmtree(DOCS / "app", ignore_errors=True)
+shutil.copytree(ROOT / "app", DOCS / "app", ignore=shutil.ignore_patterns("models", "package", ".DS_Store"))
 SITE = "https://hanishkeloth.github.io/songgot/"
 REPO = "https://github.com/hanishkeloth/songgot"
 HF = "https://huggingface.co/palette-lab/songgot"
@@ -103,7 +106,7 @@ footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);
 <header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · {TODAY}</div>
 <h1 class="title">A Korean-first tiny agentic model,<br><span>for tool calling on the device.</span></h1>
 <p class="lede">{DESC}</p>
-<div class="links"><a class="primary" href="{HF}">Weights on Hugging Face</a><a href="{REPO}">Code on GitHub</a><a href="{SPACE}">Live demo</a><a href="songgot.pdf">Paper as PDF</a><a href="paper.md">Paper as Markdown</a></div></header>
+<div class="links"><a class="primary" href="{HF}">Weights on Hugging Face</a><a href="{REPO}">Code on GitHub</a><a href="{SPACE}">Live demo</a><a href="app/">Pocket app (offline, in the browser)</a><a href="songgot.pdf">Paper as PDF</a><a href="paper.md">Paper as Markdown</a></div></header>
 <section class="facts" aria-label="Key facts">
 <div class="fact"><b>0.90</b><small>tokens per Hangul syllable (Songgot 32k tokenizer); Needle 2: 3.47</small></div>
 <div class="fact"><b>500</b><small>Korean items, FunctionChat-Bench SingleCall, exact-match scorer</small></div>
