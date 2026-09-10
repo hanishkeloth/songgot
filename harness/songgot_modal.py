@@ -154,6 +154,73 @@ def prep(en_tokens_target: float = 3.2e9, ko_repeat: int = 1, tok_sample_mb: int
     return {"ko_tokens": int(open(f"{tokd}/ko.done").read()), "en_tokens": int(open(f"{tokd}/en.done").read())}
 
 
+def _tok_parquet(args):
+    """Tokenize a row-group range of a parquet file to a uint16 shard, EOS between documents (worker process)."""
+    import numpy as np
+    import pyarrow.parquet as pq
+    import sentencepiece as spm
+    path, rg0, rg1, out, model = args
+    sp_ = spm.SentencePieceProcessor(model_file=model)
+    pf = pq.ParquetFile(path); n = 0; buf = []
+    with open(out, "wb") as f:
+        for rg in range(rg0, rg1):
+            texts = [t.strip() for t in pf.read_row_group(rg, columns=["text"]).column("text").to_pylist() if t]
+            texts = [t for t in texts if len(t) >= 200]
+            for ids in sp_.encode(texts):
+                buf.extend(ids); buf.append(2)
+            if len(buf) >= 4_000_000:
+                np.array(buf, dtype=np.uint16).tofile(f); n += len(buf); buf = []
+        if buf:
+            np.array(buf, dtype=np.uint16).tofile(f); n += len(buf)
+    return out, n
+
+
+@app.function(image=image, volumes={V: vol}, cpu=48, memory=262144, timeout=60 * 60 * 6, ephemeral_disk=262144)
+def prep2(ko_files: int = 4, en_files: int = 17, tokd_name: str = "tok2", workers: int = 48):
+    """Corpus v2 for the 12-layer model: FineWeb-2 Korean (kor_Hang, ODC-By) and fresh fineweb-edu sample-100BT
+    files (ODC-By), tokenized with the existing tokenizer (tok/spm.model) straight from parquet into /vol/tok2
+    shards; the Korean Wikipedia shards from corpus v1 are copied in. Corpus v1 had 0.6B Korean tokens, which
+    the 6B-token run sampled about 4.5 times each; this one targets about 12B Korean and 12B English."""
+    import shutil
+    from concurrent.futures import ThreadPoolExecutor
+    from multiprocessing import Pool
+    import pyarrow.parquet as pq
+    from huggingface_hub import HfApi, hf_hub_download
+    tokd = f"{V}/{tokd_name}"; os.makedirs(tokd, exist_ok=True); model = f"{V}/tok/spm.model"
+    log = open(f"{V}/prep2.log", "a")
+    def say(m):
+        print(m, flush=True); log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
+    api = HfApi(); plan = []
+    for lang, repo, prefix, k in (("ko", "HuggingFaceFW/fineweb-2", "data/kor_Hang/train", ko_files),
+                                  ("en", "HuggingFaceFW/fineweb-edu", "sample/100BT", en_files)):
+        files = sorted(f.path for f in api.list_repo_tree(repo, path_in_repo=prefix, repo_type="dataset") if f.path.endswith(".parquet"))[:k]
+        plan += [(lang, repo, fp, i) for i, fp in enumerate(files)]
+    say(f"prep2: {len(plan)} parquet files ({ko_files} Korean, {en_files} English)")
+    dl = ThreadPoolExecutor(1)
+    fetch = lambda item: hf_hub_download(item[1], item[2], repo_type="dataset", local_dir="/tmp/pq")
+    pending = [it for it in plan if not os.path.exists(f"{tokd}/{it[0]}_{it[3]:03d}.done")]
+    fut = dl.submit(fetch, pending[0]) if pending else None
+    for j, (lang, repo, fp, i) in enumerate(pending):
+        t0 = time.time(); local = fut.result()
+        fut = dl.submit(fetch, pending[j + 1]) if j + 1 < len(pending) else None
+        nrg = pq.ParquetFile(local).num_row_groups; per = max(1, nrg // (2 * workers))
+        jobs = [(local, a, min(nrg, a + per), f"{tokd}/{lang}_{i:03d}_{a:04d}.bin", model) for a in range(0, nrg, per)]
+        with Pool(workers) as pool:
+            total = sum(n for _, n in pool.imap_unordered(_tok_parquet, jobs))
+        open(f"{tokd}/{lang}_{i:03d}.done", "w").write(str(total)); os.remove(local); vol.commit()
+        say(f"prep2: {lang} file {i} ({fp.split('/')[-1]}, {nrg} row groups): {total/1e9:.2f}B tokens in {time.time()-t0:.0f}s")
+    for f in sorted(os.listdir(f"{V}/tok")):
+        if f.startswith("ko_") and f.endswith(".bin") and not os.path.exists(f"{tokd}/ko_wiki_{f[3:]}"):
+            shutil.copy(f"{V}/tok/{f}", f"{tokd}/ko_wiki_{f[3:]}")
+    vol.commit()
+    tot = {}
+    for lang in ("ko", "en"):
+        tot[lang] = sum(int(open(f"{tokd}/{f}").read()) for f in os.listdir(tokd) if f.startswith(lang + "_") and f.endswith(".done"))
+    tot["ko_wiki"] = int(open(f"{V}/tok/ko.done").read())
+    say(f"prep2: DONE ko {tot['ko']/1e9:.2f}B + kowiki {tot['ko_wiki']/1e9:.2f}B, en {tot['en']/1e9:.2f}B")
+    return tot
+
+
 # ----------------------------------------------------------------------------- model
 def make_config(hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2):
     from transformers import LlamaConfig
@@ -185,7 +252,7 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
     torch.manual_seed(1234 + rank); np.random.seed(1234 + rank)
     torch.backends.cuda.matmul.allow_tf32 = True
 
-    tokd = f"{V}/tok"
+    tokd = f"{V}/{cfg.get('tokd', 'tok')}"  # tok = 6B-token corpus v1, tok2 = FineWeb-2 Korean + fineweb-edu 100BT
     shards = {"ko": sorted(f for f in os.listdir(tokd) if f.startswith("ko_") and f.endswith(".bin")),
               "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin"))}
     mm = {l: [np.memmap(f"{tokd}/{f}", dtype=np.uint16, mode="r") for f in fs] for l, fs in shards.items()}
@@ -254,19 +321,19 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
         dist.barrier() if step % cfg["ckpt_every"] == 0 else None
     if rank == 0:
         model.module.save_pretrained(f"{ck}/final", safe_serialization=True)
-        import shutil; shutil.copy(f"{tokd}/spm.model", f"{ck}/final/tokenizer.model")
+        import shutil; shutil.copy(f"{V}/tok/spm.model", f"{ck}/final/tokenizer.model")
         vol.commit(); print("[pre] DONE", flush=True)
     dist.destroy_process_group()
 
 
 @app.function(image=image, volumes={V: vol}, gpu="H100:8", timeout=60 * 60 * 8, memory=262144)
 def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000,
-             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre"):
+             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre", tokd: str = "tok"):
     import torch.multiprocessing as mp
     world = 8
     steps = int(tokens // (world * batch_per_gpu * SEQ))
     cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every,
-           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag}
+           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag, "tokd": tokd}
     print(f"[pre] launching {world} ranks, {steps} steps", flush=True)
     mp.spawn(_ddp_worker, args=(world, cfg), nprocs=world, join=True)
     return {"steps": steps}
