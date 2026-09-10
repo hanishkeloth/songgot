@@ -3,10 +3,10 @@
 // then performs the ones it can do locally and hands the rest to the right site when online.
 import { Wllama } from "./vendor/wllama/dist/index.js";
 
-const MODEL_VERSION = "2026-09-11-12b-tokens-with-instruction-bucket-2-epochs-v8-set";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
+const MODEL_VERSION = "2026-09-11-6b-tokens-2-epochs-v8-set";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
 const HF_MODEL = "https://huggingface.co/palette-lab/songgot-12l/resolve/main/songgot-q8_0.gguf?v=" + MODEL_VERSION;
 const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL("./models/songgot-q8_0.gguf", location.href).href : HF_MODEL;
-const MODEL_LABEL = "Songgot Q8_0 · 50M · 54 MB · 31.0% FunctionChat";
+const MODEL_LABEL = "Songgot Q8_0 · 50M · 54 MB · 32.0% FunctionChat";
 const $ = (id) => document.getElementById(id);
 const chat = $("chat"), input = $("input"), send = $("send"), status = $("status"), dot = $("dot"), bar = $("bar"), chips = $("chips");
 const params = new URLSearchParams(location.search);

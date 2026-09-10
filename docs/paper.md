@@ -156,7 +156,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
 | Songgot-nano (Mac, 320M tokens) | 39M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Songgot (8xH100, 6B tokens) | 50M | 46.0 | 38.0 | 28.0 | 30.0 | 13.0 | 31.0 | 72.2 |
+| Songgot (8xH100, 6B tokens) | 50M | 42.0 | 35.0 | 28.0 | 35.0 | 20.0 | 32.0 | 71.4 |
 | Songgot-M (16 layers, 8xH100, 6B tokens) | 126M | 32.0 | 13.0 | 8.0 | 7.0 | 0.0 | 12.0 | 53.0 |
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
