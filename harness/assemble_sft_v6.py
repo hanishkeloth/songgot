@@ -37,25 +37,43 @@ def main():
     synth = [json.loads(l) for l in open(a.synth, encoding="utf-8")]
     synth = [r for r in synth if r["tool"]["name"] in names and "".join(r["query"].split()) not in bench_queries]
 
+    all_tools = [e["tool"] for e in tools]; word_index = [words(t["name"]) for t in all_tools]
+    close_cache = {}
+
     def close_pool(r):
-        pool = [t for t in by_domain[r["domain"]] if t["name"] != r["tool"]["name"]]
-        if len(pool) < 7:  # catalogue tools have no domain: nearest by shared name words, then random
-            w = words(r["tool"]["name"]); pool += sorted((e["tool"] for e in tools if e["tool"]["name"] != r["tool"]["name"] and e["tool"] not in pool), key=lambda t: -len(words(t["name"]) & w))[:20]
+        name = r["tool"]["name"]
+        if name in close_cache:
+            return close_cache[name]
+        pool = [t for t in by_domain[r["domain"]] if t["name"] != name]
+        if len(pool) < 7:  # catalogue tools have no domain: nearest by shared name words (computed once per tool)
+            w = words(name); have = {t["name"] for t in pool}
+            scored = sorted(((len(word_index[i] & w), i) for i in range(len(all_tools)) if all_tools[i]["name"] != name and all_tools[i]["name"] not in have), reverse=True)[:20]
+            pool += [all_tools[i] for _, i in scored]
+        close_cache[name] = pool
         return pool
+
+    def random_pool(r, n):  # n random tools that are not the target, by index
+        out, seen_i = [], set()
+        while len(out) < n and len(seen_i) < len(all_tools):
+            i = rng.randrange(len(all_tools))
+            if i in seen_i or all_tools[i]["name"] == r["tool"]["name"]:
+                continue
+            seen_i.add(i); out.append(all_tools[i])
+        return out
 
     rows, negs = [], []
     for r in synth:
         k = rng.choices([1, 3, 4, 5, 6, 8], weights=[18, 8, 25, 8, 9, 32])[0]
         close = k > 1 and rng.random() < 0.5
-        pool = close_pool(r) if close else [e["tool"] for e in tools if e["tool"]["name"] != r["tool"]["name"]]
-        others = rng.sample(pool, min(k - 1, len(pool)))
+        pool = close_pool(r) if close else None
+        others = rng.sample(pool, min(k - 1, len(pool))) if close else random_pool(r, k - 1)
         shown = others + [r["tool"]]; rng.shuffle(shown)
         row = {"lang": "ko", "query": r["query"], "tools": shown, "call": r["call"], "cond": ("close" if close else "random") if k > 1 else "exact", "src": "synth6"}
         if rng.random() < a.p_restyle:
             row = V3.restyle_row(row, rng)
         rows.append(row)
         if rng.random() < a.none_share:  # negative: same request, target withheld
-            kk = rng.choice([3, 4, 6, 8]); neg_tools = rng.sample(pool, min(kk, len(pool)))
+            kk = rng.choice([3, 4, 6, 8]); neg_tools = rng.sample(pool, min(kk, len(pool))) if close else random_pool(r, kk)
             negs.append({"lang": "ko", "query": r["query"], "tools": neg_tools, "call": {"name": "none", "arguments": {}}, "cond": "close" if close else "random", "src": "synth6_neg"})
     v5 = [json.loads(l) for l in open(a.v5, encoding="utf-8")]
     out = v5 + rows + negs

@@ -140,6 +140,10 @@ kept in the recipe as a measured negative, not as a source of the published numb
 
 ## 5. Evaluation
 
+Error bars first. With 500 items the standard error of a call-accuracy figure near 25 percent is 1.9
+points, so two models within about 4 points of each other are not separated by this benchmark; we
+treat such differences as ties and say so where they occur.
+
 FunctionChat-Bench SingleCall (Kakao, 2024, Apache 2.0): 25 functions, 4 Korean queries each,
 5 tool conditions (exact, 4 random, 4 close, 8 random, 8 close) = 500 items. The official
 protocol uses GPT-4 as judge; we score with exact match on function name and arguments (numbers
@@ -195,7 +199,8 @@ written by the build from the run logs; a row reads "training" until its run has
 - Instruction rows in the pretraining stream help a little. A third pretraining run kept the first
   corpus, took three passes over it (12B tokens) and mixed in 5 percent of v6 rows rendered exactly as
   post-training renders them. Post-trained on v6 it scores 24.6 percent against 23.8 for the 6B-token
-  base (name accuracy 68.2 against 63.8), so the remaining v8 run is trained on this base.
+  base; post-trained on v7 it scores 25.0 against 27.6. Both differences sit inside the benchmark's
+  error bar (section 5), so the two bases are a tie on this test, and v8 is trained on both.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
