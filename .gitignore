@@ -1,0 +1,13 @@
+.venv/
+vol/
+logs/
+tools/
+__pycache__/
+*.pyc
+data/*.jsonl
+!data/tools_ko.json
+eval/preds_*.jsonl
+eval/*.json
+!eval/score_*.json
+site/node_modules/
+.DS_Store

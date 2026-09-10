@@ -1,0 +1,344 @@
+"""Songgot (송곳): Korean-first tiny agentic model, trained from scratch on Modal.
+
+    modal run harness/songgot_modal.py::prep          # corpus + tokenizer + token shards (CPU)
+    modal run harness/songgot_modal.py::pretrain      # 8x H100, DDP, ~6B tokens
+    modal run harness/songgot_modal.py::sft           # tool-calling post-training
+    modal run harness/songgot_modal.py::export_gguf   # HF dir + GGUF f16/q8_0/q4_k_m on the volume
+
+Data (all licence-clean, all disclosed in the paper): fineweb-edu sample-10BT (ODC-By) for
+English, Korean Wikipedia 20231101.ko (CC BY-SA 3.0) for Korean, and synthetic Korean agentic
+data produced by our own Palette-K-Midm (harness/teacher_gen.py). No AI-Hub bytes, no closed
+model outputs. FunctionChat-Bench is test only.
+"""
+from __future__ import annotations
+
+import json
+import os
+import time
+
+import modal
+
+APP = "songgot"
+app = modal.App(APP)
+vol = modal.Volume.from_name("songgot", create_if_missing=True)
+hf_cache = modal.Volume.from_name("hf-cache", create_if_missing=True)
+V = os.environ.get("SONGGOT_VOL", "/vol")   # local fallback: SONGGOT_VOL=~/Desktop/SONGGOT/vol python -c "...prep.local()"
+
+image = (
+    modal.Image.debian_slim(python_version="3.11")
+    .apt_install("git", "build-essential", "cmake")
+    .pip_install(
+        "torch==2.6.0", "transformers==4.51.3", "sentencepiece>=0.2.0", "datasets==3.6.0",
+        "huggingface_hub[hf_transfer]", "numpy<2.3", "safetensors", "tqdm", "gguf",
+    )
+    .env({"HF_HUB_ENABLE_HF_TRANSFER": "1", "TOKENIZERS_PARALLELISM": "false"})
+)
+
+SPECIAL = ["<|system|>", "<|user|>", "<|call|>", "<|end|>", "<|pad|>"]
+VOCAB = 32000
+SEQ = 1024
+
+
+def _tok_chunk(args):
+    """Tokenize one byte range of a text file to a uint16 shard. Runs in a worker process."""
+    import numpy as np
+    import sentencepiece as spm
+    path, start, end, out, model = args
+    sp_ = spm.SentencePieceProcessor(model_file=model)
+    ids = []
+    with open(path, encoding="utf-8", errors="ignore") as f:
+        f.seek(start); buf = f.read(end - start)
+    for doc in buf.split("\n\n"):
+        doc = doc.strip()
+        if not doc:
+            continue
+        ids.extend(sp_.encode(doc)); ids.append(2)
+    arr = np.array(ids, dtype=np.uint16); arr.tofile(out)
+    return out, len(arr)
+
+
+# ----------------------------------------------------------------------------- corpus + tokenizer
+@app.function(image=image, volumes={V: vol, "/root/.cache/huggingface": hf_cache},
+              cpu=32, memory=131072, timeout=60 * 60 * 6)
+def prep(en_tokens_target: float = 3.2e9, ko_repeat: int = 1, tok_sample_mb: int = 300):
+    """Stream fineweb-edu and Korean Wikipedia to /vol/raw, train the tokenizer, write uint16 shards."""
+    import numpy as np
+    import sentencepiece as spm
+    from datasets import load_dataset
+    from multiprocessing import Pool
+
+    raw = f"{V}/raw"; tokd = f"{V}/tok"; os.makedirs(raw, exist_ok=True); os.makedirs(tokd, exist_ok=True)
+    log = open(f"{V}/prep.log", "a")
+    def say(m):
+        print(m, flush=True); log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
+
+    # 1) Korean Wikipedia
+    ko_path = f"{raw}/ko.txt"
+    if not os.path.exists(ko_path + ".done"):
+        say("kowiki: loading")
+        ds = load_dataset("wikimedia/wikipedia", "20231101.ko", split="train")
+        n = 0
+        with open(ko_path, "w", encoding="utf-8") as f:
+            for r in ds:
+                t = (r.get("text") or "").strip()
+                if len(t) < 200:
+                    continue
+                f.write(t + "\n\n"); n += len(t)
+        open(ko_path + ".done", "w").write(str(n))
+        say(f"kowiki: {n/1e6:.0f}M chars")
+    ko_chars = int(open(ko_path + ".done").read())
+
+    # 2) fineweb-edu, streamed until the char budget (approx 4.3 chars per token for English)
+    en_path = f"{raw}/en.txt"
+    en_char_target = int(en_tokens_target * 4.3)
+    if not os.path.exists(en_path + ".done"):
+        say(f"fineweb-edu: streaming to {en_char_target/1e9:.1f}G chars")
+        ds = load_dataset("HuggingFaceFW/fineweb-edu", name="sample-10BT", split="train", streaming=True)
+        n = 0; t0 = time.time()
+        with open(en_path, "w", encoding="utf-8") as f:
+            for i, r in enumerate(ds):
+                t = r["text"].strip()
+                f.write(t + "\n\n"); n += len(t)
+                if i % 200000 == 0:
+                    say(f"fineweb-edu: {i} docs {n/1e9:.2f}G chars {time.time()-t0:.0f}s")
+                if n >= en_char_target:
+                    break
+        open(en_path + ".done", "w").write(str(n))
+        say(f"fineweb-edu: {n/1e9:.2f}G chars")
+
+    # 3) tokenizer sample: Korean-heavy, plus tool-schema JSON so the vocabulary knows braces,
+    #    snake_case names and Korean parameter descriptions
+    sample = f"{raw}/tok_sample.txt"
+    if not os.path.exists(f"{tokd}/spm.model"):
+        say("tokenizer: sampling")
+        with open(sample, "w", encoding="utf-8") as out:
+            for path, mb in ((ko_path, int(tok_sample_mb * 0.5)), (en_path, int(tok_sample_mb * 0.4))):
+                with open(path, encoding="utf-8") as f:
+                    out.write(f.read(mb * 1_000_000))
+            tools = json.load(open(f"{V}/data/tools_ko.json", encoding="utf-8"))
+            for _ in range(200):
+                for t in tools:
+                    out.write(json.dumps({"name": t["name"], "description": t["description"], "parameters": t["parameters"]}, ensure_ascii=False) + "\n")
+                    out.write(json.dumps({"name": t["name"], "arguments": {k: "값" for k in t["parameters"].get("properties", {})}}, ensure_ascii=False) + "\n")
+        say("tokenizer: training spm (bpe, 32000, byte fallback)")
+        spm.SentencePieceTrainer.train(
+            input=sample, model_prefix=f"{tokd}/spm", vocab_size=VOCAB, model_type="bpe",
+            character_coverage=0.9999, byte_fallback=True, split_digits=True,
+            allow_whitespace_only_pieces=True, remove_extra_whitespaces=False,
+            user_defined_symbols=SPECIAL, num_threads=32, input_sentence_size=6_000_000,
+            shuffle_input_sentence=True, max_sentence_length=8192, pad_id=-1, unk_id=0, bos_id=1, eos_id=2,
+        )
+        say("tokenizer: done")
+    sp = spm.SentencePieceProcessor(model_file=f"{tokd}/spm.model")
+    say(f"tokenizer: vocab {sp.get_piece_size()}; ' 안녕하세요, 반갑습니다' -> {sp.encode(' 안녕하세요, 반갑습니다')}")
+
+    # 4) tokenize both corpora to uint16 shards, EOS between documents (module-level worker so
+    #    macOS spawn can pickle it)
+    for lang, path in (("ko", ko_path), ("en", en_path)):
+        if os.path.exists(f"{tokd}/{lang}.done"):
+            continue
+        size = os.path.getsize(path); chunk = 200_000_000  # 200 MB of text per worker task
+        jobs = []
+        for k, start in enumerate(range(0, size, chunk)):
+            jobs.append((path, start, min(size, start + chunk), f"{tokd}/{lang}_{k:04d}.bin", f"{tokd}/spm.model"))
+        say(f"tokenize {lang}: {len(jobs)} chunks")
+        total = 0
+        with Pool(32) as pool:
+            for out, n in pool.imap_unordered(_tok_chunk, jobs):
+                total += n
+        open(f"{tokd}/{lang}.done", "w").write(str(total))
+        say(f"tokenize {lang}: {total/1e9:.2f}B tokens")
+    vol.commit()
+    say("prep: DONE")
+    return {"ko_tokens": int(open(f"{tokd}/ko.done").read()), "en_tokens": int(open(f"{tokd}/en.done").read())}
+
+
+# ----------------------------------------------------------------------------- model
+def make_config():
+    from transformers import LlamaConfig
+    return LlamaConfig(vocab_size=VOCAB, hidden_size=512, intermediate_size=1408, num_hidden_layers=12,
+                       num_attention_heads=8, num_key_value_heads=2, max_position_embeddings=2048,
+                       rope_theta=10000.0, rms_norm_eps=1e-5, tie_word_embeddings=True,
+                       bos_token_id=1, eos_token_id=2, pad_token_id=None, attention_bias=False, mlp_bias=False)
+
+
+def hf_tokenizer(tokd: str):
+    """Wrap the SentencePiece model as a HF LlamaTokenizer with our special tokens."""
+    from transformers import LlamaTokenizer
+    tok = LlamaTokenizer(vocab_file=f"{tokd}/spm.model", legacy=False, add_bos_token=True, add_eos_token=False)
+    tok.add_special_tokens({"additional_special_tokens": SPECIAL, "pad_token": "<|pad|>"})
+    return tok
+
+
+# ----------------------------------------------------------------------------- pretraining
+def _ddp_worker(rank: int, world: int, cfg: dict):
+    import numpy as np
+    import torch
+    import torch.distributed as dist
+    from torch.nn.parallel import DistributedDataParallel as DDP
+    from transformers import LlamaForCausalLM
+
+    os.environ.update(MASTER_ADDR="127.0.0.1", MASTER_PORT="29511", RANK=str(rank), WORLD_SIZE=str(world))
+    dist.init_process_group("nccl", rank=rank, world_size=world)
+    torch.cuda.set_device(rank); dev = torch.device("cuda", rank)
+    torch.manual_seed(1234 + rank); np.random.seed(1234 + rank)
+    torch.backends.cuda.matmul.allow_tf32 = True
+
+    tokd = f"{V}/tok"
+    shards = {"ko": sorted(f for f in os.listdir(tokd) if f.startswith("ko_") and f.endswith(".bin")),
+              "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin"))}
+    mm = {l: [np.memmap(f"{tokd}/{f}", dtype=np.uint16, mode="r") for f in fs] for l, fs in shards.items()}
+    wts = {l: np.array([len(m) for m in ms], dtype=np.float64) for l, ms in mm.items()}
+    for l in wts:
+        wts[l] /= wts[l].sum()
+    p_ko = cfg["p_ko"]; B = cfg["batch_per_gpu"]; T = SEQ
+
+    def batch():
+        x = np.empty((B, T + 1), dtype=np.int64)
+        for i in range(B):
+            lang = "ko" if np.random.rand() < p_ko else "en"
+            m = mm[lang][np.random.choice(len(mm[lang]), p=wts[lang])]
+            off = np.random.randint(0, len(m) - T - 1)
+            x[i] = m[off:off + T + 1].astype(np.int64)
+        x = torch.from_numpy(x).to(dev, non_blocking=True)
+        return x[:, :-1], x[:, 1:]
+
+    model = LlamaForCausalLM(make_config()).to(dev)
+    if rank == 0:
+        n = sum(p.numel() for p in model.parameters())
+        print(f"[pre] params {n/1e6:.1f}M, world {world}, tokens/step {world*B*T}", flush=True)
+    model = DDP(model, device_ids=[rank])
+    decay, no_decay = [], []
+    for n_, p in model.named_parameters():
+        (decay if p.ndim >= 2 else no_decay).append(p)
+    opt = torch.optim.AdamW([{"params": decay, "weight_decay": 0.1}, {"params": no_decay, "weight_decay": 0.0}],
+                            lr=cfg["lr"], betas=(0.9, 0.95), eps=1e-8, fused=True)
+    steps, warm, lr_max, lr_min = cfg["steps"], cfg["warmup"], cfg["lr"], cfg["lr"] * 0.1
+    import math
+    def lr_at(s):
+        if s < warm:
+            return lr_max * (s + 1) / warm
+        r = (s - warm) / max(1, steps - warm)
+        return lr_min + 0.5 * (lr_max - lr_min) * (1 + math.cos(math.pi * r))
+
+    start = 0
+    ck = f"{V}/ckpt/pre"
+    os.makedirs(ck, exist_ok=True)
+    if os.path.exists(f"{ck}/latest.pt"):
+        st = torch.load(f"{ck}/latest.pt", map_location=dev)
+        model.module.load_state_dict(st["model"]); opt.load_state_dict(st["opt"]); start = st["step"] + 1
+        if rank == 0:
+            print(f"[pre] resumed at step {start}", flush=True)
+
+    model.train(); t0 = time.time(); tok_seen = 0; loss_acc = 0.0; n_acc = 0
+    for step in range(start, steps):
+        for g in opt.param_groups:
+            g["lr"] = lr_at(step)
+        x, y = batch()
+        with torch.autocast("cuda", dtype=torch.bfloat16):
+            out = model(input_ids=x, labels=y)
+        out.loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step(); opt.zero_grad(set_to_none=True)
+        loss_acc += out.loss.item(); n_acc += 1; tok_seen += world * B * T
+        if rank == 0 and (step % 50 == 0 or step == steps - 1):
+            el = time.time() - t0
+            msg = f"[pre] step {step}/{steps} loss {loss_acc/n_acc:.4f} lr {lr_at(step):.2e} {tok_seen/max(el,1e-6)/1e6:.2f}M tok/s elapsed {el/60:.1f}m"
+            print(msg, flush=True); open(f"{V}/pretrain.log", "a").write(time.strftime("%F %T ") + msg + "\n")
+            loss_acc = 0.0; n_acc = 0
+        if rank == 0 and step > 0 and (step % cfg["ckpt_every"] == 0 or step == steps - 1):
+            torch.save({"model": model.module.state_dict(), "opt": opt.state_dict(), "step": step}, f"{ck}/latest.pt")
+            model.module.save_pretrained(f"{ck}/hf_step{step}", safe_serialization=True)
+            vol.commit()
+        dist.barrier() if step % cfg["ckpt_every"] == 0 else None
+    if rank == 0:
+        model.module.save_pretrained(f"{ck}/final", safe_serialization=True)
+        import shutil; shutil.copy(f"{tokd}/spm.model", f"{ck}/final/tokenizer.model")
+        vol.commit(); print("[pre] DONE", flush=True)
+    dist.destroy_process_group()
+
+
+@app.function(image=image, volumes={V: vol}, gpu="H100:8", timeout=60 * 60 * 8, memory=262144)
+def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000):
+    import torch.multiprocessing as mp
+    world = 8
+    steps = int(tokens // (world * batch_per_gpu * SEQ))
+    cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every}
+    print(f"[pre] launching {world} ranks, {steps} steps", flush=True)
+    mp.spawn(_ddp_worker, args=(world, cfg), nprocs=world, join=True)
+    return {"steps": steps}
+
+
+# ----------------------------------------------------------------------------- post-training (tool calling)
+def render(example: dict) -> tuple[str, str]:
+    """(prompt, completion) in Songgot's text format. Loss is taken on the completion only."""
+    tools = json.dumps(example["tools"], ensure_ascii=False, separators=(",", ":"))
+    prompt = f"<|system|>\n{tools}\n<|user|>\n{example['query']}\n<|call|>\n"
+    completion = json.dumps(example["call"], ensure_ascii=False, separators=(",", ":")) + "<|end|>"
+    return prompt, completion
+
+
+@app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 3, memory=65536)
+def sft(epochs: int = 3, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final"):
+    import random
+    import torch
+    from transformers import LlamaForCausalLM
+    import sentencepiece as spm
+    tokd = f"{V}/tok"; sp = spm.SentencePieceProcessor(model_file=f"{tokd}/spm.model")
+    pad = sp.encode("<|pad|>")[-1]
+    rows = [json.loads(l) for l in open(f"{V}/sft/train.jsonl", encoding="utf-8")]
+    random.Random(0).shuffle(rows)
+    print(f"[sft] {len(rows)} examples", flush=True)
+    dev = torch.device("cuda")
+    model = LlamaForCausalLM.from_pretrained(f"{V}/ckpt/{init}", torch_dtype=torch.bfloat16).to(dev)
+
+    def encode(ex):
+        p, c = render(ex)
+        pi = [sp.bos_id()] + sp.encode(p); ci = sp.encode(c) + [sp.eos_id()]
+        ids = (pi + ci)[:max_len]; lab = ([-100] * len(pi) + ci)[:max_len]
+        return ids, lab
+    enc = [encode(r) for r in rows]
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, betas=(0.9, 0.95), weight_decay=0.05)
+    steps = epochs * (len(enc) // batch); import math; s = 0
+    model.train()
+    for ep in range(epochs):
+        random.Random(ep).shuffle(enc)
+        for i in range(0, len(enc) - batch + 1, batch):
+            chunk = enc[i:i + batch]; L = max(len(x[0]) for x in chunk)
+            ids = torch.full((batch, L), pad); lab = torch.full((batch, L), -100); att = torch.zeros((batch, L), dtype=torch.long)
+            for j, (a, b) in enumerate(chunk):
+                ids[j, :len(a)] = torch.tensor(a); lab[j, :len(b)] = torch.tensor(b); att[j, :len(a)] = 1
+            ids, lab, att = ids.to(dev), lab.to(dev), att.to(dev)
+            for g in opt.param_groups:
+                g["lr"] = lr * min(1.0, (s + 1) / 100) * (0.5 * (1 + math.cos(math.pi * s / max(1, steps))))
+            out = model(input_ids=ids, attention_mask=att, labels=lab)
+            out.loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); opt.zero_grad(set_to_none=True)
+            if s % 50 == 0:
+                msg = f"[sft] ep {ep} step {s}/{steps} loss {out.loss.item():.4f}"
+                print(msg, flush=True); open(f"{V}/sft.log", "a").write(time.strftime("%F %T ") + msg + "\n")
+            s += 1
+    out_dir = f"{V}/ckpt/sft/final"; model.save_pretrained(out_dir, safe_serialization=True)
+    import shutil; shutil.copy(f"{tokd}/spm.model", f"{out_dir}/tokenizer.model")
+    json.dump({"bos_token": "<s>", "eos_token": "</s>", "pad_token": "<|pad|>", "unk_token": "<unk>", "additional_special_tokens": SPECIAL,
+               "model_max_length": 2048, "tokenizer_class": "LlamaTokenizer", "legacy": False}, open(f"{out_dir}/tokenizer_config.json", "w"), indent=1)
+    vol.commit(); print("[sft] DONE", flush=True)
+    return {"steps": steps}
+
+
+# ----------------------------------------------------------------------------- export
+gguf_image = image.run_commands(
+    "git clone --depth 1 https://github.com/ggml-org/llama.cpp /opt/llama.cpp",
+    "cd /opt/llama.cpp && cmake -B build -DGGML_NATIVE=OFF && cmake --build build --target llama-quantize -j 8",
+    "pip install -r /opt/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt",
+)
+
+
+@app.function(image=gguf_image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 30)
+def export_gguf(src: str = "sft/final"):
+    import subprocess
+    d = f"{V}/ckpt/{src}"; out = f"{V}/export"; os.makedirs(out, exist_ok=True)
+    subprocess.run(["python", "/opt/llama.cpp/convert_hf_to_gguf.py", d, "--outfile", f"{out}/songgot-f16.gguf", "--outtype", "f16"], check=True)
+    for q in ("Q8_0", "Q4_K_M"):
+        subprocess.run(["/opt/llama.cpp/build/bin/llama-quantize", f"{out}/songgot-f16.gguf", f"{out}/songgot-{q.lower()}.gguf", q], check=True)
+    vol.commit()
+    return {f: os.path.getsize(f"{out}/{f}") for f in os.listdir(out)}
