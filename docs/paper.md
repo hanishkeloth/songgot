@@ -192,6 +192,10 @@ written by the build from the run logs; a row reads "training" until its run has
   43.2 zero-shot (name accuracy 86.6). The same v5 set gives the 50M from-scratch model 11.4, and
   v7 gives it 27.6. The remaining gap is what 600M parameters and trillions of pretraining tokens
   buy; the from-scratch line is the one we ship, and the data lever is the one that keeps moving it.
+- Instruction rows in the pretraining stream help a little. A third pretraining run kept the first
+  corpus, took three passes over it (12B tokens) and mixed in 5 percent of v6 rows rendered exactly as
+  post-training renders them. Post-trained on v6 it scores 24.6 percent against 23.8 for the 6B-token
+  base (name accuracy 68.2 against 63.8), so the remaining v8 run is trained on this base.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
