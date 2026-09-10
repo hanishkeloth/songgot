@@ -30,9 +30,9 @@ subprocess.run(["git", "-c", "user.name=Hanish Keloth", "-c", "user.email=421783
 subprocess.run(["git", "push", "-q", "origin", "main"], cwd=ROOT, check=True)
 from huggingface_hub import HfApi
 api = HfApi()
-api.upload_folder(repo_id="imcapsule/songgot", repo_type="model", folder_path=str(ckpt), allow_patterns=["config.json", "model.safetensors", "tokenizer.model", "tokenizer_config.json"],
+api.upload_folder(repo_id="palette-lab/songgot", repo_type="model", folder_path=str(ckpt), allow_patterns=["config.json", "model.safetensors", "tokenizer.model", "tokenizer_config.json"],
                   commit_message=f"Songgot-nano weights, {label}")
-api.upload_file(path_or_fileobj=str(card), path_in_repo="README.md", repo_id="imcapsule/songgot", repo_type="model", commit_message=f"Model card: {label}")
+api.upload_file(path_or_fileobj=str(card), path_in_repo="README.md", repo_id="palette-lab/songgot", repo_type="model", commit_message=f"Model card: {label}")
 try:
     api.restart_space("Hanish/songgot")
 except Exception as e:

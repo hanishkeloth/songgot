@@ -29,7 +29,7 @@ source, unique, trending, under my name and GitHub, proper research as of today,
 - 04:45-06:30 eval: Songgot vs Needle 2, FunctionGemma-270M, Qwen3-0.6B on FunctionChat
   SingleCall exact-match; tokens-per-syllable study; on-device speed (GGUF, llama.cpp, Mac +
   phone-class CPU).
-- 06:30-08:00 export GGUF/ONNX, HF repo (imcapsule/songgot), GitHub (IMCapsule-ai/songgot),
+- 06:30-08:00 export GGUF/ONNX, HF repo (palette-lab/songgot), GitHub (IMCapsule-ai/songgot),
   paper (paper/SONGGOT.md + PDF), site, memory notes.
 
 ## Architecture (decided)

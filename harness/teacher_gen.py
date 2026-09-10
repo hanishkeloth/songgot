@@ -1,4 +1,4 @@
-"""Synthetic Korean tool-calling data from our own teacher (imcapsule/palette-k-midm) on Modal.
+"""Synthetic Korean tool-calling data from our own teacher (palette-lab/palette-k-midm) on Modal.
 
     modal run harness/teacher_gen.py --per-tool 24 --n-negative 1500
 
@@ -58,7 +58,7 @@ NEG_PROMPT = (
 
 
 @app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
-def generate(per_tool: int = 24, n_negative: int = 1500, model_id: str = "imcapsule/palette-k-midm"):
+def generate(per_tool: int = 24, n_negative: int = 1500, model_id: str = "palette-lab/palette-k-midm"):
     from vllm import LLM, SamplingParams
     from transformers import AutoTokenizer
     tools = json.load(open(f"{V}/data/tools_ko.json", encoding="utf-8"))

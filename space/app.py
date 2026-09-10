@@ -5,7 +5,7 @@ import torch, sentencepiece as spm
 from huggingface_hub import snapshot_download
 from transformers import AutoModelForCausalLM
 
-REPO = os.environ.get("SONGGOT_REPO", "imcapsule/songgot")
+REPO = os.environ.get("SONGGOT_REPO", "palette-lab/songgot")
 d = snapshot_download(REPO)
 sp = spm.SentencePieceProcessor(model_file=os.path.join(d, "tokenizer.model"))
 END, PAD, EOS, BOS = sp.encode("<|end|>")[-1], sp.encode("<|pad|>")[-1], sp.eos_id(), sp.bos_id()

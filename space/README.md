@@ -10,4 +10,4 @@ pinned: false
 license: apache-2.0
 short_description: Korean-first tiny model for on-device tool calling
 ---
-Songgot (송곳): a from-scratch tiny model for Korean tool calling. Paper, code and weights: github.com/hanishkeloth/songgot and huggingface.co/imcapsule/songgot.
+Songgot (송곳): a from-scratch tiny model for Korean tool calling. Paper, code and weights: github.com/hanishkeloth/songgot and huggingface.co/palette-lab/songgot.

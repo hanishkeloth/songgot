@@ -111,6 +111,6 @@ written by the build from the run logs; a row reads "training" until its run has
 
 ## 7. Release
 
-Weights and tokenizer: hf.co/imcapsule/songgot. Code, data generators, scorer, paper:
+Weights and tokenizer: hf.co/palette-lab/songgot. Code, data generators, scorer, paper:
 github.com/hanishkeloth/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
 notice in the model card.

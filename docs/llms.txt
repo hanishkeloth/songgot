@@ -10,16 +10,16 @@ Author: Hanish Keloth (Palette). Published 2026-09-10. Licence: Apache 2.0.
 - How is it different from Needle 2? Needle 2 (Cactus Compute, July 2026) is English only: its 8k tokenizer spends 3.47 tokens per Hangul syllable against Songgot's 0.90, and in our FunctionChat-Bench run it answered no Korean item. Songgot is built for Korean first and evaluated on a Korean benchmark.
 - What data was used? fineweb-edu sample-10BT (ODC-By), Korean Wikipedia 20231101.ko (CC BY-SA 3.0), glaive-function-calling-v2 (Apache 2.0) and template-generated Korean tool calls released with the code. No AI-Hub data and no closed-model outputs.
 - How is it evaluated? On Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions) with a deterministic exact-match scorer on function name and arguments, so anyone can reproduce the numbers offline. Comparators run under identical prompts: Qwen3-0.6B, FunctionGemma-270M and Needle 2.
-- Where are the weights and code? Weights and tokenizer at https://huggingface.co/imcapsule/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/Hanish/songgot.
+- Where are the weights and code? Weights and tokenizer at https://huggingface.co/palette-lab/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/Hanish/songgot.
 - Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries: Songgot 32k 0.90, Gemma 3 262k 0.98, Qwen3 151k 1.15, Needle 2 8k 3.47.
 - Comparator call accuracy (exact match, 500 items): Qwen3-0.6B 43.2 percent, FunctionGemma-270M 2.2 percent, Needle 2 0.0 percent.
 
 ## About the author
-Hanish Keloth, CTO at Palette (Seoul and Bengaluru), leads Palette OS and publishes Korean models and benchmarks in the open (Palette-K-Midm, Palette-K-Doc, Palette-K-Speech, Palette Video at huggingface.co/imcapsule). GitHub: https://github.com/hanishkeloth. LinkedIn: https://www.linkedin.com/in/hanishkeloth/
+Hanish Keloth, CTO at Palette (Seoul and Bengaluru), leads Palette OS and publishes Korean models and benchmarks in the open (Palette-K-Midm, Palette-K-Doc, Palette-K-Speech, Palette Video at huggingface.co/palette-lab). GitHub: https://github.com/hanishkeloth. LinkedIn: https://www.linkedin.com/in/hanishkeloth/
 
 ## Links
 - Paper (HTML): https://hanishkeloth.github.io/songgot/
 - Paper (Markdown): https://hanishkeloth.github.io/songgot/paper.md
 - Code: https://github.com/hanishkeloth/songgot
-- Weights: https://huggingface.co/imcapsule/songgot
+- Weights: https://huggingface.co/palette-lab/songgot
 - Demo: https://huggingface.co/spaces/Hanish/songgot
