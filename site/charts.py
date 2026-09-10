@@ -16,7 +16,7 @@ def _open(title, width, height):
 
 def bar_chart(title, rows, unit="", width=720, highlight=0, fmt="{:.2f}", note=""):
     n = len(rows); h = 36; top = 44; height = top + n * h + (34 if note else 16)
-    vmax = max(v for _, v in rows) * 1.15; lw = 250
+    vmax = max(v for _, v in rows) * 1.15; lw = 275
     out = _open(title, width, height)
     for i, (lab, v) in enumerate(rows):
         y = top + i * h; bw = (width - lw - 90) * v / vmax
@@ -96,7 +96,7 @@ def figures():
     tail = f"run in progress, {pts[-1][0]:,} of 9,765 steps" if pts and pts[-1][0] < 9765 else "complete"
     figs["fig3_loss"] = loss_curve("Figure 3. Songgot-nano pretraining loss, Apple M5 Max, MLX bf16, from the run log", pts, note=tail)
     figs["fig4_data"] = bar_chart("Figure 4. Pretraining corpus under the Songgot tokenizer (billions of tokens)",
-                                  [("Korean Wikipedia 20231101.ko", 0.60), ("fineweb-edu sample-10BT, first slice", 1.63)], unit="B",
+                                  [("Korean Wikipedia 20231101.ko", 0.60), ("fineweb-edu sample-10BT (slice)", 1.63)], unit="B",
                                   note="Korean is upsampled to about half of each batch (p_ko 0.5); no AI-Hub data, no closed-model outputs.")
     return {k: v for k, v in figs.items() if v}
 
