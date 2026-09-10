@@ -35,7 +35,8 @@ def row(label, params, path):
 
 songgot_rows = [r for r in (row("Songgot-nano preview (Mac, 65M tokens, step 2000)", "39M", "score_songgot_preview.json"),
                             row("Songgot-nano (Mac, 320M tokens)", "39M", "score_songgot_nano.json"),
-                            row("Songgot (8xH100, 6B tokens)", "50M", "score_songgot.json")) if r]
+                            row("Songgot (8xH100, 6B tokens)", "50M", "score_songgot.json"),
+                            row("Songgot-M (16 layers, 8xH100, 6B tokens)", "126M", "score_songgot_m.json")) if r]
 if songgot_rows:
     md = re.sub(r"\| Songgot-nano \| 39M \| training \|[^\n]*\n", "\n".join(songgot_rows) + "\n", md, count=1)
 (DOCS / "paper.md").write_text(md, encoding="utf-8")
