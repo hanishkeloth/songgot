@@ -1,94 +1,82 @@
 {
  "n": 500,
- "call_acc": 0.002,
- "name_acc": 0.202,
+ "call_acc": 0.084,
+ "name_acc": 0.5,
  "by_condition": {
   "exact": {
    "n": 100,
-   "call_acc": 0.01,
-   "name_acc": 0.44
+   "call_acc": 0.23,
+   "name_acc": 0.91
   },
   "4_random": {
    "n": 100,
-   "call_acc": 0.0,
-   "name_acc": 0.16
+   "call_acc": 0.06,
+   "name_acc": 0.58
   },
   "4_close": {
    "n": 100,
-   "call_acc": 0.0,
-   "name_acc": 0.11
+   "call_acc": 0.03,
+   "name_acc": 0.31
   },
   "8_random": {
    "n": 100,
-   "call_acc": 0.0,
-   "name_acc": 0.15
+   "call_acc": 0.07,
+   "name_acc": 0.5
   },
   "8_close": {
    "n": 100,
-   "call_acc": 0.0,
-   "name_acc": 0.15
+   "call_acc": 0.03,
+   "name_acc": 0.2
   }
  },
  "fails_sample": [
   {
-   "id": "getTodayBoxOfficeRanking#1#exact",
-   "q": "현재 박스오피스 순위가 궁금해요",
-   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_odoy_clean\",\"arguments\":{\"location\":\"박스오피스\",\"level\":30,\"label\":\"출근\"}}"
-  },
-  {
    "id": "getTodayBoxOfficeRanking#1#4_random",
    "q": "현재 박스오피스 순위가 궁금해요",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_urrent\",\"arguments\":{\"location\":\"박스피스\",\"level\":30}}"
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"location\":\"박스오피스\"}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#1#4_close",
    "q": "현재 박스오피스 순위가 궁금해요",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_movie_rating\",\"arguments\":{\"metric\":\"weight_movie_rating\",\"value\":\"8500\",\"level\":30}}"
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"title\":\"박스오피스\",\"year\":2020}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#1#8_random",
    "q": "현재 박스오피스 순위가 궁금해요",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_exchange_rate\",\"arguments\":{\"text\":\"박스오피스순 궁금\",\"target_currency\":\"KRW\",\"target_currency\":\"CNW\"}}"
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"text\":\"박스오피스 순위가 궁기\",\"new_phone\":\"NYSE\"}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#1#8_close",
    "q": "현재 박스오피스 순위가 궁금해요",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_movie_d지션\",\"arguments\":{\"title\":\"박스오피스\",\"second_movie_d지션\",\"second_movie_d지션\",\"second_movie_d지션\"}}"
-  },
-  {
-   "id": "getTodayBoxOfficeRanking#2#exact",
-   "q": "오늘자 영화 랭킹 알려줘",
-   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_oday_oxffoy\",\"arguments\":{\"title\":\"영화 랭킹\",\"episode\":1,\"service\":\"왓챠\"}}"
+   "out": "{\"name\":\"get_movie_details\",\"arguments\":{\"title\":\"박스오피스\",\"year\":2020}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#2#4_random",
    "q": "오늘자 영화 랭킹 알려줘",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_urrent\",\"arguments\":{\"location\":\"영화 랭킹\",\"level\":20}}"
+   "out": "{\"name\":\"getTurrentCryptoPrices\",\"arguments\":{\"currency\":\"JPI\",\"currency\":\"KRL\"}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#2#4_close",
    "q": "오늘자 영화 랭킹 알려줘",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_movie_rating\",\"arguments\":{\"metric\":\"sleepage\",\"value\":\"7.5\",\"date\":\"2026-09-10\"}}"
+   "out": "{\"name\":\"update_movie_rating\",\"arguments\":{\"movie_id\":\"JP\",\"new_rating\":15}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#2#8_random",
    "q": "오늘자 영화 랭킹 알려줘",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_world\",\"arguments\":{\"city\":\"시드니\"}}"
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"text\":\"자카 영화 랭킹\",\"new_phone\":\"USD123\"}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#2#8_close",
    "q": "오늘자 영화 랭킹 알려줘",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "{\"name\":\"get_weather\",\"arguments\":{\"top_metric\":\"next_direction\",\"value\":\"next_direction\"}}"
+   "out": "{\"name\":\"get_movie_detview\",\"arguments\":{\"title\":\"자카 영화 랭킹\",\"year\":2020}}"
   },
   {
    "id": "getTodayBoxOfficeRanking#3#exact",
@@ -98,6 +86,18 @@
   },
   {
    "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
    "q": "요즘 어떤 영화가 재밌어?",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
    "out": "{\"name\":\"none\",\"arguments\":{}}"
