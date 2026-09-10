@@ -45,8 +45,8 @@ Tokens per Hangul syllable on the same 100 queries: Songgot 0.90, Gemma 3 0.98, 
 
 ![Pretraining loss](https://hanishkeloth.github.io/songgot/fig3_loss.png)
 
-## Status (2026-09-10 15:33)
-Weights in this repo are Songgot, 2 epochs: 12 layers, about 50M parameters, pretrained on 8xH100 (Modal) on 6B tokens, post-trained on 77,035 rows incl. 8,083 Palette-K-Midm teacher rows, post-trained on the v2 tool-calling set. Call accuracy on FunctionChat-Bench SingleCall 0.2 percent (name only 20.2). GGUF exports (f16, Q8_0, Q4_K_M) are in this repo.
+## Status (2026-09-10 15:59)
+Weights in this repo are Songgot, 2 epochs: 12 layers, about 50M parameters, pretrained on 8xH100 (Modal) on 6B tokens, post-trained on the v3 set (101,464 rows incl. 8,083 Palette-K-Midm teacher rows), post-trained on the v2 tool-calling set. Call accuracy on FunctionChat-Bench SingleCall 0.2 percent (name only 20.2). GGUF exports (f16, Q8_0, Q4_K_M) are in this repo.
 ## Format
 ```
 <|system|>
