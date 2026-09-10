@@ -139,7 +139,7 @@ window.addEventListener("offline", () => ready && setStatus("ready · offline", 
 
 // ---------- boot ----------
 (async () => {
-  say("Songgot Pocket. 말한 것을 실행할 행동으로 바꿔 주는 기기 내장 비서입니다. 첫 실행 때 모델(42 MB)을 한 번 받아 두면 그 뒤로는 인터넷 없이 동작합니다.", "sys");
+  say("Songgot Pocket. 말한 것을 실행할 행동으로 바꿔 주는 기기 내장 비서입니다. 첫 실행 때 모델(54 MB)을 한 번 받아 두면 그 뒤로는 인터넷 없이 동작합니다.", "sys");
   try {
     tools = (await (await fetch("./tools.json")).json()).map((t) => ({ ...t, _text: toolText(t) }));
     setStatus("loading model", "busy");
