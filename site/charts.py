@@ -6,7 +6,7 @@ import json, pathlib, re, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BG, INK, INK2, INK3, LINE, ACC, ACC2 = "#0e0f11", "#f2f0ea", "#b8b4aa", "#7f7b72", "#262a30", "#d8ff3d", "#8fd400"
-GREYS = ["#a6a298", "#6b675f", "#45423c"]
+GREYS = ["#a6a298", "#6b675f", "#45423c", "#8c887f"]
 FONT = 'font-family="IBM Plex Mono, Menlo, monospace"'
 
 def _open(title, width, height):
@@ -85,7 +85,7 @@ def figures():
                                     note="100 FunctionChat SingleCall queries, 2,071 syllables; eval/tokenizer_study.py.")
     conds = ["exact", "4_random", "4_close", "8_random", "8_close"]; series = []
     for name, path, col in [("Songgot-nano preview", "score_songgot_preview.json", "#e9ff8a"), ("Songgot-nano (ours)", "score_songgot_nano.json", ACC), ("Songgot (ours)", "score_songgot.json", ACC2), ("Songgot-M (ours)", "score_songgot_m.json", "#5fae00"),
-                            ("Qwen3-0.6B", "preds_qwen3_0.6b.jsonl", GREYS[0]), ("FunctionGemma-270M", "preds_functiongemma_270m.jsonl", GREYS[1]), ("Needle 2", "preds_needle2.jsonl", GREYS[2])]:
+                            ("Qwen3.5-0.8B", "preds_qwen35_base.jsonl", GREYS[3]), ("Qwen3-0.6B", "preds_qwen3_0.6b.jsonl", GREYS[0]), ("FunctionGemma-270M", "preds_functiongemma_270m.jsonl", GREYS[1]), ("Needle 2", "preds_needle2.jsonl", GREYS[2])]:
         p = ROOT / "eval" / path
         if p.exists():
             r = json.loads(p.read_text()) if path.endswith(".json") else F.score(str(p))

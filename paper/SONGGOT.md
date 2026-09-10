@@ -11,8 +11,8 @@ Korean-first model in the same class: a decoder trained from scratch with a Kore
 tokenizer, bilingual Korean and English pretraining on licence-clean text, and post-training on
 Korean tool-calling and structured-extraction data that no closed model touched. We evaluate on
 Kakao's FunctionChat-Bench SingleCall (500 Korean items) with a deterministic exact-match scorer
-that anyone can reproduce without an API key, against Needle 2, FunctionGemma-270M and Qwen3-0.6B
-under identical prompts. Results for the comparators are measured and in Table 2; Songgot rows are filled from the run logs as each training run finishes (Songgot-nano on 2026-09-10). Weights, tokenizer, data generator, scorer and this paper
+that anyone can reproduce without an API key, against Needle 2, FunctionGemma-270M, Qwen3-0.6B and
+Qwen3.5-0.8B under identical prompts. Results for the comparators are measured and in Table 2; Songgot rows are filled from the run logs as each training run finishes (Songgot-nano on 2026-09-10). Weights, tokenizer, data generator, scorer and this paper
 are released under Apache 2.0.
 
 ## 1. Why a Korean-first tiny model
@@ -139,6 +139,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
+| Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.6 |
 
 ![Figure 2. Call accuracy by tool condition on FunctionChat-Bench SingleCall](fig2_bench.png)
 

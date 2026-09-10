@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.452,
+ "name_acc": 0.736,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.51,
+   "name_acc": 0.79
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.48,
+   "name_acc": 0.81
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.41,
+   "name_acc": 0.67
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.52,
+   "name_acc": 0.9
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.34,
+   "name_acc": 0.51
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#exact",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "요즘 인기 있는 영화들을 몇 가지로 정리해 드릴게요.\n\n1.  **《The Witch》(어둠의 여신)**\n    *   **연출:** 마틴·肯尼迪\n    *   **이유:** 이 영화는 2015년 개봉한 이후 2024년까지 계속 재출판되며, 특히 2025년 개봉 시 100% 재출판될 예"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "현재는 실시간으로 특정 영화의 추천 정보를 제공하기 위해 검색할 수 있는 기능은 없습니다.\n\n하지만, 제가 도와드릴 수 있는 방법은 다음과 같습니다:\n\n1.  **현재의 박스오피스 순위**를 확인하여 인기 있는 영화들을 알려드릴 수 있습니다.\n2.  **친구의 생일 정보**를 검색하여 "
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#8_close",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLuckMessage\", \"arguments\": {}}"
+  },
+  {
+   "id": "recommendLottoNumber#7#exact",
+   "q": "이번주에 찍을 로또번호좀 골라줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "현재 로또 번호 추천 서비스는 실시간으로 최신 데이터를 분석하여 정확한 번호를 알려주는 기능은 없지만, 저는 로또 번호를 추천해 드릴 수 있습니다.\n\n다음은 로또 번호 추천을 위한 간단한 방법입니다:\n\n1.  **랜덤 추천**: 로또 번호를 추천해 드릴 수 있습니다.\n2.  **숫자 조"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"get_rainfall_probability\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#9#8_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#10#4_close",
+   "q": "부산은 지금 날씨가 어때?",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"부산\\\"}\"}",
+   "out": "{\"name\": \"get_weather_forecast_for_next7_days\", \"arguments\": {\"location\": \"부산\"}}"
+  },
+  {
+   "id": "informWeather#10#8_close",
+   "q": "부산은 지금 날씨가 어때?",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"부산\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"부산\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  }
+ ]
+}

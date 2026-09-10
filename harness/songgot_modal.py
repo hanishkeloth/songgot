@@ -175,7 +175,7 @@ def _tok_parquet(args):
     return out, n
 
 
-@app.function(image=image, volumes={V: vol}, cpu=48, memory=262144, timeout=60 * 60 * 6, ephemeral_disk=262144)
+@app.function(image=image, volumes={V: vol}, cpu=48, memory=262144, timeout=60 * 60 * 6, ephemeral_disk=524288)
 def prep2(ko_files: int = 4, en_files: int = 17, tokd_name: str = "tok2", workers: int = 48):
     """Corpus v2 for the 12-layer model: FineWeb-2 Korean (kor_Hang, ODC-By) and fresh fineweb-edu sample-100BT
     files (ODC-By), tokenized with the existing tokenizer (tok/spm.model) straight from parquet into /vol/tok2
@@ -255,7 +255,11 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
     tokd = f"{V}/{cfg.get('tokd', 'tok')}"  # tok = 6B-token corpus v1, tok2 = FineWeb-2 Korean + fineweb-edu 100BT
     shards = {"ko": sorted(f for f in os.listdir(tokd) if f.startswith("ko_") and f.endswith(".bin")),
               "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin"))}
-    mm = {l: [np.memmap(f"{tokd}/{f}", dtype=np.uint16, mode="r") for f in fs] for l, fs in shards.items()}
+    # each rank owns every world-th shard and reads it into RAM once: random 2 KB reads through a memmap on the
+    # network volume ran at 0.01M tok/s on corpus v2 (about 1,000 shards, 49 GB); sequential reads are fast
+    mm = {l: [np.fromfile(f"{tokd}/{f}", dtype=np.uint16) for f in fs[rank::world]] for l, fs in shards.items()}
+    if rank == 0:
+        print(f"[pre] rank 0 holds {sum(len(m) for ms in mm.values() for m in ms)/1e9:.2f}B tokens of {len(shards['ko'])+len(shards['en'])} shards", flush=True)
     wts = {l: np.array([len(m) for m in ms], dtype=np.float64) for l, ms in mm.items()}
     for l in wts:
         wts[l] /= wts[l].sum()

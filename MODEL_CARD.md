@@ -37,6 +37,7 @@ Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions), exact
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
+| Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.6 |
 
 Tokens per Hangul syllable on the same 100 queries: Songgot 0.90, Gemma 3 0.98, Qwen3 1.15, Needle 2 3.47.
 
