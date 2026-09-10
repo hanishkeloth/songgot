@@ -177,7 +177,11 @@ the name, 58 percent on everything). Three runs gave 19,293 invented tools and 3
 with close distractors drawn from the same domain, 30 percent of rows restyled and 5 percent turned into
 negatives, v6 has 152,494 rows over 113,197 distinct tool names. On the same 6B-token base, v6 lifts
 call accuracy from 11.4 to 23.8 percent and name accuracy from 53.6 to 63.8: the single largest step in
-this paper, and it came from data, not parameters or RL.</p>
+this paper, and it came from data, not parameters or RL. A fourth synthesis run of 30 passes (v7:
+100,363 verified rows over 52,483 invented tools, 219,822 rows in all, 223,319 distinct names) lifts
+the same base to 27.6 percent call and 69.4 name accuracy, with the close-distractor conditions moving
+most (4_close 13 to 22). The curve has not flattened yet; each run costs about twenty minutes on two
+H100s.</p>
 <p>Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
 format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only
