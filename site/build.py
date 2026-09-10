@@ -139,9 +139,10 @@ try:
     im = Image.new("RGB", (1200, 630), (14, 15, 17)); d = ImageDraw.Draw(im)
     fb = ImageFont.truetype(str(fonts / "BlackHanSans-Regular.ttf"), 76); fs = ImageFont.truetype(str(fonts / "NanumGothic-Bold.ttf"), 28); fm = ImageFont.truetype(str(fonts / "NanumGothic-Bold.ttf"), 22)
     d.text((70, 70), "songgot · 송곳", font=fs, fill=(216, 255, 61))
-    d.text((70, 140), "A Korean-first tiny", font=fb, fill=(242, 240, 234)); d.text((70, 225), "agentic model,", font=fb, fill=(242, 240, 234)); d.text((70, 310), "for tool calling on the device.", font=fb, fill=(216, 255, 61))
-    d.text((70, 440), "0.90 tokens per Hangul syllable  ·  FunctionChat-Bench, exact match  ·  Apache 2.0", font=fm, fill=(184, 180, 170))
-    d.text((70, 540), "Hanish Keloth, Palette  ·  hanishkeloth.github.io/songgot", font=fm, fill=(127, 123, 114))
+    d.text((70, 125), "A Korean-first tiny", font=fb, fill=(242, 240, 234)); d.text((70, 205), "agentic model,", font=fb, fill=(242, 240, 234))
+    d.text((70, 285), "for tool calling", font=fb, fill=(216, 255, 61)); d.text((70, 365), "on the device.", font=fb, fill=(216, 255, 61))
+    d.text((70, 480), "0.90 tokens per Hangul syllable  ·  FunctionChat-Bench, exact match  ·  Apache 2.0", font=fm, fill=(184, 180, 170))
+    d.text((70, 555), "Hanish Keloth, Palette  ·  hanishkeloth.github.io/songgot", font=fm, fill=(127, 123, 114))
     im.save(DOCS / "og.png")
 except Exception as e:
     print("og.png skipped:", e)
