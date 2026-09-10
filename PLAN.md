@@ -16,7 +16,7 @@ source, unique, trending, under my name and GitHub, proper research as of today,
 ## Hard rules
 - Licence-clean data only: fineweb-edu (ODC-By) for English, Korean Wikipedia 20231101.ko
   (CC BY-SA 3.0, disclosed), synthetic Korean agentic data from our own Palette-K-Midm (open
-  weights, ours). No AI-Hub bytes. No Gemini/Claude outputs as labels. FunctionChat-Bench is
+  weights, ours). No AI-Hub bytes. No closed-model outputs as labels. FunctionChat-Bench is
   TEST ONLY: disjointness gate on every training example against its queries and tool names.
 - No base-model licence issue: from scratch, so any Modal region is fine.
 - Single hyphens, dated numbers, comparators in the same table, instrument floors stated.
