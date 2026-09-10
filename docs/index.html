@@ -33,13 +33,19 @@ under identical prompts. Results: TBD. Weights, tokenizer, data generator, score
 are released under Apache 2.0.</p>
 <h2>1. Why a Korean-first tiny model</h2>
 <ul>
-<li>The class exists and is growing: Needle 2 passed 52,000 downloads within weeks of release.</li>
-<li>On Hugging Face as of 2026-09-09 there is no Korean tool-calling model under 1B parameters;
-  the one Korean function-calling finetune found is a 2B Gemma.</li>
-<li>Korean is expensive for English-first tokenizers. On the 100 FunctionChat SingleCall queries,
+<li>
+<p>The class exists and is growing: Needle 2 passed 52,000 downloads within weeks of release.</p>
+</li>
+<li>
+<p>On Hugging Face as of 2026-09-09 there is no Korean tool-calling model under 1B parameters;
+  the one Korean function-calling finetune found is a 2B Gemma.</p>
+</li>
+<li>
+<p>Korean is expensive for English-first tokenizers. On the 100 FunctionChat SingleCall queries,
   Qwen3's 151k vocabulary spends 1.15 tokens per Hangul syllable, Gemma's 262k vocabulary 0.98,
   and Songgot's 32k Korean-first vocabulary 0.90 (Table 1). At a 256 to 1024 token budget shared
-  with tool schemas, that is context.</li>
+  with tool schemas, that is context.</p>
+</li>
 </ul>
 <h2>2. Model</h2>
 <p>Llama-style decoder: TBD layers, hidden 512, GQA with 8 query and 2 key-value heads, SwiGLU
@@ -80,19 +86,27 @@ tokens <code>&lt;|system|&gt; &lt;|user|&gt; &lt;|call|&gt; &lt;|end|&gt; &lt;|p
 </tr>
 <tr>
 <td>Needle 2</td>
-<td>45M</td>
-<td>0.0</td>
-<td>0.0</td>
+<td>8k</td>
+<td>7,192</td>
+<td>3.47</td>
 </tr>
 </tbody>
 </table></div>
 <h2>4. Data</h2>
-<p>Pretraining (all disclosed, all licence-clean):
-- fineweb-edu sample-10BT (ODC-By), first 1.63B tokens under our tokenizer.
-- Korean Wikipedia, dump 20231101.ko (CC BY-SA 3.0), 0.60B tokens, upsampled to roughly half
-  of the training mix.
-- No AI-Hub data (its terms forbid leaving Korea and our GPUs do not sit there), no crawled
+<p>Pretraining (all disclosed, all licence-clean):</p>
+<ul>
+<li>
+<p>fineweb-edu sample-10BT (ODC-By), first 1.63B tokens under our tokenizer.</p>
+</li>
+<li>
+<p>Korean Wikipedia, dump 20231101.ko (CC BY-SA 3.0), 0.60B tokens, upsampled to roughly half
+  of the training mix.</p>
+</li>
+<li>
+<p>No AI-Hub data (its terms forbid leaving Korea and our GPUs do not sit there), no crawled
   Korean web text of unclear licence.</p>
+</li>
+</ul>
 <p>Post-training (85,408 examples): 64,000 Korean tool calls generated from hand-written frames
 for 58 Korean tools (messaging, calendar, transit, home appliances, commerce, public services,
 health, work, information), with register variants (반말, 존댓말, 격식, 사투리, typos), Korean date
@@ -134,6 +148,17 @@ Every model receives the same tools and query, rendered in its own documented fo
 <td></td>
 </tr>
 <tr>
+<td>Needle 2</td>
+<td>45M</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
 <td>FunctionGemma-270M</td>
 <td>270M</td>
 <td>3.0</td>
@@ -159,11 +184,17 @@ Every model receives the same tools and query, rendered in its own documented fo
 </table></div>
 <h2>6. Honest reading</h2>
 <ul>
-<li>TBD after results: where Songgot loses, and why (argument-value paraphrase, rare tools,
-  English-only failures).</li>
-<li>The template-generated Korean data is narrow by construction; a teacher-generated set from
-  our own Palette-K-Midm was planned and is queued behind GPU availability.</li>
-<li>Pretraining tokens are TBD; the Needle 2 recipe used 200B. Ours is smaller and says so.</li>
+<li>
+<p>TBD after results: where Songgot loses, and why (argument-value paraphrase, rare tools,
+  English-only failures).</p>
+</li>
+<li>
+<p>The template-generated Korean data is narrow by construction; a teacher-generated set from
+  our own Palette-K-Midm was planned and is queued behind GPU availability.</p>
+</li>
+<li>
+<p>Pretraining tokens are TBD; the Needle 2 recipe used 200B. Ours is smaller and says so.</p>
+</li>
 </ul>
 <h2>7. Release</h2>
 <p>Weights and tokenizer: hf.co/imcapsule/songgot. Code, data generators, scorer, paper:

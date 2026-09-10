@@ -18,8 +18,10 @@ are released under Apache 2.0.
 ## 1. Why a Korean-first tiny model
 
 - The class exists and is growing: Needle 2 passed 52,000 downloads within weeks of release.
+
 - On Hugging Face as of 2026-09-09 there is no Korean tool-calling model under 1B parameters;
   the one Korean function-calling finetune found is a 2B Gemma.
+
 - Korean is expensive for English-first tokenizers. On the 100 FunctionChat SingleCall queries,
   Qwen3's 151k vocabulary spends 1.15 tokens per Hangul syllable, Gemma's 262k vocabulary 0.98,
   and Songgot's 32k Korean-first vocabulary 0.90 (Table 1). At a 256 to 1024 token budget shared
@@ -44,14 +46,17 @@ Table 1. Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries (
 | Songgot (ours) | 32k | 1,873 | 0.90 |
 | Gemma 3 / FunctionGemma | 262k | 2,028 | 0.98 |
 | Qwen3 | 151k | 2,392 | 1.15 |
-| Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Needle 2 | 8k | 7,192 | 3.47 |
 
 ## 4. Data
 
 Pretraining (all disclosed, all licence-clean):
+
 - fineweb-edu sample-10BT (ODC-By), first 1.63B tokens under our tokenizer.
+
 - Korean Wikipedia, dump 20231101.ko (CC BY-SA 3.0), 0.60B tokens, upsampled to roughly half
   of the training mix.
+
 - No AI-Hub data (its terms forbid leaving Korea and our GPUs do not sit there), no crawled
   Korean web text of unclear licence.
 
@@ -76,6 +81,7 @@ Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
 | Songgot | TBD | | | | | | | |
+| Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 
@@ -83,8 +89,10 @@ Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from 
 
 - TBD after results: where Songgot loses, and why (argument-value paraphrase, rare tools,
   English-only failures).
+
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
+
 - Pretraining tokens are TBD; the Needle 2 recipe used 200B. Ours is smaller and says so.
 
 ## 7. Release
