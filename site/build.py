@@ -39,7 +39,7 @@ footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);
 </style></head><body>
 <header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · {datetime.date.today().isoformat()}</div>
 <h1 class="title">A Korean-first tiny agentic model,<br><span>for tool calling on the device.</span></h1>
-<div class="links"><a class="primary" href="https://huggingface.co/imcapsule/songgot">Weights on Hugging Face</a><a href="https://github.com/hanishkeloth/songgot">Code on GitHub</a><a href="https://huggingface.co/spaces/imcapsule/songgot">Live demo</a></div></header>
+<div class="links"><a class="primary" href="https://huggingface.co/imcapsule/songgot">Weights on Hugging Face</a><a href="https://github.com/hanishkeloth/songgot-">Code on GitHub</a><a href="https://huggingface.co/spaces/imcapsule/songgot">Live demo</a></div></header>
 <main>{body.replace("<table>", '<div class="tbl"><table>').replace("</table>", "</table></div>")}</main>
 <footer>Songgot is released under Apache 2.0 by Hanish Keloth, Palette. Korean Wikipedia text is CC BY-SA 3.0; FunctionChat-Bench is Apache 2.0 (Kakao). Numbers on this page come from the run logs in the repository; nothing is estimated.</footer>
 </body></html>"""

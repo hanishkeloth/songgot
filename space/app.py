@@ -39,7 +39,7 @@ demo = gr.Interface(
     inputs=[gr.Textbox(value=DEFAULT_TOOLS, lines=14, label="도구 (JSON 목록)"), gr.Textbox(value="내일 아침 7시에 알람 맞춰줘", label="요청")],
     outputs=gr.Textbox(lines=6, label="호출"),
     title="Songgot (송곳): Korean-first tiny agentic model",
-    description="A from-scratch tiny model for Korean tool calling on the device. Apache 2.0. Paper and code: github.com/hanishkeloth/songgot. 이 데모는 CPU에서 실행됩니다.",
+    description="A from-scratch tiny model for Korean tool calling on the device. Apache 2.0. Paper and code: github.com/hanishkeloth/songgot-. 이 데모는 CPU에서 실행됩니다.",
     examples=[[DEFAULT_TOOLS, "부산 날씨 어때?"], [DEFAULT_TOOLS, "강남역까지 대중교통으로 안내해 주세요"], [DEFAULT_TOOLS, "치킨 두 마리 시켜줘"], [DEFAULT_TOOLS, "오늘 하루 어땠어?"]],
     allow_flagging="never",
 )

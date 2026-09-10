@@ -98,5 +98,5 @@ Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from 
 ## 7. Release
 
 Weights and tokenizer: hf.co/imcapsule/songgot. Code, data generators, scorer, paper:
-github.com/IMCapsule-ai/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
+github.com/hanishkeloth/songgot-. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
 notice in the model card.
