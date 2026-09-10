@@ -153,6 +153,13 @@ written by the build from the run logs; a row reads "training" until its run has
   54 percent of the time from the same data. At 320M tokens the model has not learned to copy from
   context at all; the Needle 2 recipe used 200B. The nano weights stay published as the measured
   floor of the recipe, and the 12-layer model is the one in the app.
+- Songgot-M, 16 layers and hidden 768 (126M parameters), pretrained on the same 6B tokens and
+  post-trained on the same v5 set, scores 12.0 percent against the 12-layer model's 11.4: 32
+  against 26 percent with a single tool, and the same or worse with four and eight tools (13/8/7/0
+  against 12/10/7/2). Name accuracy is 53.0 against 53.6. Two and a half times the parameters buy
+  three more correct calls out of 500, all of them in the easiest condition. At this token count
+  the bottleneck is what the model has read, not how many parameters it has, and the next
+  experiment is more pretraining tokens on the 12-layer size, not a larger model.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
