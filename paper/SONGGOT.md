@@ -171,6 +171,16 @@ written by the build from the run logs; a row reads "training" until its run has
   three more correct calls out of 500, all of them in the easiest condition. At this token count
   the bottleneck is what the model has read, not how many parameters it has, and the next
   experiment is more pretraining tokens on the 12-layer size, not a larger model.
+- More tokens of the wrong kind hurt. A second corpus (24.4B tokens: 9.0B of FineWeb-2 Korean web
+  text, the 0.6B of Korean Wikipedia, 14.8B of fineweb-edu; same tokenizer) trained the 12-layer model
+  for 24B tokens, four times the first run and fifteen times its Korean. Post-trained on v5 it scores 8.6
+  percent against 11.4 for the 6B-token model on the same data, and on v6 17.4 against 23.8. Name
+  accuracy rose (55.8 and 66.8 against 53.6 and 63.8) while whole-call accuracy fell: the bigger corpus
+  picks the tool a little better and fills its arguments worse, with invented arguments on tools that
+  take none. For a tool-calling model of this size the encyclopedic and
+  educational mix of the first corpus transfers better than general Korean web text, and the next
+  pretraining run keeps that mix, trains longer on it, and adds a small share of tool-calling rows
+  in the pretraining stream.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.

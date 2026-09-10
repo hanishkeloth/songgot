@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.086,
+ "name_acc": 0.558,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.25,
+   "name_acc": 0.95
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.07,
+   "name_acc": 0.64
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.06,
+   "name_acc": 0.46
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.05,
+   "name_acc": 0.49
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.0,
+   "name_acc": 0.25
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#1#4_random",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"location\":\"박스\",\"stock_stock\":10000}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#1#4_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"product_name\":\"청담시\",\"quantity\":1,\"delivery\":\"pickup\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_random",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"text\":\"박스오피스순가\",\"target_currency\":\"sports\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"get_movie_details\",\"arguments\":{\"title\":\"박스\",\"year\":2020,\"re\":\"sports\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#4_random",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":{\"location\":\" 영화 랭킹\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#4_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"get_movie_details\",\"arguments\":{\"title\":\"영화 랭킹\",\"year\":2010}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_random",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"get_exchange_rate\",\"arguments\":{\"base_currency\":\"KR123456789012\",\"target_currency\":\"USD123456789012\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"get_movie_details\",\"arguments\":{\"title\":\"영화 점점\",\"year\":2010}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  }
+ ]
+}

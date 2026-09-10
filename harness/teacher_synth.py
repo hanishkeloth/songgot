@@ -154,6 +154,8 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
         print(m, flush=True); log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
     t0 = time.time()
 
+    tools_path = f"{V}/{dst}".replace(".jsonl", "_tools.json"); pairs_path = f"{V}/{dst}".replace(".jsonl", "_pairs.json")
+    resume_tools = os.path.exists(tools_path); resume_pairs = os.path.exists(pairs_path)
     # stage 0: schemas
     prompts, meta = [], []
     existing = json.load(open(f"{V}/data/tool_catalogue.json", encoding="utf-8")) if os.path.exists(f"{V}/data/tool_catalogue.json") else []
@@ -164,9 +166,9 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
                 sub = rng.choice(SUBAREAS) if ps else ""
                 prompts.append(chat(p_schema(d, st, tools_per_prompt, sub, rng.sample(known, 4) if known and ps else ()))); meta.append(d)
     # no fixed sampling seed: with one, identical prompts across passes return identical tools and dedupe to nothing
-    outs = llm.generate(prompts, SamplingParams(temperature=1.0, top_p=0.95, max_tokens=1200, stop=["<|im_end|>", "<|endoftext|>"]))
+    outs = llm.generate(prompts, SamplingParams(temperature=1.0, top_p=0.95, max_tokens=1200, stop=["<|im_end|>", "<|endoftext|>"])) if not resume_tools else []
     tools, seen = [], set()
-    for t in existing:
+    for t in (existing if not resume_tools else []):
         if valid_tool(t) or (isinstance(t, dict) and "name" in t):
             tools.append({"domain": "catalogue", "tool": t}); seen.add(t["name"].lower())
     n_bad = 0
@@ -177,9 +179,13 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
         for t in arr:
             if valid_tool(t) and t["name"].lower() not in seen:
                 seen.add(t["name"].lower()); tools.append({"domain": d, "tool": {"name": t["name"], "description": t["description"], "parameters": t["parameters"]}})
-    say(f"[synth] stage 0: {len(prompts)} prompts -> {len(tools)} tools ({len(existing)} from the catalogue, {n_bad} unparseable) in {time.time()-t0:.0f}s")
+    if resume_tools:
+        tools = json.load(open(tools_path, encoding="utf-8")); seen = {e["tool"]["name"].lower() for e in tools}
+        say(f"[synth] stage 0: resumed {len(tools)} tools from {tools_path}")
+    else:
+        say(f"[synth] stage 0: {len(prompts)} prompts -> {len(tools)} tools ({len(existing)} from the catalogue, {n_bad} unparseable) in {time.time()-t0:.0f}s")
     # stage 0b: confusable siblings for a share of the invented tools, so "close" distractor sets are hard
-    if sibling_share > 0:
+    if sibling_share > 0 and not resume_tools:
         base_idx = [i for i, e in enumerate(tools) if e["domain"] != "catalogue"]
         pick = rng.sample(base_idx, int(len(base_idx) * sibling_share))
         outs = llm.generate([chat(p_siblings(tools[i]["tool"])) for i in pick], SamplingParams(temperature=0.9, top_p=0.95, max_tokens=1000, stop=["<|im_end|>", "<|endoftext|>"]))
@@ -190,14 +196,14 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
                 if valid_tool(t) and t["name"].lower() not in seen:
                     seen.add(t["name"].lower()); tools.append({"domain": tools[i]["domain"], "tool": {"name": t["name"], "description": t["description"], "parameters": t["parameters"]}, "sibling_of": tools[i]["tool"]["name"]}); n_sib += 1
         say(f"[synth] stage 0b: {len(pick)} parents -> {n_sib} sibling tools in {time.time()-t0:.0f}s")
-    json.dump(tools, open(f"{V}/{dst}".replace(".jsonl", "_tools.json"), "w", encoding="utf-8"), ensure_ascii=False); vol.commit()
+    json.dump(tools, open(tools_path, "w", encoding="utf-8"), ensure_ascii=False); vol.commit()
 
     # stage 1: requests + calls
     prompts, meta = [], []
     for i, e in enumerate(tools):
         prompts.append(chat(p_pairs(e["tool"], rng.sample(STYLES, 3)))); meta.append(i)
-    outs = llm.generate(prompts, SamplingParams(temperature=0.8, top_p=0.95, max_tokens=700, stop=["<|im_end|>", "<|endoftext|>"]))
-    pairs = []
+    outs = llm.generate(prompts, SamplingParams(temperature=0.8, top_p=0.95, max_tokens=700, stop=["<|im_end|>", "<|endoftext|>"])) if not resume_pairs else []
+    pairs = json.load(open(pairs_path, encoding="utf-8")) if resume_pairs else []
     for i, o in zip(meta, outs):
         arr = first_json(o.outputs[0].text, "list")
         if not isinstance(arr, list):
@@ -209,14 +215,30 @@ def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-l
             if not (4 <= len(q) <= 300) or not re.search(r"[가-힣]", q) or c.get("name") != tools[i]["tool"]["name"] or not isinstance(c.get("arguments", {}), dict):
                 continue
             pairs.append({"i": i, "query": q, "call": {"name": c["name"], "arguments": c.get("arguments") or {}}})
+    if not resume_pairs:
+        json.dump(pairs, open(pairs_path, "w", encoding="utf-8"), ensure_ascii=False); vol.commit()
     say(f"[synth] stage 1: {len(pairs)} candidate pairs from {len(tools)} tools in {time.time()-t0:.0f}s")
 
-    # stage 2: verify with distractors present
+    # stage 2: verify with distractors present; siblings (same root) first, then random tools, all by index
+    idx_of = {e["tool"]["name"]: k for k, e in enumerate(tools)}
+    kids = {}
+    for k, e in enumerate(tools):
+        if e.get("sibling_of"):
+            kids.setdefault(e["sibling_of"], []).append(k)
+    def family(k):
+        root = tools[k].get("sibling_of") or tools[k]["tool"]["name"]
+        fam = [j for j in kids.get(root, []) if j != k]
+        if tools[k].get("sibling_of") and root in idx_of:
+            fam.append(idx_of[root])
+        return fam
     prompts = []
     for p in pairs:
-        fam = [t for t in tools if t is not tools[p["i"]] and (t.get("sibling_of") == tools[p["i"]]["tool"]["name"] or tools[p["i"]].get("sibling_of") in (t["tool"]["name"], t.get("sibling_of")))]
-        others = rng.sample(fam, min(2, len(fam))) + rng.sample([t for t in tools if t is not tools[p["i"]] and t not in fam], 3 - min(2, len(fam)))
-        shown = [tools[p["i"]]["tool"]] + [t["tool"] for t in others]; rng.shuffle(shown)
+        k = p["i"]; fam = family(k); pick = set(rng.sample(fam, min(2, len(fam))))
+        while len(pick) < 3:
+            j = rng.randrange(len(tools))
+            if j != k and j not in pick:
+                pick.add(j)
+        shown = [tools[k]["tool"]] + [tools[j]["tool"] for j in pick]; rng.shuffle(shown)
         prompts.append(chat(p_verify(p["query"], shown)))
     outs = llm.generate(prompts, SamplingParams(temperature=0.0, max_tokens=250, stop=["<|im_end|>", "<|endoftext|>"]))
     kept = 0; n_name = 0

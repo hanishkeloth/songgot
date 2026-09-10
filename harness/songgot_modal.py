@@ -221,6 +221,35 @@ def prep2(ko_files: int = 4, en_files: int = 17, tokd_name: str = "tok2", worker
     return tot
 
 
+@app.function(image=image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 60)
+def prep_inst(data: str = "sft/train_v6.jsonl", tokd_name: str = "tok2", shard_tokens: int = 50_000_000):
+    """Instruction bucket for pretraining: every post-training row rendered exactly as SFT renders it (prompt + call +
+    <|end|>), tokenized with the llama.cpp vocab (same ids as SFT, the app and the GGUFs), EOS between rows."""
+    import numpy as np
+    from llama_cpp import Llama
+    vol.reload()
+    vocab = f"{V}/tok/songgot-vocab.gguf"
+    tok = Llama(model_path=vocab, vocab_only=True, verbose=False)
+    enc = lambda t: tok.tokenize(t.encode("utf-8"), add_bos=False, special=True)
+    tokd = f"{V}/{tokd_name}"; buf = []; n = 0; k = 0
+    for f in os.listdir(tokd):
+        if f.startswith("inst_"):
+            os.remove(f"{tokd}/{f}")
+    def flush():
+        nonlocal buf, k
+        np.array(buf, dtype=np.uint16).tofile(f"{tokd}/inst_{k:04d}.bin"); k += 1; buf = []
+    for l in open(f"{V}/{data}", encoding="utf-8"):
+        r = json.loads(l); pr, co = render(r)
+        buf.extend(enc(pr + co)); buf.append(2); n += 1
+        if len(buf) >= shard_tokens:
+            flush()
+    if buf:
+        flush()
+    vol.commit(); total = sum(os.path.getsize(f"{tokd}/{f}") // 2 for f in os.listdir(tokd) if f.startswith("inst_"))
+    print(f"[inst] {n} rows -> {k} shards, {total/1e6:.0f}M tokens in {tokd}", flush=True)
+    return {"rows": n, "tokens": total}
+
+
 # ----------------------------------------------------------------------------- model
 def make_config(hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2):
     from transformers import LlamaConfig
@@ -254,7 +283,11 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
 
     tokd = f"{V}/{cfg.get('tokd', 'tok')}"  # tok = 6B-token corpus v1, tok2 = FineWeb-2 Korean + fineweb-edu 100BT
     shards = {"ko": sorted(f for f in os.listdir(tokd) if f.startswith("ko_") and f.endswith(".bin")),
-              "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin"))}
+              "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin")),
+              "inst": sorted(f for f in os.listdir(tokd) if f.startswith("inst_") and f.endswith(".bin"))}
+    p_inst = cfg.get("p_inst", 0.0) if shards["inst"] else 0.0
+    if not shards["inst"]:
+        del shards["inst"]
     # each rank owns every world-th shard and reads it into RAM once: random 2 KB reads through a memmap on the
     # network volume ran at 0.01M tok/s on corpus v2 (about 1,000 shards, 49 GB); sequential reads are fast
     mm = {l: [np.fromfile(f"{tokd}/{f}", dtype=np.uint16) for f in fs[rank::world]] for l, fs in shards.items()}
@@ -268,7 +301,7 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
     def batch():
         x = np.empty((B, T + 1), dtype=np.int64)
         for i in range(B):
-            lang = "ko" if np.random.rand() < p_ko else "en"
+            lang = "inst" if np.random.rand() < p_inst else ("ko" if np.random.rand() < p_ko else "en")
             m = mm[lang][np.random.choice(len(mm[lang]), p=wts[lang])]
             off = np.random.randint(0, len(m) - T - 1)
             x[i] = m[off:off + T + 1].astype(np.int64)
@@ -332,12 +365,12 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
 
 @app.function(image=image, volumes={V: vol}, gpu="H100:8", timeout=60 * 60 * 8, memory=262144)
 def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000,
-             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre", tokd: str = "tok"):
+             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre", tokd: str = "tok", p_inst: float = 0.0):
     import torch.multiprocessing as mp
     world = 8
     steps = int(tokens // (world * batch_per_gpu * SEQ))
     cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every,
-           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag, "tokd": tokd}
+           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag, "tokd": tokd, "p_inst": p_inst}
     print(f"[pre] launching {world} ranks, {steps} steps", flush=True)
     mp.spawn(_ddp_worker, args=(world, cfg), nprocs=world, join=True)
     return {"steps": steps}
