@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.554,
+ "name_acc": 0.866,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.68,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.56,
+   "name_acc": 0.92
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.51,
+   "name_acc": 0.8
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.54,
+   "name_acc": 0.88
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.48,
+   "name_acc": 0.74
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#exact",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"latest_movies\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#4_random",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {\"number\": \"행운의 숫자\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#8_random",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {\"query\": \"행운의 로또\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#7#4_random",
+   "q": "이번주에 찍을 로또번호좀 골라줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"generate_random_password\", \"arguments\": {\"length\": 5, \"include_uppercase\": true, \"include_lowercase\": false, \"include_numbers\": false}}"
+  },
+  {
+   "id": "informWeather#12#8_close",
+   "q": "백현동 날씨는 어떤가요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"백현동\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"백현동\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#13#8_close",
+   "q": "자카르타의 현재 시간을 알려주세요.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"자카르타\\\"}\"}",
+   "out": "{\"name\": \"getCurrentKoreaTime\", \"arguments\": {\"location\": \"자카르타\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentKoreaTime\", \"arguments\": {\"location\": \"스위스 취리히\"}}"
+  }
+ ]
+}

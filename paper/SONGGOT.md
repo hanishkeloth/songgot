@@ -185,6 +185,11 @@ written by the build from the run logs; a row reads "training" until its run has
   educational mix of the first corpus transfers better than general Korean web text, and the next
   pretraining run keeps that mix, trains longer on it, and adds a small share of tool-calling rows
   in the pretraining stream.
+- What our data is worth on a pretrained base, as a reference we do not ship: Qwen3-0.6B (Apache 2.0)
+  post-trained on the v5 set with its own chat template, two epochs, scores 55.4 percent against
+  43.2 zero-shot (name accuracy 86.6). The same v5 set gives the 50M from-scratch model 11.4, and
+  v7 gives it 27.6. The remaining gap is what 600M parameters and trillions of pretraining tokens
+  buy; the from-scratch line is the one we ship, and the data lever is the one that keeps moving it.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
