@@ -1,0 +1,69 @@
+{
+ "model": "HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
+ "tag": "smolvlm2_500m",
+ "limit": 1000,
+ "date": "2026-09-10",
+ "scoring": "next-token likelihood over the option letters",
+ "bench": {
+  "kmmbench": {
+   "n": 1000,
+   "acc": 0.302,
+   "no_letter": 0,
+   "sec": 244,
+   "by_category": {
+    "identity_reasoning": 0.356,
+    "physical_property_reasoning": 0.373,
+    "function_reasoning": 0.241,
+    "object_localization": 0.358,
+    "structuralized_imagetext_understanding": 0.32,
+    "attribute_recognition": 0.324,
+    "future_prediction": 0.325,
+    "spatial_relationship": 0.308,
+    "image_scene": 0.313,
+    "image_quality": 0.321,
+    "action_recognition": 0.182,
+    "attribute_comparison": 0.091,
+    "image_topic": 0.306,
+    "nature_relation": 0.214,
+    "physical_relation": 0.083,
+    "social_relation": 0.372,
+    "celebrity_recognition": 0.253,
+    "image_style": 0.321,
+    "ocr": 0.769,
+    "image_emotion": 0.3
+   }
+  },
+  "kseed": {
+   "n": 1000,
+   "acc": 0.268,
+   "no_letter": 0,
+   "sec": 228,
+   "by_category": {
+    "": 0.268
+   }
+  },
+  "kmmstar": {
+   "n": 1000,
+   "acc": 0.214,
+   "no_letter": 0,
+   "sec": 204,
+   "by_category": {
+    "coarse perception": 0.204,
+    "fine-grained perception": 0.24,
+    "instance reasoning": 0.2,
+    "logical reasoning": 0.212
+   }
+  },
+  "kdtcbench": {
+   "n": 240,
+   "acc": 0.30416666666666664,
+   "no_letter": 0,
+   "sec": 48,
+   "by_category": {
+    "document": 0.375,
+    "table": 0.275,
+    "chart": 0.263
+   }
+  }
+ }
+}

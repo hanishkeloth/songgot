@@ -1,0 +1,69 @@
+{
+ "model": "NCSOFT/VARCO-VISION-2.0-1.7B",
+ "tag": "varco2_17b",
+ "limit": 1000,
+ "date": "2026-09-10",
+ "scoring": "next-token likelihood over the option letters",
+ "bench": {
+  "kmmbench": {
+   "n": 1000,
+   "acc": 0.783,
+   "no_letter": 0,
+   "sec": 59,
+   "by_category": {
+    "identity_reasoning": 0.978,
+    "physical_property_reasoning": 0.52,
+    "function_reasoning": 0.861,
+    "object_localization": 0.654,
+    "structuralized_imagetext_understanding": 0.733,
+    "attribute_recognition": 0.892,
+    "future_prediction": 0.65,
+    "spatial_relationship": 0.615,
+    "image_scene": 0.955,
+    "image_quality": 0.717,
+    "action_recognition": 0.864,
+    "attribute_comparison": 0.636,
+    "image_topic": 0.917,
+    "nature_relation": 0.714,
+    "physical_relation": 0.792,
+    "social_relation": 0.837,
+    "celebrity_recognition": 0.758,
+    "image_style": 0.906,
+    "ocr": 1.0,
+    "image_emotion": 0.82
+   }
+  },
+  "kseed": {
+   "n": 1000,
+   "acc": 0.715,
+   "no_letter": 0,
+   "sec": 186,
+   "by_category": {
+    "": 0.715
+   }
+  },
+  "kmmstar": {
+   "n": 1000,
+   "acc": 0.533,
+   "no_letter": 0,
+   "sec": 67,
+   "by_category": {
+    "coarse perception": 0.668,
+    "fine-grained perception": 0.436,
+    "instance reasoning": 0.596,
+    "logical reasoning": 0.432
+   }
+  },
+  "kdtcbench": {
+   "n": 240,
+   "acc": 0.6458333333333334,
+   "no_letter": 0,
+   "sec": 36,
+   "by_category": {
+    "document": 0.775,
+    "table": 0.625,
+    "chart": 0.537
+   }
+  }
+ }
+}
