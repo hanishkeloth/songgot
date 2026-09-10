@@ -93,6 +93,14 @@ was reduced from 28 to 6 percent because the benchmark never asks for it. No clo
 label. A disjointness gate aborts the build if any training tool name or query appears in
 FunctionChat-Bench.
 
+Two later additions (sets v4 and v5, same day): 7,745 Korean rewrites of glaive requests produced by
+our own Palette-K-Midm with the schemas and gold calls left untouched (Korean queries over thousands of
+tools instead of 57), no-parameter tools upweighted, and every no-parameter schema rendered in one of
+the three common JSON shapes at random. The last one came from reading failures: 45 of the benchmark's
+57 no-parameter tools use `{"type":"object","properties":{},"required":[]}`, our set had almost only
+bare `{}`, and the model had learned the shape instead of the rule. Each set was scored before the next
+was built; Table 2 carries the published one and the text names the others.
+
 Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
 format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only
@@ -112,7 +120,7 @@ written by the build from the run logs; a row reads "training" until its run has
 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
-| Songgot (8xH100, 6B tokens) | 50M | 28.0 | 7.0 | 10.0 | 4.0 | 8.0 | 11.4 | 53.4 |
+| Songgot (8xH100, 6B tokens) | 50M | 26.0 | 12.0 | 10.0 | 7.0 | 2.0 | 11.4 | 53.6 |
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
