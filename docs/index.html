@@ -1,0 +1,173 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Songgot (송곳): a Korean-first tiny agentic model</title>
+<meta name="description" content="Songgot: a Korean-first tiny agentic model for tool calling on the device. Paper, weights, code, benchmark.">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0f11;--panel:#16181c;--line:#262a30;--ink:#f2f0ea;--ink2:#b8b4aa;--ink3:#7f7b72;--accent:#d8ff3d}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;line-height:1.6}
+header{padding:44px clamp(20px,6vw,90px) 26px;border-bottom:1px solid var(--line)}
+.logo{font-family:"Black Han Sans",sans-serif;font-size:22px}.meta{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.12em}
+h1.title{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(36px,6vw,72px);line-height:1;margin:12px 0 8px;text-wrap:balance}h1.title span{color:var(--accent)}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.links a{border:1px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;padding:9px 14px;border-radius:8px;font-size:14px}.links a.primary{background:var(--accent);color:#0e0f11;border-color:var(--accent);font-weight:600}
+main{max-width:78ch;padding:30px clamp(20px,6vw,90px) 90px}main h1{display:none}main h2{font-size:24px;margin:40px 0 10px;letter-spacing:-.01em}main h3{font-size:18px;margin:28px 0 8px}
+main p,main li{color:var(--ink2);font-size:16px}main strong{color:var(--ink)}main code{font-family:"IBM Plex Mono",monospace;font-size:13px;background:#0b0c0e;border:1px solid var(--line);padding:1px 5px;border-radius:5px}
+main pre{background:#0b0c0e;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto}main pre code{border:0;padding:0}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{color:var(--ink3);font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}td{font-variant-numeric:tabular-nums}
+footer{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px}
+</style></head><body>
+<header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · 2026-09-10</div>
+<h1 class="title">A Korean-first tiny agentic model,<br><span>for tool calling on the device.</span></h1>
+<div class="links"><a class="primary" href="https://huggingface.co/imcapsule/songgot">Weights on Hugging Face</a><a href="https://github.com/hanishkeloth/songgot">Code on GitHub</a><a href="https://huggingface.co/spaces/imcapsule/songgot">Live demo</a></div></header>
+<main><h1>Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device</h1>
+<p>Hanish Keloth, Palette (Seoul and Bengaluru). Draft of 2026-09-10. Numbers marked TBD are filled
+from the run logs before release; nothing here is estimated.</p>
+<h2>Abstract</h2>
+<p>Tiny agentic models (Needle 2, 45M parameters, 14 MB, July 2026) made on-device tool calling
+practical on phones and microcontrollers, but the released model is English only. Songgot is a
+Korean-first model in the same class: a decoder trained from scratch with a Korean-first 32k
+tokenizer, bilingual Korean and English pretraining on licence-clean text, and post-training on
+Korean tool-calling and structured-extraction data that no closed model touched. We evaluate on
+Kakao's FunctionChat-Bench SingleCall (500 Korean items) with a deterministic exact-match scorer
+that anyone can reproduce without an API key, against Needle 2, FunctionGemma-270M and Qwen3-0.6B
+under identical prompts. Results: TBD. Weights, tokenizer, data generator, scorer and this paper
+are released under Apache 2.0.</p>
+<h2>1. Why a Korean-first tiny model</h2>
+<ul>
+<li>The class exists and is growing: Needle 2 passed 52,000 downloads within weeks of release.</li>
+<li>On Hugging Face as of 2026-09-09 there is no Korean tool-calling model under 1B parameters;
+  the one Korean function-calling finetune found is a 2B Gemma.</li>
+<li>Korean is expensive for English-first tokenizers. On the 100 FunctionChat SingleCall queries,
+  Qwen3's 151k vocabulary spends 1.15 tokens per Hangul syllable, Gemma's 262k vocabulary 0.98,
+  and Songgot's 32k Korean-first vocabulary 0.90 (Table 1). At a 256 to 1024 token budget shared
+  with tool schemas, that is context.</li>
+</ul>
+<h2>2. Model</h2>
+<p>Llama-style decoder: TBD layers, hidden 512, GQA with 8 query and 2 key-value heads, SwiGLU
+intermediate 1408, RoPE, tied embeddings, 32k vocabulary, TBD M parameters. Trained from scratch.
+Exports to safetensors, GGUF (f16, Q8_0, Q4_K_M) and runs under llama.cpp.</p>
+<h2>3. Tokenizer</h2>
+<p>SentencePiece BPE, 32,000 pieces, byte fallback, digits split, trained on a 300 MB sample:
+Korean Wikipedia 50 percent, fineweb-edu 40 percent, tool-schema JSON 10 percent. Special
+tokens <code>&lt;|system|&gt; &lt;|user|&gt; &lt;|call|&gt; &lt;|end|&gt; &lt;|pad|&gt;</code>.</p>
+<p>Table 1. Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries (2,071 syllables).</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>tokenizer</th>
+<th>vocab</th>
+<th>tokens</th>
+<th>tokens per syllable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Songgot (ours)</td>
+<td>32k</td>
+<td>1,873</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td>Gemma 3 / FunctionGemma</td>
+<td>262k</td>
+<td>2,028</td>
+<td>0.98</td>
+</tr>
+<tr>
+<td>Qwen3</td>
+<td>151k</td>
+<td>2,392</td>
+<td>1.15</td>
+</tr>
+<tr>
+<td>Needle 2</td>
+<td>45M</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></div>
+<h2>4. Data</h2>
+<p>Pretraining (all disclosed, all licence-clean):
+- fineweb-edu sample-10BT (ODC-By), first 1.63B tokens under our tokenizer.
+- Korean Wikipedia, dump 20231101.ko (CC BY-SA 3.0), 0.60B tokens, upsampled to roughly half
+  of the training mix.
+- No AI-Hub data (its terms forbid leaving Korea and our GPUs do not sit there), no crawled
+  Korean web text of unclear licence.</p>
+<p>Post-training (85,408 examples): 64,000 Korean tool calls generated from hand-written frames
+for 58 Korean tools (messaging, calendar, transit, home appliances, commerce, public services,
+health, work, information), with register variants (반말, 존댓말, 격식, 사투리, typos), Korean date
+and time words resolved against a fixed calendar, and 4,000 "no tool applies" negatives;
+21,408 English examples from glaive-function-calling-v2 (Apache 2.0). No closed model produced
+a label. A disjointness gate aborts the build if any training tool name or query appears in
+FunctionChat-Bench; three tool names had to be renamed because of it.</p>
+<h2>5. Evaluation</h2>
+<p>FunctionChat-Bench SingleCall (Kakao, 2024, Apache 2.0): 25 functions, 4 Korean queries each,
+5 tool conditions (exact, 4 random, 4 close, 8 random, 8 close) = 500 items. The official
+protocol uses GPT-4 as judge; we score with exact match on function name and arguments (numbers
+compared as numbers, acceptable alternatives honoured) so the number is reproducible offline.
+Every model receives the same tools and query, rendered in its own documented format.</p>
+<p>Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from run logs.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>params</th>
+<th>exact</th>
+<th>4_random</th>
+<th>4_close</th>
+<th>8_random</th>
+<th>8_close</th>
+<th>all</th>
+<th>name only</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Songgot</td>
+<td>TBD</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FunctionGemma-270M</td>
+<td>270M</td>
+<td>3.0</td>
+<td>5.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>2.2</td>
+<td>36.2</td>
+</tr>
+<tr>
+<td>Qwen3-0.6B</td>
+<td>600M</td>
+<td>48.0</td>
+<td>49.0</td>
+<td>45.0</td>
+<td>37.0</td>
+<td>37.0</td>
+<td>43.2</td>
+<td>70.8</td>
+</tr>
+</tbody>
+</table></div>
+<h2>6. Honest reading</h2>
+<ul>
+<li>TBD after results: where Songgot loses, and why (argument-value paraphrase, rare tools,
+  English-only failures).</li>
+<li>The template-generated Korean data is narrow by construction; a teacher-generated set from
+  our own Palette-K-Midm was planned and is queued behind GPU availability.</li>
+<li>Pretraining tokens are TBD; the Needle 2 recipe used 200B. Ours is smaller and says so.</li>
+</ul>
+<h2>7. Release</h2>
+<p>Weights and tokenizer: hf.co/imcapsule/songgot. Code, data generators, scorer, paper:
+github.com/IMCapsule-ai/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
+notice in the model card.</p></main>
+<footer>Songgot is released under Apache 2.0 by Hanish Keloth, Palette. Korean Wikipedia text is CC BY-SA 3.0; FunctionChat-Bench is Apache 2.0 (Kakao). Numbers on this page come from the run logs in the repository; nothing is estimated.</footer>
+</body></html>
