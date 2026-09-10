@@ -13,3 +13,11 @@ site/node_modules/
 .DS_Store
 app/models/
 app/vendor/wllama/package/
+
+# generated training sets and synthesis pools: released on the Hub as a dataset, not in git
+data/sft_train_v*_all.jsonl
+data/synth_v*.jsonl
+data/synth_tools_*.json
+data/synth_v6*_tools.json
+data/rl_prompts*.jsonl
+data/ko_trans*.jsonl
