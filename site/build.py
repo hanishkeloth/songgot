@@ -30,10 +30,11 @@ def row(label, params, path):
     r = json.loads(p.read_text()); bc = r["by_condition"]
     return f"| {label} | {params} | " + " | ".join(f"{bc[c]['call_acc']*100:.1f}" for c in COND) + f" | {r['call_acc']*100:.1f} | {r['name_acc']*100:.1f} |"
 
-songgot_rows = [r for r in (row("Songgot-nano (Mac, 320M tokens)", "39M", "score_songgot_nano.json"),
+songgot_rows = [r for r in (row("Songgot-nano preview (Mac, 65M tokens, step 2000)", "39M", "score_songgot_preview.json"),
+                            row("Songgot-nano (Mac, 320M tokens)", "39M", "score_songgot_nano.json"),
                             row("Songgot (8xH100, 6B tokens)", "50M", "score_songgot.json")) if r]
 if songgot_rows:
-    md = re.sub(r"\| Songgot \| TBD \|[^\n]*\n", "\n".join(songgot_rows) + "\n", md, count=1)
+    md = re.sub(r"\| Songgot-nano \| 39M \| training \|[^\n]*\n", "\n".join(songgot_rows) + "\n", md, count=1)
 (DOCS / "paper.md").write_text(md, encoding="utf-8")
 
 FAQ = [
@@ -90,12 +91,12 @@ h1.title{{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clam
 .links{{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}}.links a{{border:1px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;padding:9px 14px;border-radius:8px;font-size:14px}}.links a.primary{{background:var(--accent);color:#0e0f11;border-color:var(--accent);font-weight:600}}
 .facts{{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;padding:22px clamp(20px,6vw,90px);border-bottom:1px solid var(--line)}}
 .fact{{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel)}}.fact b{{display:block;font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:500;color:var(--accent)}}.fact small{{color:var(--ink3);font-size:12px}}
-main{{max-width:78ch;padding:30px clamp(20px,6vw,90px) 40px}}main h1{{display:none}}main h2{{font-size:24px;margin:40px 0 10px;letter-spacing:-.01em}}main h3{{font-size:18px;margin:28px 0 8px}}
+main{{max-width:96ch;padding:30px clamp(20px,6vw,90px) 40px}}main p,main li{{max-width:78ch}}main h1{{display:none}}main h2{{font-size:24px;margin:40px 0 10px;letter-spacing:-.01em}}main h3{{font-size:18px;margin:28px 0 8px}}
 main p,main li{{color:var(--ink2);font-size:16px}}main strong{{color:var(--ink)}}main code{{font-family:"IBM Plex Mono",monospace;font-size:13px;background:#0b0c0e;border:1px solid var(--line);padding:1px 5px;border-radius:5px}}
 main pre{{background:#0b0c0e;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto}}main pre code{{border:0;padding:0}}
-figure.fig{{margin:18px 0 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0e0f11}}figure.fig svg{{display:block}}figure.fig figcaption{{color:var(--ink3);font-size:13px;padding:8px 14px;border-top:1px solid var(--line)}}
-.tbl{{overflow-x:auto}}table{{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}}th,td{{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}}th{{color:var(--ink3);font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}}td{{font-variant-numeric:tabular-nums}}
-section.faq{{max-width:78ch;padding:10px clamp(20px,6vw,90px) 60px}}section.faq h2{{font-size:24px}}details{{border-top:1px solid var(--line);padding:12px 0}}summary{{cursor:pointer;font-weight:600;color:var(--ink)}}details p{{color:var(--ink2);margin:8px 0 0}}
+figure.fig{{margin:18px 0 26px;max-width:860px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0e0f11}}figure.fig svg{{display:block}}figure.fig figcaption{{color:var(--ink3);font-size:13px;padding:8px 14px;border-top:1px solid var(--line)}}
+.tbl{{overflow-x:auto}}table{{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}}main table{{display:block;overflow-x:auto;white-space:nowrap}}th,td{{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}}th{{color:var(--ink3);font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}}td{{font-variant-numeric:tabular-nums}}
+section.faq{{max-width:96ch;padding:10px clamp(20px,6vw,90px) 60px}}section.faq h2{{font-size:24px}}details{{border-top:1px solid var(--line);padding:12px 0}}summary{{cursor:pointer;font-weight:600;color:var(--ink)}}details p{{color:var(--ink2);margin:8px 0 0}}
 footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px}}footer a{{color:var(--ink2)}}
 </style></head><body>
 <header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · {TODAY}</div>

@@ -12,7 +12,7 @@ tokenizer, bilingual Korean and English pretraining on licence-clean text, and p
 Korean tool-calling and structured-extraction data that no closed model touched. We evaluate on
 Kakao's FunctionChat-Bench SingleCall (500 Korean items) with a deterministic exact-match scorer
 that anyone can reproduce without an API key, against Needle 2, FunctionGemma-270M and Qwen3-0.6B
-under identical prompts. Results: TBD. Weights, tokenizer, data generator, scorer and this paper
+under identical prompts. Results for the comparators are measured and in Table 2; Songgot rows are filled from the run logs as each training run finishes (Songgot-nano on 2026-09-10). Weights, tokenizer, data generator, scorer and this paper
 are released under Apache 2.0.
 
 ## 1. Why a Korean-first tiny model
@@ -29,8 +29,10 @@ are released under Apache 2.0.
 
 ## 2. Model
 
-Llama-style decoder: TBD layers, hidden 512, GQA with 8 query and 2 key-value heads, SwiGLU
-intermediate 1408, RoPE, tied embeddings, 32k vocabulary, TBD M parameters. Trained from scratch.
+Llama-style decoder, hidden 512, GQA with 8 query and 2 key-value heads, SwiGLU intermediate
+1408, RoPE, tied embeddings, 32k vocabulary, trained from scratch. Two sizes: Songgot-nano, 8
+layers, 39M parameters, pretrained on an Apple M5 Max with MLX (320M tokens); Songgot, 12 layers,
+about 50M parameters, 8xH100 run on 6B tokens queued behind GPU budget.
 Exports to safetensors, GGUF (f16, Q8_0, Q4_K_M) and runs under llama.cpp.
 
 ![Figure 3. Songgot-nano pretraining loss on the Mac, read from the run log](fig3_loss.png)
@@ -82,11 +84,12 @@ protocol uses GPT-4 as judge; we score with exact match on function name and arg
 compared as numbers, acceptable alternatives honoured) so the number is reproducible offline.
 Every model receives the same tools and query, rendered in its own documented format.
 
-Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from run logs.
+Table 2. Call accuracy (exact match) on SingleCall, by tool condition, percent. Songgot rows are
+written by the build from the run logs; a row reads "training" until its run has finished.
 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
-| Songgot | TBD | | | | | | | |
+| Songgot-nano | 39M | training | | | | | | |
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
@@ -95,13 +98,16 @@ Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from 
 
 ## 6. Honest reading
 
-- TBD after results: where Songgot loses, and why (argument-value paraphrase, rare tools,
-  English-only failures).
+- Songgot-nano sees 320M pretraining tokens; the Needle 2 recipe used 200B, about 600 times
+  more. We expect that gap to show first in argument values (paraphrased places and times) and in
+  rare tools, and we report every condition whatever it says. Where Songgot loses, this section
+  will say so with the failing items named.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
 
-- Pretraining tokens are TBD; the Needle 2 recipe used 200B. Ours is smaller and says so.
+- The preview checkpoint used to open the demo on 2026-09-10 is an early one (65M tokens,
+  24,000 post-training examples) and is labelled as such in the table.
 
 ## 7. Release
 

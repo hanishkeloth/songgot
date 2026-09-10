@@ -84,7 +84,7 @@ def figures():
                                     [("Songgot 32k (ours)", 0.90), ("Gemma 3 / FunctionGemma 262k", 0.98), ("Qwen3 151k", 1.15), ("Needle 2 8k", 3.47)],
                                     note="100 FunctionChat SingleCall queries, 2,071 syllables; eval/tokenizer_study.py.")
     conds = ["exact", "4_random", "4_close", "8_random", "8_close"]; series = []
-    for name, path, col in [("Songgot-nano (ours)", "score_songgot_nano.json", ACC), ("Songgot (ours)", "score_songgot.json", ACC2),
+    for name, path, col in [("Songgot-nano preview", "score_songgot_preview.json", "#e9ff8a"), ("Songgot-nano (ours)", "score_songgot_nano.json", ACC), ("Songgot (ours)", "score_songgot.json", ACC2),
                             ("Qwen3-0.6B", "preds_qwen3_0.6b.jsonl", GREYS[0]), ("FunctionGemma-270M", "preds_functiongemma_270m.jsonl", GREYS[1]), ("Needle 2", "preds_needle2.jsonl", GREYS[2])]:
         p = ROOT / "eval" / path
         if p.exists():
