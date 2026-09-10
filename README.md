@@ -8,6 +8,14 @@ Korean-first tokenizer, licence-clean data, and no closed-model labels.
 - Paper: `paper/SONGGOT.md`
 - Benchmark: Kakao FunctionChat-Bench SingleCall, scored by exact match (`eval/functionchat_exact.py`)
 
+## Figures
+
+![Tokens per Hangul syllable](docs/fig1_tokens.png)
+
+![FunctionChat-Bench call accuracy by condition](docs/fig2_bench.png)
+
+![Songgot-nano pretraining loss](docs/fig3_loss.png)
+
 ## Why
 
 Korean is expensive for English-first tokenizers. On the 100 FunctionChat SingleCall queries:

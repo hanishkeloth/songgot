@@ -22,10 +22,28 @@ A Korean-first tiny agentic model for tool calling on the device, trained from s
 
 - Paper: https://hanishkeloth.github.io/songgot
 - Code, data generators, scorer: https://github.com/hanishkeloth/songgot
-- Demo: https://huggingface.co/spaces/imcapsule/songgot
+- Demo: https://huggingface.co/spaces/Hanish/songgot
 
 ## Numbers
-RESULTS_TABLE
+Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions), exact match on function name and arguments, scorer in the repo. Comparators run with identical tools and queries in their own documented formats.
+
+| model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
+|---|---|---|---|---|---|---|---|---|
+| Songgot-nano | 39M | pending | | | | | | |
+| Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
+| Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
+
+Tokens per Hangul syllable on the same 100 queries: Songgot 0.90, Gemma 3 0.98, Qwen3 1.15, Needle 2 3.47.
+
+![Tokens per Hangul syllable](https://hanishkeloth.github.io/songgot/fig1_tokens.png)
+
+![Call accuracy by condition](https://hanishkeloth.github.io/songgot/fig2_bench.png)
+
+![Pretraining loss](https://hanishkeloth.github.io/songgot/fig3_loss.png)
+
+## Status (2026-09-10)
+Songgot-nano (8 layers, 39M) is pretraining on an Apple M5 Max (MLX, 320M tokens) and is post-trained on 85,408 tool-calling examples right after. The tokenizer is final and uploaded now; weights, the GGUF exports and the Songgot-nano benchmark row land in this repo as soon as the run finishes today. The 12-layer Songgot (about 50M, 6B tokens on 8xH100) follows.
 
 ## Format
 ```

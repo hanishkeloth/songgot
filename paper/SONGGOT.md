@@ -33,6 +33,8 @@ Llama-style decoder: TBD layers, hidden 512, GQA with 8 query and 2 key-value he
 intermediate 1408, RoPE, tied embeddings, 32k vocabulary, TBD M parameters. Trained from scratch.
 Exports to safetensors, GGUF (f16, Q8_0, Q4_K_M) and runs under llama.cpp.
 
+![Figure 3. Songgot-nano pretraining loss on the Mac, read from the run log](fig3_loss.png)
+
 ## 3. Tokenizer
 
 SentencePiece BPE, 32,000 pieces, byte fallback, digits split, trained on a 300 MB sample:
@@ -48,6 +50,8 @@ Table 1. Tokens per Hangul syllable on the 100 FunctionChat SingleCall queries (
 | Qwen3 | 151k | 2,392 | 1.15 |
 | Needle 2 | 8k | 7,192 | 3.47 |
 
+![Figure 1. Tokens per Hangul syllable on the FunctionChat queries, lower is better](fig1_tokens.png)
+
 ## 4. Data
 
 Pretraining (all disclosed, all licence-clean):
@@ -59,6 +63,8 @@ Pretraining (all disclosed, all licence-clean):
 
 - No AI-Hub data (its terms forbid leaving Korea and our GPUs do not sit there), no crawled
   Korean web text of unclear licence.
+
+![Figure 4. Pretraining corpus in tokens under the Songgot tokenizer](fig4_data.png)
 
 Post-training (85,408 examples): 64,000 Korean tool calls generated from hand-written frames
 for 58 Korean tools (messaging, calendar, transit, home appliances, commerce, public services,
@@ -84,6 +90,8 @@ Table 2. Call accuracy (exact match) on SingleCall, by tool condition. TBD from 
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
+
+![Figure 2. Call accuracy by tool condition on FunctionChat-Bench SingleCall](fig2_bench.png)
 
 ## 6. Honest reading
 

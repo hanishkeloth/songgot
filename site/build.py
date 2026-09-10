@@ -13,7 +13,7 @@ DOCS = ROOT / "docs"; DOCS.mkdir(exist_ok=True)
 SITE = "https://hanishkeloth.github.io/songgot/"
 REPO = "https://github.com/hanishkeloth/songgot"
 HF = "https://huggingface.co/imcapsule/songgot"
-SPACE = "https://huggingface.co/spaces/imcapsule/songgot"
+SPACE = "https://huggingface.co/spaces/Hanish/songgot"
 TODAY = datetime.date.today().isoformat()
 TITLE = "Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device"
 DESC = ("Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and "
@@ -45,7 +45,10 @@ FAQ = [
     ("Where are the weights and code?", f"Weights and tokenizer at {HF}; code, data generators, scorer and paper at {REPO}; a CPU demo at {SPACE}."),
 ]
 
+import sys as _sys; _sys.path.insert(0, str(ROOT / "site")); import charts
+FIGS = charts.figures(); charts.write_png(FIGS, DOCS)
 body = markdown.markdown(md, extensions=["tables", "fenced_code"])
+body = re.sub(r'<p><img alt="([^"]*)" src="(fig\d_\w+)\.png" /></p>', lambda m: f'<figure class="fig">{FIGS.get(m.group(2), "")}<figcaption>{m.group(1)}</figcaption></figure>' if m.group(2) in FIGS else "", body)
 faq_html = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in FAQ)
 jsonld = [
     {"@context": "https://schema.org", "@type": "ScholarlyArticle", "headline": TITLE, "name": TITLE, "description": DESC,
@@ -68,6 +71,7 @@ head_meta = f"""<link rel="canonical" href="{SITE}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{TITLE}"><meta name="twitter:description" content="{DESC}"><meta name="twitter:image" content="{SITE}og.png">
 <meta name="citation_title" content="{TITLE}"><meta name="citation_author" content="Keloth, Hanish"><meta name="citation_publication_date" content="{TODAY.replace('-', '/')}"><meta name="citation_online_date" content="{TODAY.replace('-', '/')}"><meta name="citation_publisher" content="Palette"><meta name="citation_language" content="en"><meta name="citation_abstract_html_url" content="{SITE}"><meta name="citation_public_url" content="{SITE}"><meta name="citation_fulltext_html_url" content="{SITE}">
 <link rel="alternate" type="text/markdown" href="{SITE}paper.md" title="Paper as Markdown">
+<link rel="alternate" type="application/pdf" href="{SITE}songgot.pdf" title="Paper as PDF"><meta name="citation_pdf_url" content="{SITE}songgot.pdf">
 <link rel="alternate" type="text/plain" href="{SITE}llms.txt" title="llms.txt">
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>"""
 
@@ -89,6 +93,7 @@ h1.title{{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clam
 main{{max-width:78ch;padding:30px clamp(20px,6vw,90px) 40px}}main h1{{display:none}}main h2{{font-size:24px;margin:40px 0 10px;letter-spacing:-.01em}}main h3{{font-size:18px;margin:28px 0 8px}}
 main p,main li{{color:var(--ink2);font-size:16px}}main strong{{color:var(--ink)}}main code{{font-family:"IBM Plex Mono",monospace;font-size:13px;background:#0b0c0e;border:1px solid var(--line);padding:1px 5px;border-radius:5px}}
 main pre{{background:#0b0c0e;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto}}main pre code{{border:0;padding:0}}
+figure.fig{{margin:18px 0 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0e0f11}}figure.fig svg{{display:block}}figure.fig figcaption{{color:var(--ink3);font-size:13px;padding:8px 14px;border-top:1px solid var(--line)}}
 .tbl{{overflow-x:auto}}table{{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}}th,td{{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}}th{{color:var(--ink3);font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}}td{{font-variant-numeric:tabular-nums}}
 section.faq{{max-width:78ch;padding:10px clamp(20px,6vw,90px) 60px}}section.faq h2{{font-size:24px}}details{{border-top:1px solid var(--line);padding:12px 0}}summary{{cursor:pointer;font-weight:600;color:var(--ink)}}details p{{color:var(--ink2);margin:8px 0 0}}
 footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px}}footer a{{color:var(--ink2)}}
@@ -96,7 +101,7 @@ footer{{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);
 <header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · {TODAY}</div>
 <h1 class="title">A Korean-first tiny agentic model,<br><span>for tool calling on the device.</span></h1>
 <p class="lede">{DESC}</p>
-<div class="links"><a class="primary" href="{HF}">Weights on Hugging Face</a><a href="{REPO}">Code on GitHub</a><a href="{SPACE}">Live demo</a><a href="paper.md">Paper as Markdown</a></div></header>
+<div class="links"><a class="primary" href="{HF}">Weights on Hugging Face</a><a href="{REPO}">Code on GitHub</a><a href="{SPACE}">Live demo</a><a href="songgot.pdf">Paper as PDF</a><a href="paper.md">Paper as Markdown</a></div></header>
 <section class="facts" aria-label="Key facts">
 <div class="fact"><b>0.90</b><small>tokens per Hangul syllable (Songgot 32k tokenizer); Needle 2: 3.47</small></div>
 <div class="fact"><b>500</b><small>Korean items, FunctionChat-Bench SingleCall, exact-match scorer</small></div>
