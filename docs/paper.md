@@ -114,8 +114,14 @@ call accuracy from 11.4 to 23.8 percent and name accuracy from 53.6 to 63.8: the
 this paper, and it came from data, not parameters or RL. A fourth synthesis run of 30 passes (v7:
 100,363 verified rows over 52,483 invented tools, 219,822 rows in all, 223,319 distinct names) lifts
 the same base to 27.6 percent call and 69.4 name accuracy, with the close-distractor conditions moving
-most (4_close 13 to 22). The curve has not flattened yet; each run costs about twenty minutes on two
-H100s.
+most (4_close 13 to 22). A fifth run of 60 passes added a sibling stage: for 40 percent of invented
+tools the teacher writes four confusable tools in the same service (similar names, different functions),
+and verification shows siblings first among the distractors. v8 (336,498 synthesised rows over 183,713
+tools, 467,843 rows in all, 642,439 distinct names) reaches 32.0 percent call and 71.4 name accuracy on
+the 6B-token base (31.0 and 72.2 on the pre3 base, a tie), with 8_close moving from 13 to 20. Three
+runs of the same recipe took the model from 11.4 to 32.0 percent; the curve is still rising at about
+four points per tripling of the synthesised set. The synthesised pool is released as
+hf.co/datasets/palette-lab/songgot-tools-ko.
 
 Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
