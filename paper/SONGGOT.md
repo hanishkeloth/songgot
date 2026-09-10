@@ -120,8 +120,11 @@ and verification shows siblings first among the distractors. v8 (336,498 synthes
 tools, 467,843 rows in all, 642,439 distinct names) reaches 32.0 percent call and 71.4 name accuracy on
 the 6B-token base (31.0 and 72.2 on the pre3 base, a tie), with 8_close moving from 13 to 20. Three
 runs of the same recipe took the model from 11.4 to 32.0 percent; the curve is still rising at about
-four points per tripling of the synthesised set. The synthesised pool is released as
-hf.co/datasets/palette-lab/songgot-tools-ko.
+four points per tripling of the synthesised set. A third epoch over v8 gives 33.0 percent (name
+73.6), inside the error bar of the two-epoch run but not below it, and is the published 12-layer
+model. Songgot-M post-trained on the same v8 set scores 33.2 (name 73.8): with 2.5 times the
+parameters and the same data the two models tie, for the third time in this paper. The synthesised pool
+is released as hf.co/datasets/palette-lab/songgot-tools-ko.
 
 Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
