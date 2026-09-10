@@ -172,5 +172,6 @@ browser cache, no server in the loop. It installs as a web app on iOS, Android a
 the network off. The app shows the model at most six candidate tools per request (chosen by character
 bigram overlap with a 58-tool Korean catalogue), renders the returned call as a card, and performs the
 calls it can do locally (alarms, timers, notes, calendar files) while handing the rest to the right site
-when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread, with the 39M weights: 1.7 s
-per request from prompt to parsed call.
+when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.5 s per request from prompt
+to parsed call with the 12-layer weights (755 prompt tokens, 31 generated, 21 tokens per second),
+1.7 s with the 39M weights.
