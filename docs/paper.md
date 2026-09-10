@@ -102,7 +102,7 @@ written by the build from the run logs; a row reads "training" until its run has
 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
-| Songgot-nano | 39M | training | | | | | | |
+| Songgot (8xH100, 6B tokens) | 50M | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.2 | 20.2 |
 | Needle 2 | 45M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
