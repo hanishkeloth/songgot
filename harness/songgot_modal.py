@@ -282,12 +282,13 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
     torch.backends.cuda.matmul.allow_tf32 = True
 
     tokd = f"{V}/{cfg.get('tokd', 'tok')}"  # tok = 6B-token corpus v1, tok2 = FineWeb-2 Korean + fineweb-edu 100BT
-    shards = {"ko": sorted(f for f in os.listdir(tokd) if f.startswith("ko_") and f.endswith(".bin")),
-              "en": sorted(f for f in os.listdir(tokd) if f.startswith("en_") and f.endswith(".bin")),
-              "inst": sorted(f for f in os.listdir(tokd) if f.startswith("inst_") and f.endswith(".bin"))}
-    p_inst = cfg.get("p_inst", 0.0) if shards["inst"] else 0.0
-    if not shards["inst"]:
-        del shards["inst"]
+    shards = {b: sorted(f for f in os.listdir(tokd) if f.startswith(b + "_") and f.endswith(".bin")) for b in ("ko", "en", "inst", "priv", "vdr")}
+    shards = {b: fs for b, fs in shards.items() if fs}
+    # sampling: p_inst first, then p_doc split across the document buckets (priv: the user's own documents,
+    # vdr: ko-vdr page markdown), the remainder ko/en by p_ko as before
+    p_inst = cfg.get("p_inst", 0.0) if "inst" in shards else 0.0
+    doc_b = [b for b in ("priv", "vdr") if b in shards]
+    p_doc = cfg.get("p_doc", 0.0) if doc_b else 0.0
     # each rank owns every world-th shard and reads it into RAM once: random 2 KB reads through a memmap on the
     # network volume ran at 0.01M tok/s on corpus v2 (about 1,000 shards, 49 GB); sequential reads are fast
     mm = {l: [np.fromfile(f"{tokd}/{f}", dtype=np.uint16) for f in (fs[rank::world] if len(fs) >= world else fs)] for l, fs in shards.items()}  # small buckets (inst) load fully on every rank
@@ -301,7 +302,13 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
     def batch():
         x = np.empty((B, T + 1), dtype=np.int64)
         for i in range(B):
-            lang = "inst" if np.random.rand() < p_inst else ("ko" if np.random.rand() < p_ko else "en")
+            u = np.random.rand()
+            if u < p_inst:
+                lang = "inst"
+            elif u < p_inst + p_doc:
+                lang = doc_b[np.random.randint(len(doc_b))]
+            else:
+                lang = "ko" if np.random.rand() < p_ko else "en"
             m = mm[lang][np.random.choice(len(mm[lang]), p=wts[lang])]
             off = np.random.randint(0, len(m) - T - 1)
             x[i] = m[off:off + T + 1].astype(np.int64)
@@ -365,12 +372,12 @@ def _ddp_worker(rank: int, world: int, cfg: dict):
 
 @app.function(image=image, volumes={V: vol}, gpu="H100:8", timeout=60 * 60 * 8, memory=262144)
 def pretrain(tokens: float = 6.0e9, batch_per_gpu: int = 32, lr: float = 2e-3, p_ko: float = 0.45, ckpt_every: int = 2000,
-             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre", tokd: str = "tok", p_inst: float = 0.0):
+             hidden: int = 512, inter: int = 1408, layers: int = 12, heads: int = 8, kv: int = 2, tag: str = "pre", tokd: str = "tok", p_inst: float = 0.0, p_doc: float = 0.0):
     import torch.multiprocessing as mp
     world = 8
     steps = int(tokens // (world * batch_per_gpu * SEQ))
     cfg = {"steps": steps, "warmup": min(1000, steps // 20), "lr": lr, "p_ko": p_ko, "batch_per_gpu": batch_per_gpu, "ckpt_every": ckpt_every,
-           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag, "tokd": tokd, "p_inst": p_inst}
+           "hidden": hidden, "inter": inter, "layers": layers, "heads": heads, "kv": kv, "tag": tag, "tokd": tokd, "p_inst": p_inst, "p_doc": p_doc}
     print(f"[pre] launching {world} ranks, {steps} steps", flush=True)
     mp.spawn(_ddp_worker, args=(world, cfg), nprocs=world, join=True)
     return {"steps": steps}
