@@ -82,7 +82,7 @@ def build(tokd_name: str = "tok3", docs_per_shard: int = 20000, include_vdr: boo
     priv = f"{V}/private/private_ko"
     if os.path.isdir(priv):
         for f in sorted(os.listdir(priv)):
-            for d in open(f"{priv}/{f}", encoding="utf-8").read().split("\n\n"):
+            for d in open(f"{priv}/{f}", encoding="utf-8").read().split("\n\x1e\n"):   # documents, not paragraphs
                 d = d.strip()
                 if keep(d):
                     batch.append(d); n_docs += 1
