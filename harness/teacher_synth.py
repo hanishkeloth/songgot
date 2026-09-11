@@ -141,7 +141,7 @@ def valid_tool(t) -> bool:
     return all(isinstance(v, dict) and "type" in v for v in p.get("properties", {}).values())
 
 
-@app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
+@app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 6, memory=65536)
 def synth(passes: int = 3, tools_per_prompt: int = 5, model_id: str = "palette-lab/palette-k-midm", dst: str = "sft/synth_v6.jsonl", seed: int = 6, sibling_share: float = 0.0):
     from vllm import LLM, SamplingParams
     from transformers import AutoTokenizer
