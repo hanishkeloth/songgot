@@ -216,6 +216,13 @@ memorises its post-training queries, so on-policy RL can only teach what SFT has
 and 200 steps of it on 3,200 novel prompts did not reach the benchmark's tools. The RL stage is
 kept in the recipe as a measured negative, not as a source of the published number.</p>
 <h2>5. Evaluation</h2>
+<p>Korean comparators, measured 2026-09-11 with the same prompts, scorer and each model's own chat template:
+Kakao's Kanana-2-1.3B-Instruct scores 70.4 percent, LG's EXAONE-4.0-1.2B 63.0. These are the Korean state of
+the art at on-device size and the numbers to beat; Kakao also authored FunctionChat-Bench, so Kanana's figure
+may reflect in-distribution training. DNA3.0-0.8B receives a prompt byte-identical to its base model
+Qwen3.5-0.8B (45.2 percent) and scores 4.8: it answers 421 of 500 items in prose, so its post-training
+removed most of the base model's tool calling. HyperCLOVA X SEED 0.5B has no tool interface in its chat
+template (the tools never reach the prompt), so it is listed without a score rather than with a zero.</p>
 <p>Error bars first. With 500 items the standard error of a call-accuracy figure near 25 percent is 1.9
 points, so two models within about 4 points of each other are not separated by this benchmark; we
 treat such differences as ties and say so where they occur.</p>
@@ -317,6 +324,50 @@ written by the build from the run logs; a row reads "training" until its run has
 <td>34.0</td>
 <td>45.2</td>
 <td>73.6</td>
+</tr>
+<tr>
+<td>Kanana-2-1.3B-Instruct (Kakao)</td>
+<td>1.3B</td>
+<td>76.0</td>
+<td>72.0</td>
+<td>70.0</td>
+<td>71.0</td>
+<td>63.0</td>
+<td>70.4</td>
+<td>93.8</td>
+</tr>
+<tr>
+<td>EXAONE-4.0-1.2B (LG)</td>
+<td>1.28B</td>
+<td>73.0</td>
+<td>65.0</td>
+<td>53.0</td>
+<td>66.0</td>
+<td>58.0</td>
+<td>63.0</td>
+<td>85.2</td>
+</tr>
+<tr>
+<td>DNA3.0-0.8B (Dnotitia)</td>
+<td>0.8B</td>
+<td>0.0</td>
+<td>8.0</td>
+<td>6.0</td>
+<td>6.0</td>
+<td>4.0</td>
+<td>4.8</td>
+<td>12.2</td>
+</tr>
+<tr>
+<td>HyperCLOVA X SEED 0.5B (Naver)</td>
+<td>0.57B</td>
+<td>no tool-calling interface in its chat template</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table></div>

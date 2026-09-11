@@ -154,6 +154,14 @@ kept in the recipe as a measured negative, not as a source of the published numb
 
 ## 5. Evaluation
 
+Korean comparators, measured 2026-09-11 with the same prompts, scorer and each model's own chat template:
+Kakao's Kanana-2-1.3B-Instruct scores 70.4 percent, LG's EXAONE-4.0-1.2B 63.0. These are the Korean state of
+the art at on-device size and the numbers to beat; Kakao also authored FunctionChat-Bench, so Kanana's figure
+may reflect in-distribution training. DNA3.0-0.8B receives a prompt byte-identical to its base model
+Qwen3.5-0.8B (45.2 percent) and scores 4.8: it answers 421 of 500 items in prose, so its post-training
+removed most of the base model's tool calling. HyperCLOVA X SEED 0.5B has no tool interface in its chat
+template (the tools never reach the prompt), so it is listed without a score rather than with a zero.
+
 Error bars first. With 500 items the standard error of a call-accuracy figure near 25 percent is 1.9
 points, so two models within about 4 points of each other are not separated by this benchmark; we
 treat such differences as ties and say so where they occur.
@@ -176,6 +184,10 @@ written by the build from the run logs; a row reads "training" until its run has
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.6 |
+| Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 76.0 | 72.0 | 70.0 | 71.0 | 63.0 | 70.4 | 93.8 |
+| EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
+| DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.2 |
+| HyperCLOVA X SEED 0.5B (Naver) | 0.57B | no tool-calling interface in its chat template | | | | | | |
 
 ![Figure 2. Call accuracy by tool condition on FunctionChat-Bench SingleCall](fig2_bench.png)
 

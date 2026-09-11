@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.704,
+ "name_acc": 0.938,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.76,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.72,
+   "name_acc": 0.96
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.7,
+   "name_acc": 0.94
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.71,
+   "name_acc": 0.96
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.63,
+   "name_acc": 0.84
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#exact",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#4_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#4_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"Zurich, Switzerland\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"Zurich, Switzerland\"}}"
+  },
+  {
+   "id": "get_movie_details#30#4_close",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"7번방의 선물\", \"year\": 2003}}"
+  },
+  {
+   "id": "get_movie_details#30#8_random",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"7번방의 선물\", \"year\": 2013}}"
+  },
+  {
+   "id": "get_movie_details#30#8_close",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "7번방의 선물에 대한 내용은 다음과 같습니다:\n\n7번방의 선물은 2003년에 개봉한 한국 영화로, 실제 7번 방의 교도소 죄수들이 어린 아들을 위해 벌이는 감동적인 이야기를 담고 있습니다. 주인공 용구(유아인 분)는 어린 아들을 위해 교도소에서 몰래 선물을 준비하며, 그 과정에서 7번 "
+  },
+  {
+   "id": "get_movie_details#31#4_random",
+   "q": "어벤저스 엔드게임은 러닝타임이 얼마나 돼?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"어벤저스 엔드게임\\\"}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"어벤저스 엔드게임\", \"year\": 2019}}"
+  },
+  {
+   "id": "get_movie_details#31#4_close",
+   "q": "어벤저스 엔드게임은 러닝타임이 얼마나 돼?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"어벤저스 엔드게임\\\"}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"어벤저스 엔드게임\", \"year\": 2019}}"
+  }
+ ]
+}
