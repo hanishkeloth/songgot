@@ -215,13 +215,34 @@ written by the build from the run logs; a row reads "training" until its run has
 - The preview checkpoint used to open the demo on 2026-09-10 is an early one (65M tokens,
   24,000 post-training examples) and is labelled as such in the table.
 
-## 7. Release
+## 7. Prior art and what we claim
+
+A sweep of the Hugging Face Hub, Korean press and Korean search on 2026-09-11 (docs/PRIOR_ART_2026-09-11.md
+in the repository) rules out most of the sentences one would like to write, and we record them here so
+that nobody else has to. Korean tool calling is not new: Kakao published FunctionChat-Bench in 2024
+and ships tool calling in Kanana-2-1.3B (2026-07), and LG's EXAONE-4.0-1.2B (2025-07) does agentic
+tool use. Tiny from-scratch Korean models are not new: KAWK-1.5-50M (51.5M, 2026-08-03), haru (6.8M,
+2026-08-11) and SKT's KoGPT2 (125M, 2021) all predate this work, and KoGum-0.5B (2026-03) and
+KoHRM-Text-1.4B (2026-05) are from-scratch Korean models with tool-call support. Songgot is not the
+best Korean tool-calling model at any size: on our own scorer Qwen3.5-0.8B and Qwen3-0.6B, neither
+Korean-made, score 45.2 and 43.2 against our 33.0 and 33.2.
+
+What we found nothing to contradict, and therefore claim, with its qualifiers: Songgot is the
+smallest openly licensed (Apache 2.0) Korean model trained from scratch for tool calling with a
+published FunctionChat-Bench SingleCall number, at 50M and 126M parameters, and it runs offline in a
+browser. Our numbers are exact-match under our own scorer, not the benchmark's GPT-4 judge, and we
+say so wherever they appear. Korean leaderboards (Dnotitia, Horangi, NIA K-AI) bracket models at 27B
+or 30B and below and have no on-device or sub-1B category, so "ranked" claims are not available to a
+model of this size in Korea today. For the vision model in preparation we found no Korean
+vision-language model under 1B parameters; we will say "we found none", not "none exists".
+
+## 8. Release
 
 Weights and tokenizer: hf.co/palette-lab/songgot-12l (and songgot, songgot-m). Synthetic data: hf.co/datasets/palette-lab/songgot-tools-ko. Code, data generators, scorer, paper:
 github.com/hanishkeloth/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA
 notice in the model card.
 
-## 8. On the device
+## 9. On the device
 
 Songgot Pocket (hanishkeloth.github.io/songgot/app) is the 12-layer model running inside the browser:
 llama.cpp compiled to WebAssembly (wllama 3.6.1), the Q8_0 GGUF (54 MB) fetched once and kept in the
