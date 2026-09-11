@@ -189,8 +189,13 @@ runs of the same recipe took the model from 11.4 to 32.0 percent; the curve is s
 four points per tripling of the synthesised set. A third epoch over v8 gives 33.0 percent (name
 73.6), inside the error bar of the two-epoch run but not below it, and is the published 12-layer
 model. Songgot-M post-trained on the same v8 set scores 33.2 (name 73.8): with 2.5 times the
-parameters and the same data the two models tie, for the third time in this paper. The synthesised pool
-is released as hf.co/datasets/palette-lab/songgot-tools-ko.</p>
+parameters and the same data the two models tie, for the third time in this paper. A sixth synthesis
+round of 120 passes (v9: 755,011 synthesised rows over 404,424 invented tools, 907,268 rows in all)
+scores 33.0 percent (name 72.6): a tie with v8. The data curve, which gave about four
+points per tripling from v5 to v8, is flat from v8 to v9. On this 6B-token base the synthesised data
+has done what it can; the remaining gap to the pretrained comparators is pretraining, and the next
+runs change the pretraining corpus, not the post-training set. The synthesised pool is released as
+hf.co/datasets/palette-lab/songgot-tools-ko.</p>
 <p>Post-training recipe: full-parameter SFT, one epoch then a second at a lower rate, followed by a
 similarity-reward RL stage (group-relative policy optimisation against the gold call, reward =
 format term plus argument similarity as in STAR, Ni et al. 2026, with our own labels as the only

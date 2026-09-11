@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.33,
+ "name_acc": 0.726,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.44,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.38,
+   "name_acc": 0.85
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.27,
+   "name_acc": 0.59
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.33,
+   "name_acc": 0.71
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.23,
+   "name_acc": 0.49
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "recommendLottoNumber#5#8_close",
+   "q": "로또 번호 추천해줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"recommendLuckMessage\",\"arguments\":{}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#8_close",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"recommendLuckMessage\",\"arguments\":{}}"
+  },
+  {
+   "id": "recommendLottoNumber#7#8_close",
+   "q": "이번주에 찍을 로또번호좀 골라줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"informLottoWinnerCountByRound\",\"arguments\":{\"round\":1001}}"
+  },
+  {
+   "id": "recommendLottoNumber#8#8_close",
+   "q": "랜덤으로 추천해줘 이번에 로또 어떤 번호로 해볼까",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"recommendLuckMessage\",\"arguments\":{}}"
+  },
+  {
+   "id": "informWeather#9#4_random",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\":\"informWeather\",\"arguments\":{\"location\":\"서울 노원구\"}}"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\":\"getWeatherForecastForNext7Days\",\"arguments\":{\"location\":\"노원구\"}}"
+  },
+  {
+   "id": "informWeather#9#8_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\":\"getWeatherForecastForNext7Days\",\"arguments\":{\"location\":\"노원구\"}}"
+  },
+  {
+   "id": "informWeather#10#4_close",
+   "q": "부산은 지금 날씨가 어때?",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"부산\\\"}\"}",
+   "out": "{\"name\":\"getWeatherForecastForNext7Days\",\"arguments\":{\"location\":\"부산\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\":\"getWeatherForecastForNext7Days\",\"arguments\":{\"location\":\"제주도 서귀포시\"}}"
+  }
+ ]
+}
