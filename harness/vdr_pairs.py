@@ -1,8 +1,12 @@
-"""Turn ko-vdr parquet rows into (image file, text) pairs for Songgot-V alignment: writes JPEGs under
-/vol/corpora/ko_vdr_pages and a pairs.jsonl with the page markdown, same shape as ingest_korean.pages.
+"""ko-vdr parquet -> (page image, markdown, query) pairs for Songgot-V, one container per parquet file.
+
+Resumable and preemption-safe: each file writes corpora/ko_vdr_pairs/NNN.jsonl only when complete (tmp + rename),
+and a rerun skips files that already have one. build_all fans out with .map and then merges everything into
+corpora/ko_vdr_pages.jsonl with image paths relative to corpora/ko_vdr_pages (NNN/xxxxx.jpg).
+The first version wrote one file from one container and restarted from zero on preemption (2026-09-11).
 
     modal deploy harness/vdr_pairs.py
-    .venv/bin/python harness/spawn.py songgot-vdr-pairs build limit=60000
+    .venv/bin/python harness/spawn.py songgot-vdr-pairs build_all
 """
 import io
 import json
@@ -15,47 +19,67 @@ app = modal.App("songgot-vdr-pairs")
 vol = modal.Volume.from_name("songgot", create_if_missing=True)
 V = "/vol"
 image = modal.Image.debian_slim(python_version="3.11").pip_install("pyarrow", "pillow", "numpy<2.3")
+ROOT = f"{V}/corpora/ko_vdr/data"
 
 
-@app.function(image=image, volumes={V: vol}, cpu=16, memory=65536, timeout=60 * 60 * 6)
-def build(limit: int = 60000, max_side: int = 1280):
+def files():
+    return sorted(f for f in os.listdir(ROOT) if f.endswith(".parquet"))
+
+
+@app.function(image=image, volumes={V: vol}, cpu=4, memory=16384, timeout=60 * 60 * 2, retries=3)
+def page_file(idx: int, max_side: int = 1280):
     import pyarrow.parquet as pq
     from PIL import Image
-    t0 = time.time(); root = f"{V}/corpora/ko_vdr/data"; out = f"{V}/corpora/ko_vdr_pages"; os.makedirs(out, exist_ok=True)
-    files = sorted(f for f in os.listdir(root) if f.endswith(".parquet"))
-    pf0 = pq.ParquetFile(f"{root}/{files[0]}"); print("[vdr] schema:", pf0.schema.names, flush=True)
-    img_col = "image"   # struct {bytes, path} in ko-vdr (probed 2026-09-11)
-    txt_col = next((c for c in ("markdown", "text") if c in pf0.schema.names), None)
-    cols = [img_col, txt_col] + [c for c in ("query", "image_id", "query_type") if c in pf0.schema.names]
-    n = 0; seen = set(); seen_name = {}
+    vol.reload()
+    fs = files(); f = fs[idx]
+    done = f"{V}/corpora/ko_vdr_pairs/{idx:03d}.jsonl"
+    if os.path.exists(done):
+        return {"idx": idx, "skipped": True}
+    outdir = f"{V}/corpora/ko_vdr_pages/{idx:03d}"; os.makedirs(outdir, exist_ok=True); os.makedirs(os.path.dirname(done), exist_ok=True)
+    pf = pq.ParquetFile(f"{ROOT}/{f}")
+    names = pf.schema.names
+    cols = ["image", "markdown"] + [c for c in ("query", "image_id", "query_type") if c in names]
+    rows, seen = [], {}
+    for rg in range(pf.num_row_groups):
+        for row in pf.read_row_group(rg, columns=cols).to_pylist():
+            md = row.get("markdown"); im = row.get("image")
+            if not md or len(md) < 40 or not im:
+                continue
+            key = row.get("image_id")
+            if key in seen:
+                rows.append({"image": seen[key], "text": md, "query": row.get("query"), "dup_page": True}); continue
+            b = im.get("bytes") if isinstance(im, dict) else im
+            if not b:
+                continue
+            try:
+                pil = Image.open(io.BytesIO(b)).convert("RGB"); pil.thumbnail((max_side, max_side))
+            except Exception:
+                continue
+            name = f"{idx:03d}/{len(seen):05d}.jpg"; pil.save(f"{V}/corpora/ko_vdr_pages/{name}", quality=88); seen[key] = name
+            rows.append({"image": name, "text": md, "query": row.get("query"), "query_type": row.get("query_type"), "src": f"ko-vdr/{f}"})
+    with open(done + ".tmp", "w", encoding="utf-8") as fo:
+        for r in rows:
+            fo.write(json.dumps(r, ensure_ascii=False) + "\n")
+    os.replace(done + ".tmp", done); vol.commit()
+    return {"idx": idx, "pages": len(seen), "rows": len(rows)}
+
+
+@app.function(image=image, volumes={V: vol}, cpu=2, memory=8192, timeout=60 * 60 * 8)
+def build_all(max_files: int = 0):
+    t0 = time.time(); n = len(files()); idxs = list(range(min(n, max_files) if max_files else n))
+    res = list(page_file.map(idxs, return_exceptions=True))
+    ok = [r for r in res if isinstance(r, dict)]; bad = [str(r)[:120] for r in res if not isinstance(r, dict)]
+    vol.reload(); pages = rows = 0
     with open(f"{V}/corpora/ko_vdr_pages.jsonl", "w", encoding="utf-8") as fo:
-        for f in files:
-            pf = pq.ParquetFile(f"{root}/{f}")
-            for rg in range(pf.num_row_groups):
-                tb = pf.read_row_group(rg, columns=cols).to_pylist()
-                for row in tb:
-                    md = row.get(txt_col); b = row.get(img_col)
-                    if not md or len(md) < 40 or not b:
-                        continue
-                    if isinstance(b, dict):
-                        b = b.get("bytes")
-                    key = row.get("image_id") or hash(b[:4096])
-                    if key in seen:   # one image per page; the rows repeat a page per query
-                        fo.write(json.dumps({"image": seen_name[key], "text": md, "query": row.get("query"), "src": f"ko-vdr/{f}", "dup_page": True}, ensure_ascii=False) + "\n")
-                        continue
-                    try:
-                        pil = Image.open(io.BytesIO(b)).convert("RGB"); pil.thumbnail((max_side, max_side))
-                    except Exception:
-                        continue
-                    name = f"vdr_{n:07d}.jpg"; pil.save(f"{out}/{name}", quality=88); seen.add(key); seen_name[key] = name
-                    fo.write(json.dumps({"image": name, "text": md, "query": row.get("query"), "query_type": row.get("query_type"), "src": f"ko-vdr/{f}"}, ensure_ascii=False) + "\n"); n += 1
-                    if n % 5000 == 0:
-                        print(f"[vdr] {n} pages {time.time()-t0:.0f}s", flush=True); vol.commit()
-                    if n >= limit:
-                        break
-                if n >= limit:
-                    break
-            if n >= limit:
-                break
-    vol.commit(); print(f"[vdr] DONE {n} pairs in {time.time()-t0:.0f}s", flush=True)
-    return {"pairs": n}
+        for i in idxs:
+            p = f"{V}/corpora/ko_vdr_pairs/{i:03d}.jsonl"
+            if os.path.exists(p):
+                for l in open(p, encoding="utf-8"):
+                    fo.write(l); rows += 1; pages += '"dup_page"' not in l
+    vol.commit()
+    msg = f"[vdr] DONE {len(ok)}/{len(idxs)} files, {pages} unique pages, {rows} rows (with per-query duplicates), {len(bad)} failed, in {time.time()-t0:.0f}s"
+    print(msg, flush=True)
+    with open(f"{V}/corpora/PROVENANCE.md", "a", encoding="utf-8") as f:
+        f.write(time.strftime("%F %T ") + "NomaDamas/ko-vdr-train-public page pairs (CC BY 4.0): " + msg + "\n")
+    vol.commit()
+    return {"pages": pages, "rows": rows, "failed": bad[:5]}

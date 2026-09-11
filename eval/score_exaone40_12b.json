@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.63,
+ "name_acc": 0.852,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.73,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.65,
+   "name_acc": 0.9
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.53,
+   "name_acc": 0.7
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.66,
+   "name_acc": 0.96
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.58,
+   "name_acc": 0.7
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "오늘의 박스오피스 순위를 알려드릴게요! 어떤 영화를 비교하거나 확인하고 싶은지 알려주시면 도와드릴게요 😊"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "informWeather#9#4_random",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"Нонародно-крупнейшая городка\"}}"
+  },
+  {
+   "id": "informWeather#9#8_random",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"Нох\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#exact",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#4_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#4_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"취리히\"}}"
+  },
+  {
+   "id": "searchFriendBirthday#17#4_close",
+   "q": "김예린 생일좀 찾아줘",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"김예린\\\"}\"}",
+   "out": "{\"name\": \"search_contact\", \"arguments\": {\"name\": \"김예린\"}}"
+  }
+ ]
+}

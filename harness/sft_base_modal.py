@@ -127,7 +127,8 @@ def predict(ckpt: str = "base_qwen06/final", name: str = "qwen06_sft", max_new: 
     from transformers import AutoModelForCausalLM, AutoTokenizer
     vol.reload()
     path = f"{V}/ckpt/{ckpt}" if not ckpt.count("/") == 1 or os.path.exists(f"{V}/ckpt/{ckpt}") else ckpt
-    tok = AutoTokenizer.from_pretrained(path); model = AutoModelForCausalLM.from_pretrained(path, **({"dtype": torch.bfloat16} if TV.startswith("5") else {"torch_dtype": torch.bfloat16})).cuda().eval()
+    tok = AutoTokenizer.from_pretrained(path, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(path, trust_remote_code=True, **({"dtype": torch.bfloat16} if TV.startswith("5") else {"torch_dtype": torch.bfloat16})).cuda().eval()
     os.makedirs(f"{V}/preds", exist_ok=True); rows = bench_items(); t0 = time.time()
     with open(f"{V}/preds/{name}.jsonl", "w", encoding="utf-8") as f:
         for i, it in enumerate(rows):
