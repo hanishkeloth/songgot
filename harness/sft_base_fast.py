@@ -72,7 +72,7 @@ def parse_call(out: str) -> str:
     return json.dumps({"name": fm.group(1).strip(), "arguments": args}, ensure_ascii=False)
 
 
-@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 4, memory=65536)
+@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 24, memory=65536)
 def sft(base: str = "Qwen/Qwen3-0.6B", out: str = "base_qwen06/final", data: str = "sft/train.jsonl", epochs: int = 1, lr: float = 1e-5,
         batch: int = 16, accum: int = 2, max_len: int = 1024, seed: int = 0, limit: int = 0):
     import math

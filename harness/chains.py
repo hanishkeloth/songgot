@@ -55,9 +55,9 @@ def trackb_fast(ckpt: str = "base_q35_08b_v8fast/final", name: str = "q35_08b_v8
     return r
 
 
-@app.function(image=image, volumes={V: vol}, cpu=1, memory=1024, timeout=60 * 60 * 40)
+@app.function(image=image, volumes={V: vol}, cpu=1, memory=1024, timeout=60 * 60 * 24)
 def trackb_slow(ckpt: str = "base_q35_08b_v8/final", name: str = "q35_08b_v8"):
-    ok = wait_for(path=f"ckpt/{ckpt}/model.safetensors", hours=40)
+    ok = wait_for(path=f"ckpt/{ckpt}/model.safetensors", hours=23)
     log(f"[chain] track B slow ckpt ready={ok}; predicting")
     r = modal.Function.from_name("songgot-base", "predict").remote(ckpt=ckpt, name=name)
     log(f"[chain] TRACK-B SLOW PREDICTED {r} -> preds/{name}.jsonl")

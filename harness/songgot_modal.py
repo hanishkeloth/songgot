@@ -392,7 +392,7 @@ def render(example: dict) -> tuple[str, str]:
     return prompt, completion
 
 
-@app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 3, memory=65536)
+@app.function(image=image, volumes={V: vol}, gpu="H100", timeout=60 * 60 * 24, memory=65536)
 def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024, init: str = "pre/final", out: str = "sft/final", data: str = "sft/train.jsonl"):
     """Post-training with llama.cpp's tokenizer (vocab-only GGUF on the volume), the same ids the app,
     the evaluator and every GGUF user produce. See harness/songgot_tok.py for why."""

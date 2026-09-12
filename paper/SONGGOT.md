@@ -232,6 +232,18 @@ written by the build from the run logs; a row reads "training" until its run has
 - The preview checkpoint used to open the demo on 2026-09-10 is an early one (65M tokens,
   24,000 post-training examples) and is labelled as such in the table.
 
+## 6b. Songgot-V, first numbers
+
+Songgot-V pairs the from-scratch language model with an open pretrained vision tower (SigLIP2 base, 512px, Apache
+2.0, trained by Google and stated as such) through a projector trained from random initialisation; the page is cut
+into six 512px tiles plus a thumbnail, 448 image tokens. Stage 1 aligned the projector on 245,791 Korean document
+pages (ko-vdr, CC BY 4.0); the loss with the right page was 3.67 against 5.54 with a shuffled page, so the model
+reads the image. Stage 2 trained projector and language model on 113,844 teacher-written Korean questions and
+answers about those pages. Scored on 2026-09-12 with next-token likelihood over the option letters, the same
+protocol as our baselines: K-DTCBench 0.275 (document 0.375, table 0.175, chart 0.275) and K-MMBench 0.269, against
+a 0.25 chance floor and 0.610 to 0.783 for the 450M to 1.7B comparators. The model had never seen a lettered
+multiple-choice question; a stage teaching that format is running, and these numbers stay in the paper either way.
+
 ## 7. Prior art and what we claim
 
 A sweep of the Hugging Face Hub, Korean press and Korean search on 2026-09-11 (docs/PRIOR_ART_2026-09-11.md
