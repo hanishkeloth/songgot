@@ -34,7 +34,7 @@ TILE = 512
 image = (
     modal.Image.debian_slim(python_version="3.11")
     .pip_install("torch==2.6.0", "torchvision==0.21.0", "transformers==4.51.3", "huggingface_hub[hf_transfer]",
-                 "numpy<2.3", "safetensors", "accelerate", "pillow", "sentencepiece")
+                 "numpy<2.3", "safetensors", "accelerate", "pillow", "sentencepiece", "datasets")
     .pip_install("llama-cpp-python", extra_index_url="https://abetlen.github.io/llama-cpp-python/whl/cpu")
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "1", "TOKENIZERS_PARALLELISM": "false"})
 )
@@ -187,3 +187,131 @@ def align(lm: str = "ckpt/sftv8e3e3/final", pairs: str = "corpora/ko_vdr_pages.j
     json.dump({"lm": lm, "tower": TOWER, "n_img": model.n_img, "tiles": 7, "pairs": pairs, "steps": steps}, open(f"{V}/ckpt/{out}/config.json", "w"))
     vol.commit(); say("[v2] align DONE")
     return {"steps": steps}
+
+
+def load_v(lm: str, proj_ckpt: str):
+    """Build the model and load a trained projector (and, for stage-2 outputs, the tuned LM)."""
+    import torch
+    lm_dir = f"{V}/{proj_ckpt}/lm" if os.path.isdir(f"{V}/{proj_ckpt}/lm") else f"{V}/{lm}"
+    model = build(lm_dir)
+    st = torch.load(f"{V}/{proj_ckpt}/proj.pt", map_location="cpu")
+    model.proj.load_state_dict(st["proj"]); return model
+
+
+@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 20, memory=131072, cpu=16)
+def sft(lm: str = "ckpt/sftv8e3e3/final", init: str = "ckpt/v2/align_vdr", qa: str = "corpora/ko_vdr_docqa.jsonl", img_root: str = "corpora/ko_vdr_pages",
+        steps: int = 6000, batch: int = 16, lr_lm: float = 3e-5, lr_proj: float = 1e-4, max_len: int = 1024, out: str = "v2/sft_docqa", seed: int = 0,
+        log_every: int = 100, workers: int = 12):
+    """Stage 2: projector + LM trained on (page image, Korean question) -> short answer. Loss on the answer only."""
+    import torch
+    from functools import partial
+    from transformers import SiglipImageProcessor
+    vol.reload()
+    enc, bos = tok_of(); end_id = 3 + SPECIAL.index("<|end|>"); pad = 3 + SPECIAL.index("<|pad|>")
+    model = load_v(lm, init).cuda()
+    for p_ in model.tower.parameters():
+        p_.requires_grad_(False)
+    for p_ in model.lm.parameters():
+        p_.requires_grad_(True)
+    proc = SiglipImageProcessor.from_pretrained(TOWER)
+    rows = [json.loads(l) for l in open(f"{V}/{qa}", encoding="utf-8")]
+    random.Random(seed).shuffle(rows)
+    # reuse Pairs by rendering each row as text = question + answer with the loss mask handled below
+    head = [bos] + enc("<|user|>\n"); tail_tpl = lambda q: enc("\n" + q + "\n<|call|>\n")
+
+    class QA(torch.utils.data.Dataset):
+        def __len__(self):
+            return len(rows)
+        def __getitem__(self, i):
+            from PIL import Image
+            r = rows[i]
+            try:
+                im = Image.open(f"{V}/{img_root}/{r['image']}").convert("RGB")
+            except Exception:
+                im = Image.new("RGB", (TILE, TILE), (255, 255, 255))
+            px = proc(images=tiles_of(im), return_tensors="pt")["pixel_values"]
+            tail = tail_tpl(r["question"]); ans = enc(r["answer"]) + [end_id]
+            ids = (head + [pad] * model.n_img + tail + ans)[:max_len]
+            lab = ([-100] * (len(head) + model.n_img + len(tail)) + ans)[:max_len]
+            return px, torch.tensor(ids), torch.tensor(lab)
+
+    dl = torch.utils.data.DataLoader(QA(), batch_size=batch, shuffle=True, num_workers=workers, collate_fn=partial(collate, pad=pad), drop_last=True, persistent_workers=True)
+    log = open(f"{V}/songgot_v.log", "a")
+    def say(m):
+        print(m, flush=True); log.write(time.strftime("%F %T ") + m + "\n"); log.flush()
+    say(f"[v2-sft] {len(rows)} QA rows, lm lr {lr_lm}, proj lr {lr_proj}")
+    opt = torch.optim.AdamW([{"params": model.lm.parameters(), "lr": lr_lm}, {"params": model.proj.parameters(), "lr": lr_proj}], betas=(0.9, 0.95), weight_decay=0.0)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[lr_lm, lr_proj], total_steps=steps, pct_start=0.05)
+    step = 0; t0 = time.time(); model.train(); slot = len(head)
+    while step < steps:
+        for px, ids, lab, att in dl:
+            px, ids, lab, att = px.cuda(), ids.cuda(), lab.cuda(), att.cuda()
+            loss = model(px, ids, lab, att, slot).loss
+            loss.backward(); torch.nn.utils.clip_grad_norm_([p for g in opt.param_groups for p in g["params"]], 1.0); opt.step(); sched.step(); opt.zero_grad(set_to_none=True)
+            if step % log_every == 0 or step == steps - 1:
+                with torch.no_grad():
+                    wrong = model(px.roll(1, 0), ids, lab, att, slot).loss.item()
+                say(f"[v2-sft] step {step}/{steps} loss {loss.item():.4f} shuffled {wrong:.4f} image_gain {wrong - loss.item():+.4f} {(time.time()-t0)/60:.1f}m")
+            if step and step % 1000 == 0:
+                os.makedirs(f"{V}/ckpt/{out}", exist_ok=True); torch.save({"proj": model.proj.state_dict(), "step": step}, f"{V}/ckpt/{out}/proj.pt")
+                model.lm.save_pretrained(f"{V}/ckpt/{out}/lm", safe_serialization=True); vol.commit()
+            step += 1
+            if step >= steps:
+                break
+    os.makedirs(f"{V}/ckpt/{out}", exist_ok=True)
+    torch.save({"proj": model.proj.state_dict(), "step": steps}, f"{V}/ckpt/{out}/proj.pt"); model.lm.save_pretrained(f"{V}/ckpt/{out}/lm", safe_serialization=True)
+    json.dump({"lm": lm, "init": init, "tower": TOWER, "n_img": model.n_img, "qa": qa, "steps": steps}, open(f"{V}/ckpt/{out}/config.json", "w"))
+    vol.commit(); say("[v2-sft] DONE"); return {"steps": steps}
+
+
+KBENCH = {"kdtcbench": ("NCSOFT/K-DTCBench", "test"), "kmmbench": ("NCSOFT/K-MMBench", "dev"), "kseed": ("NCSOFT/K-SEED", "test"), "kmmstar": ("NCSOFT/K-MMStar", "val")}
+
+
+def kb_rows(name, limit):
+    from datasets import load_dataset
+    repo, split = KBENCH[name]; out = []
+    for r in load_dataset(repo, split=split, streaming=True):
+        if name == "kmmbench":
+            opts = [(k, r[k]) for k in "ABCD" if r.get(k) not in (None, "None", "nan", "")]
+            q = (r.get("hint") + "\n" if r.get("hint") not in (None, "None", "nan", "") else "") + r["question"]
+        elif name in ("kseed", "kdtcbench"):
+            opts = [(k.upper(), r[f"choice_{k}"]) for k in "abcd" if r.get(f"choice_{k}") not in (None, "None", "")]
+            q = r["question"]
+        else:
+            opts = []; q = r["question"].replace("<image>", "").strip()
+        text = q + ("\n" + "\n".join(f"{k}. {v}" for k, v in opts) if opts else "") + "\n정답:"
+        out.append({"image": r["image"].convert("RGB"), "text": text, "answer": str(r["answer"]).strip().upper()[:1], "letters": [k for k, _ in opts] or list("ABCD"), "category": str(r.get("category", ""))})
+        if limit and len(out) >= limit:
+            break
+    return out
+
+
+@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
+def eval_k(lm: str = "ckpt/sftv8e3e3/final", ckpt: str = "ckpt/v2/sft_docqa", tag: str = "songgot_v", benches: str = "kdtcbench,kmmbench", limit: int = 1000):
+    """Letter-likelihood scoring on the NCSOFT Korean benchmarks, the same protocol as harness/kvlm_modal.py."""
+    import torch
+    from transformers import SiglipImageProcessor
+    vol.reload(); os.makedirs(f"{V}/kvlm", exist_ok=True)
+    enc, bos = tok_of(); pad = 3 + SPECIAL.index("<|pad|>")
+    model = load_v(lm, ckpt).cuda().eval(); proc = SiglipImageProcessor.from_pretrained(TOWER)
+    head = [bos] + enc("<|user|>\n"); slot = len(head)
+    letter_ids = {L: sorted({enc(v)[-1] for v in (L, " " + L)}) for L in "ABCD"}
+    res = {"tag": tag, "ckpt": ckpt, "date": time.strftime("%F"), "scoring": "next-token likelihood over the option letters", "bench": {}}
+    for b in benches.split(","):
+        rows = kb_rows(b, limit); ok = 0; t0 = time.time(); per = {}
+        for r in rows:
+            px = proc(images=tiles_of(r["image"]), return_tensors="pt")["pixel_values"][None].cuda()
+            ids = torch.tensor([head + [pad] * model.n_img + enc("\n" + r["text"])]).cuda(); att = torch.ones_like(ids)
+            with torch.no_grad():
+                e = model.lm.get_input_embeddings()(ids).float(); v = model.image_tokens(px)
+                e = torch.cat([e[:, :slot], v, e[:, slot + v.shape[1]:]], dim=1)
+                with torch.autocast("cuda", dtype=torch.bfloat16):
+                    logits = model.lm(inputs_embeds=e, attention_mask=att).logits[0, -1].float()
+            score = {L: max(logits[i].item() for i in letter_ids[L]) for L in r["letters"]}
+            hit = max(score, key=score.get) == r["answer"]; ok += hit
+            c = per.setdefault(r["category"], [0, 0]); c[0] += hit; c[1] += 1
+        res["bench"][b] = {"n": len(rows), "acc": ok / max(1, len(rows)), "by_category": {k: round(v[0] / v[1], 3) for k, v in per.items()}, "sec": round(time.time() - t0)}
+        print(f"[eval_k] {tag} {b}: acc {ok/max(1,len(rows)):.3f} n {len(rows)}", flush=True)
+    json.dump(res, open(f"{V}/kvlm/{tag}.json", "w"), ensure_ascii=False, indent=1); vol.commit()
+    print(f"[eval_k] {tag} DONE " + " ".join(f"{b} {v['acc']:.3f}" for b, v in res["bench"].items()), flush=True)
+    return {b: v["acc"] for b, v in res["bench"].items()}
