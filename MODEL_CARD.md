@@ -31,6 +31,7 @@ Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions), exact
 
 | model | params | exact | 4_random | 4_close | 8_random | 8_close | all | name only |
 |---|---|---|---|---|---|---|---|---|
+| Songgot-L (24B tokens, 3 epochs, v8 set) | 303M | 42.0 | 38.0 | 24.0 | 27.0 | 10.0 | 28.2 | 72.4 |
 | Songgot-M (2 epochs, v8 set) | 126M | 45.0 | 43.0 | 26.0 | 34.0 | 18.0 | 33.2 | 73.8 |
 | Songgot (6B tokens, 3 epochs, v8 set) | 50M | 44.0 | 39.0 | 30.0 | 35.0 | 17.0 | 33.0 | 73.6 |
 | Songgot-nano (1 epoch) | 39M | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
@@ -51,8 +52,8 @@ Tokens per Hangul syllable on the same 100 queries: Songgot 0.90, Gemma 3 0.98, 
 
 ![Pretraining loss](https://hanishkeloth.github.io/songgot/fig3_loss.png)
 
-## Status (2026-09-11 05:18)
-Weights in this repo are Songgot-M, 2 epochs, v8 set: 16 layers, hidden 768, about 126M parameters, pretrained on 8xH100 (Modal) on 6B tokens, post-trained on the v8 set (five teacher-synthesis rounds, the last with confusable sibling tools), post-trained on the v2 tool-calling set. Call accuracy on FunctionChat-Bench SingleCall 33.2 percent (name only 73.8). GGUF exports (f16, Q8_0, Q4_K_M) are in this repo.
+## Status (2026-09-12 21:59)
+Weights in this repo are Songgot-L, 24B tokens, 3 epochs, v8 set: 24 layers, hidden 1024, about 303M parameters, trained from scratch on 8xH100 (Modal) on 24B tokens of FineWeb-2 Korean, Korean Wikipedia and fineweb-edu, post-trained on the v8 set, post-trained on the v2 tool-calling set. Call accuracy on FunctionChat-Bench SingleCall 28.2 percent (name only 72.4). GGUF exports (f16, Q8_0, Q4_K_M) are in this repo.
 ## Format
 ```
 <|system|>
