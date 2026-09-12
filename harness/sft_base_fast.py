@@ -81,7 +81,7 @@ def sft(base: str = "Qwen/Qwen3-0.6B", out: str = "base_qwen06/final", data: str
     vol.reload()
     tok = AutoTokenizer.from_pretrained(base)
     model = AutoModelForCausalLM.from_pretrained(base, **({"dtype": torch.float32} if TV.startswith("5") else {"torch_dtype": torch.float32})).cuda()
-    model.config.use_cache = False
+    model.gradient_checkpointing_enable(); model.config.use_cache = False  # the 248k-token vocab makes fp32 logits ~1 GB per sequence; without checkpointing batch 8 OOMs on 80 GB
     rows = [json.loads(l) for l in open(f"{V}/{data}", encoding="utf-8")]
     rng = random.Random(seed); rng.shuffle(rows)
     if limit:
