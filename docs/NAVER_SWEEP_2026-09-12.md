@@ -1,35 +1,736 @@
-# Korean-index sweep, 2026-09-12 (partial)
+# Naver sweep 2026-09-12 (SerpApi engine=naver)
 
-Naver itself was unreachable from every tool available today: the browser automation refuses the domain, WebFetch
-refuses it, and a direct fetch returns a 217 KB page whose results are rendered by JavaScript (no headlines in the
-HTML; only the dates 2026.09.11 and 2026.09.12 appear). No SerpApi key exists in our environment. Daum's news index
-(Kakao) was used as the Korean-language proxy; harness/naver_sweep.py runs the full Naver query set the moment a
-SERPAPI_KEY is added. Treat the "first" gate as still OPEN for Naver.
+### 온디바이스 한국어 소형 언어모델 공개 (news, 10 results)
 
-## Daum news, sorted by recency
+- **카카오, 온디바이스용 경량 AI 4종 공개… 한국어 처리 효율 30% 높였다** |  |  | https://www.s-journal.co.kr/news/articleView.html?idxno=42704
+  오픈소스로 공개했다. 대형 언어모델 중심의 성능 경쟁에서 나아가, 비용과 메모리 부담을 낮춘 온디바이스 AI 기술 확보에 속도를 내는 모습이다.... 수준의 소형 모델을 개발해왔다. 카카오에 따르면 이번 모델은 한국어와 영어, 지식, 수학, 코드 등 주요 벤치마크에서 유사 규모의 최신 오픈소스...
+- **카카오, 경량 언어모델 4종 오픈소스 허깅페이스에 공개** |  |  | https://www.g-enews.com/view.php?ud=2026072809322891593d7a510102_1
+  카카오가 스마트폰과 디바이스 환경 구동에 최적화된 카나나의 경량 언어 모델(SLM) 4종의 오픈소스를 공개했다. 최근 인공지능(AI) 업계는 대형... 경량 모델들이 활용된다. 이번에 공개한 모델들은 SLM임에도 불구하고 한국어와 영어 모두에서 글로벌 수준의 성능을 구현한 것이 특징이다. 유사 크기의 최신...
+- **리퀴드 AI, 온디바이스용 모델 'LFM2.5' 공개…환각 줄고 추론 강화** |  |  | https://www.aitimes.com/news/articleView.html?idxno=211132
+  리퀴드 AI가 소비자용 하드웨어에서 실행할 수 있는 차세대 온디바이스 AI 모델을 공개했다. 리퀴드 AI는 28일(현지시간) 도구 호출과 에이전트... 이를 통해 소형 모델의 약점으로 지적돼 온 환각 현상을 크게 줄였다는 설명이다. 실제 성능 향상도 두드러졌다. 환각 억제 능력을 평가하는...
+- **리퀴드 AI, 가장 작은 '온디바이스 추론' 모델 출시..."900MB 용량·한국...** |  |  | https://www.aitimes.com/news/articleView.html?idxno=205862
+  통한 소형언어모델(sLM)로 유명한 리퀴드 AI가 스마트폰 등 소비자용 기기에서 완전히 오프라인으로 구동 가능한 추론 특화 AI 모델을 공개했다.... 지금까지 공개된 모델 중 가장 작은 온디바이스 AI용 추론 모델로 꼽힌다. 리퀴드 AI는 20일(현지시간) 온디바이스 및 엣지 환경에 최적화된 12억...
+- **[테크 핫플레이스] 온디바이스 AI로 韓 시장 승부수... 앤커, '로봇청소...** |  |  | https://www.ilovepc.co.kr/news/articleView.html?idxno=58418
+  한국 시장, 디지털 환경에 민감하고 수준 높아 로봇청소기·초소형 녹음기 등 신제품 대거 공개 앤커가 3월 4일 서울 강남에서 '앤커 미디어 데이 2026'를... 한국어를 포함한 140여개 언어까지도 지원한다. 이어 소개된 '유피 C28 옴니 올인원 로봇청소기'는 국내에 선보이는 4번째 모델로, 바닥 청소의 기준을...
+- **리퀴드 AI, 강력한 엣지 AI용 소형 모델 'LFM2.5' 공개** |  |  | https://www.aitimes.com/news/articleView.html?idxno=205471
+  소형언어모델(sLM)로 유명한 리퀴드 AI가 지금까지 공개한 모델 중 가장 강력한 엣지 AI용 모델을 출시했다. 리퀴드 AI는 5일(현지시간) 온디바이스... 또 아랍어, 중국어, 프랑스어, 독일어, 일본어, 한국어, 스페인어 등 다양한 언어의 시각적 프롬프트를 정확하게 처리, 다국어 비전 이해 성능을...
+- **수퍼톤, 온디바이스 TTS '수퍼토닉' 오픈소스 공개... "노트북에서도 쌩...** |  |  | https://www.ddaily.co.kr/page/view/2025112011480307917
+  수퍼톤은 '수퍼톤(Supertone) API'를 통해 온디바이스 TTS 모델 '소나 스피치 2t(Sona Speech 2t)'를 연내 선보일 계획이다. 서비스 언어는 영어, 한국어, 일본어, 스페인어, 포르투갈어를 포함한다. 이교구 수퍼톤 대표는 "수퍼토닉 오픈소스 공개로 온디바이스 TTS 기술의 표준화와 경량화를 선도하고 개발자...
+- **[IT는 지금] LG유플러스, 어라이즈 AI와 AI 에이전트 관리체계 구축 外** |  |  | https://dealsite.co.kr/articles/168194
+  구체적으로 한국어·음성 기반 AI 평가 기술 개발과 부정확하거나 부적절한 답변 생성을 막는 안전장치 기술을 공동 검토한다. 국내 B2B 시장에서... 현재 소형 엣지 디바이스에서도 구동할 수 있도록 모델 경량화를 진행 중이며 향후 전기차 화재 감지 시스템의 정량적인 성능 기준 마련에도 연구...
+- **크래프톤, 엔비디아와 손잡고 'PUBG 앨라이' 공개…온디바이스 AI로 게임...** |  |  | http://www.updownnews.co.kr/news/articleView.html?idxno=314763
+  디바이스 AI 협업 모델 'CPC'의 첫 사례로 PUBG 앨라이를 공개했다고 31일 밝혔다. 이 기술은 엔비디아의 '에이스' 프레임워크를 기반으로 한 소형 언어... 영어, 한국어, 중국어 등 3개 언어로 실시간 대화가 가능하며, 배틀그라운드 전용 맵·무기·아이템 정보를 이해해 맥락 있는 대화를 이어간다. 이...
+- **리퀴드 AI, 문서·번역·RAG·수학 등 도메인 특화 온디바이스 모델 6종...** |  |  | https://www.aitimes.com/news/articleView.html?idxno=202785
+  데이터셋은 공개 문서와 합성 데이터가 혼합돼 있으며, 아랍어·중국어·영어·프랑스어·독일어·일본어·한국어·포르투갈어·스페인어 등 9개 언어를 포함한다. 성능 평가에서 '큐원3-1.7B(Qwen3-1.7B)' '젬마-3-1B(Gemma-3-1B-it)' '라마-3.2-1B(Llama-3.2-1B-Instruct)' 등 동급 모델보다 모두 뛰어난 성능을...
 
-Query: 온디바이스 한국어 소형 언어모델 공개
-- 뉴스1, 2026-08-04: "비용 낮추고 특화 성능 높인 '작은 AI' 등판…SLM 경쟁 본격화" (small-model competition heating up)
-- 문화일보, 2026-08-03: Kakao's four lightweight models, "Korean processing efficiency up 30 percent"
-- 디지털타임스 / 전자신문, 2026-07-28: Kakao Kanana-2 SLM release (1.3B and 3B) as open source on Hugging Face
-- 에너지경제, 2026-07-22: edge AI platform for vision-language-action robotics with Korean specialisation
+### 온디바이스 한국어 소형 언어모델 공개 (web, 15 results)
 
-Query: 한국어 OCR 문서 AI 모델 공개
-- 머니투데이 / 아이뉴스24 / 한스경제 / 아시아경제, 2026-08-19: **뉴플로이 (Newploy) launched a free on-device document
-  OCR service** built from specialised small models for layout analysis, Korean/English OCR and table structure.
-  A product, not open weights; the closest thing to Songgot-V's positioning found in Korean press. Verify whether
-  any weights or benchmark numbers were published before claiming anything about on-device Korean document AI.
+- **믿:음 - 나무위키** | 나무위키 |  | https://namu.wiki/w/%EB%AF%BF:%EC%9D%8C
+  개요 KT에서 개발한 언어 모델. 2. 특징 한국어에 최적화된 고유 토크나이저를 적용했다. 3. 모델 3.1. 1.0 KT... 새로운 모델로, 대한민국 정부의 AI산업 진흥화 기조에 맞춰 mini와 base 모델을 HuggingFace에 오픈소스로 공개했다.... 믿:음 2.0 mini 모델 2.3B 모델로, 온디바이스 탑재 가능하도록 소형화한 모델이다.
+- **카카오, 온디바이스 AI 생태계 확장을 위한 카나나 오픈소스 공개** | 에너지뉴스 |  | https://www.2news.co.kr/news/articleView.html?idxno=18120
+  카카오가 자체 개발한 인공지능 모델 카나나의 경량 언어모델을 오픈소스로 전면 공개하며 기술 생태계 기여에 나섰다. 뉴스1에 따르면 카카오는 허깅페이스를 통해 스마트폰 등의 기기에서 직접 구동할 수 있는 1.3B와 3B 규모의 경량 언어모델 총 4종을 배포했다고 28일 밝혔다. 이번에 공개된 모델들은 소형 크기임에도 한국어와 영어 모두에서 글로벌 최신 수준의
+- **리퀴드 AI, 가장 작은 '온디바이스 추론' 모델 출시..."900MB 용량·한국어 지원"** | AI타임스 |  | https://www.aitimes.com/news/articleView.html?idxno=205862
+  2B-싱킹(Thinking)'을 공개했다. 이 모델은 기존 LFM2 아키텍처를 확장한 'LFM2.5' 계열에 속하는 텍스트 전용 범용 모델이다. 엣지 환경을 목표로 추가 사전 학습과 다단계 강화 학습(RL)을 적용했다. 11억7000만개 매개변수, 32K 컨텍스트 길이, 영어·한국어·중국어·일본어·프랑스어·독일어·스페인어·아랍어 등 8개 언어를 지원한다. 
+- **카카오, 온디바이스용 경량 AI 4종 공개… 한국어 처리 효율 30% 높였다** | S저널 |  | https://www.s-journal.co.kr/news/articleView.html?idxno=42704
+  1.3B·3B급 기본·지시형 모델 오픈소스 배포… 스마트폰·PC 구동 최적화 최대 32K 대화서 메모리 72.7% 절감… 상업 활용 가능한 라이선스 적용
+- **Phi(언어 모델)** | 나무위키 |  | https://namu.wiki/w/Phi(%EC%96%B8%EC%96%B4%20%EB%AA%A8%EB%8D%B8)
+  가장 크기가 작은 Phi-3 mini조차도 GPT-3.5의 성능과 맞먹을 정도로 소형 언어모델인데도 불구하고 준수한... 온디바이스 로 사용하기 용이하다. 2.7. Mu Phi 모델을 증류해 Copilot PC에 내장되는 SLM이다. 공개 자료에서는 Phi... 다만 한국어 출력이 정상적으로 되지는 않아서 한글로 실사용하기에는 무리가 따른다.
+- **온디바이스도 고성능 시대…NC AI, 초경량 멀티모달 모델 공개** | 이투데이 |  | https://www.etoday.co.kr/news/view/2492491
+  온디바이스 환경에서 구동 가능한 초경량 멀티모달 AI 모델 ‘바르코 비전 2.0 1.7B’를 공개했다고 30일 발표했다. 1.7B(17억) 파라미터에 불과한 소형 모델이지만 글로벌 대형 모델을 능가하는 성능을 입증하며 AI 민주화의 새로운 이정표를 제시했다는 평가다. NC AI의 바르코 비전 2.0은 이미지와 텍스트를 함께 이해해 질문에 답할 수 있는 비전
+- **Show GN: 초경량 온디바이스 TTS ‘Supertonic 2’ — 다국어 지원 업데이트** | GeekNews |  | https://news.hada.io/topic?id=25610
+  Supertonic이 이제 5개 언어를 지원합니다 (한국어 · 스페인어 · 프랑스어 · 포르투갈어 · 영어) Supertonic은 로컬 환경에서 실행되도록 설계된 TTS 모델로 웹브라우저, 일반 PC, 모바일 및 Raspberry Pi 같은 소형 디바이스까지 폭넓게 지원하는 초경량 모…
+- **카카오, 초소형 AI 언어모델 '카나나-2' 공개...3B 모델 압축해 1.3B 만들어 오픈 웨....** | 한국정보기술진흥원 |  | https://kitpa.org/news/1801
+  카카오, 초소형 AI 언어모델 '카나나-2' 공개...3B 모델 압축해 1.3B 만들어 오픈 웨이트로 배포, 3만2천 토큰 긴 문맥 처리·한국어 처리 효율 30% 개선 [한국정보기술신문] 카카오(Kakao)가 크기는 작지만 성능을 끌어올린 인공지능(AI) 언어모델 '카나나-2(Kanana-2)'를 누구나 내려받아 쓸 수 있는 형태로 공개했다. 카카오의 AI
+- **허깅 페이스 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%ED%97%88%EA%B9%85_%ED%8E%98%EC%9D%B4%EC%8A%A4
+  챗봇의 기반이 되는 모델을 오픈 소스로 공개한 후, 회사는 피벗하여 기계 학습 플랫폼이 되는 데 집중했다. AI 붐 2021년 4월 28일, 이 회사는 여러 연구 그룹과 협력하여 개방형... 또한 허깅 페이스는 이미지와 텍스트를 모두 처리하도록 설계된 소형 비전 언어 모델 제품군인 SmolVLM을 개발했다. 이 제품군은 메모리 효율성과 온디바이스 사용을 목
+- **온디바이스 AI가 가져올 새로운 기회: AI 워크로드의 변화와 AI-RAN, 하이브리드 AI....** | 삼성SDS |  | https://www.samsungsds.com/kr/insights/new-opportunities-come-out-of-on-device-ai.html
+  NemoClaw를 공개했다. 5월 Google I/O는 폰과 글래스, 워치를 넘나드는 Agentic AI인 Gemini Intelligence를 발표했으며(Agent platform으로 Gemini Spark도), 6월 초 COMPUTEX는 윈도우용 AI PC의 새... 다만 온디바이스 AI가 클라우드 AI의 대체재는 아니다. 기기 안에서 구동되는 소형 모
 
-Query: 한국어 도구 호출 함수 호출 에이전트 경량 모델
-- Daum returned **no results at all**. Korean press does not cover tool calling as a category.
+### 한국어 경량 LLM 오픈소스 공개 2026 (news, 10 results)
 
-Query: 한국어 비전 언어모델 경량 공개 2026
-- 더팩트, 2026-06-15: Naver HyperCLOVA X SEED 4B, defence-oriented omnimodal model with custom vision/audio encoders
-- 여성경제신문, 2026-05-18: LG EXAONE 4.5 (33B) vision-language
-- 아주경제, 2026-05-07: Kakao agent platform using VLMs
-- Nothing under 1B.
+- **카카오, 경량 언어모델 '카나나-2' 시리즈 안전성 평가 결과 공개** |  |  | https://www.megaeconomy.co.kr/news/newsview.php?ncode=1065577347674881
+  카카오는 오픈소스로 공개한 경량 언어모델(SLM) Kanana-2 시리즈의 안전성 평가 결과를 18일 공개했다. ▲[사진=카카오] 카카오는 자체 구축한 'AI... 이번 평가에는 과학기술정보통신부 사업의 일환으로 TTA(한국정보통신기술협회), KAIST, 카카오 등이 지난해 11월 공동 구축한 한국어 특화 안전성...
+- **카카오, 경량 언어모델 Kanana-2 시리즈 안전성 평가 결과 공개... 글로벌...** |  |  | https://kr.aving.net/news/articleView.html?idxno=1813366
+  카카오(대표이사 정신아)가 오픈소스로 공개한 경량 언어모델(SLM) Kanana-2 시리즈의 안전성 평가 결과를 공개했다. 카카오는 자체 구축한 'AI... 이번 평가에는 과학기술정보통신부 사업의 일환으로 TTA(한국정보통신기술협회), KAIST, 카카오 등이 지난해 11월 공동 구축한 한국어 특화 안전성...
+- **비드래프트, 5~11종 이종 어텐션 통합 실험 기반 오픈소스 LLM 'Aether' 공...** |  |  | https://www.etnews.com/20260720000141
+  성과를 공개해 왔다. 또한 Darwin 모델 패밀리는 허깅페이스 누적 다운로드 100만 건을 돌파한 것으로 소개되고 있으며, 회사는 모델 개발뿐 아니라 추론 가속 엔진 VKAE, 경량 구동 엔진 VKUE 등 AI 인프라 기술도 함께 개발하고 있다. 그동안 AI 업계에서 '오픈소스 LLM'이라고 불린 다수 모델은...
+- **[AI 시대, 에너지가 경제다] 반도체·LLM·데이터센터·전력인프라 생태...** |  |  | https://www.ekn.kr/web/view.php?key=20251231029550027
+  한국어 벤치마크에서는 오픈AI를 앞서는 정확도를 보였다. 특히 소형 모델 '하이퍼클로바X 시드'를 오픈소스로 공개해 출시 한 달 만에 30만회 다운로드를 기록하며 글로벌 경쟁력을 입증했다. 기존 100B급 모델을 3분의 1 수준으로 경량화하면서도 성능은 개선해 운영비용을 50% 이상 절감하는 성과도...
+- **[재계는 지금] ​SKT, 독자 구축 LLM '에이닷 엑스 3.1' 공개 外** |  |  | https://dealsite.co.kr/articles/144492
+  대표적인 한국어 능력 평가 벤치마크인 'KMMLU2'에서 'A.X 3.1 라이트'는 'A.X 4.0 라이트' 대비 96% 수준의 성능을 나타냈고, 한국어 및 한국 문화 벤치마크인 'CLIcK3'에서는 'A.X 3.1 라이트'가 'A.X 4.0 라이트' 대비 102% 수준의 성능을 기록했다. SK텔레콤은는 향후 보유 LLM을 꾸준히 오픈소스로 공개할 예정이다
+- **엇갈린 AI 노선… 네이버는 LLM 고도화·카카오는 서비스 집중** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092143325
+  오픈소스로 공개된 '카나나-1.5-8B-Instruct'는 한국어 특화 LLM 벤치마크인 '호랑이(Horang-i) 리더보드'에서 8B(80억 파라미터) 이하 모델 가운데 1위를... 추론 모델의 오픈소스 공개도 예고했다. 네이버는 지난 4월 경량 모델 '하이퍼클로바X 씨드'를 공개한 이후 한 달 만에 50만 다운로드를 기록하는 등 국내 AI...
+- **BC카드, AI '다이어트' 성공… 모델 크기 69% 줄이고 속도 3배** |  |  | https://www.s-journal.co.kr/news/articleView.html?idxno=43132
+  반면 동일한 GPU 환경에서의 한국어 생성 처리량은 초당 205토큰에서 530토큰으로 3배 가까이 증가했고, 평균 응답 완료 시간도 24초에서 9초로 크게... 맞췄으며 경량형과 고품질형으로 나뉜다. 지난달에는 자체 개발한 AI 플랫폼 'BCGPT WebUI' 오픈소스도 공개했다. 이 플랫폼은 문서 검색과 질의응답, 콘텐츠...
+- **비드래프트 LLM '다윈 패밀리', GPU 학습 없이 세계 3위 기록** |  |  | https://www.datanet.co.kr/news/articleView.html?idxno=211880
+  특히 1위와 2위 간 점수 차는 0.001점으로, '다윈' 기반 모델들이 한국어 AI 경쟁력 측면에서도 최상위권 성능을 입증하고 있다. 비드래프트는 다윈... 초경량 엣지 디바이스까지 이어지는 지원 체계, 논문으로 검증된 기술력을 바탕으로 다윈은 단순 오픈소스 공개를 넘어 글로벌 AI 표준 생태계로...
+- **[Tech In Trend] "대중화 위해선 가벼워져야"… AI 업계 화두는 '모델 경...** |  |  | https://www.ajunews.com/view/20230903151142791
+  많은 AI 기업이 자체 개발해 학습시킨 LLM을 선보이는 것은 물론, 오픈소스를 기반으로 생성형 AI를 구축해 관련 서비스를 내놓고 있다. 다만 AI 수요기업 입장에선 고민이 많다. 서비스 고도화와 업무 효율화를 위해 도입하려 하지만, 보안이나 비용 문제가 큰 장벽이다. 이에 업계에선 경량 LLM(sLLM)을...
+- **[현장] "AI, 기존 시스템 대체 아닌 보완"..코히어, LG CNS와 한국 공략** |  |  | http://www.4th.kr/news/articleView.html?idxno=2115799
+  노스는 코히어 모델뿐 아니라 클라우드에서 제공되는 프런티어 모델과 오픈소스 모델, 기업 내부 데이터센터에 설치된 모델을 함께 사용할 수 있도록... LG CNS와 코히어는 70억개 파라미터 규모의 한국어 특화 경량형 모델과 1110억개 파라미터 규모의 초대형 추론형 LLM도 공동 개발했다. 두 모델은...
 
-## What this changes
+### 한국어 경량 LLM 오픈소스 공개 2026 (web, 15 results)
 
-Nothing in our claim. Newploy is the one name to add to the vision prior-art list (on-device Korean document OCR,
-2026-08-19, closed). The Korean tool-calling category remains unoccupied in Korean press below 1B.
+- **카카오, 경량 AI 모델 4종 오픈소스 공개…온디바이스 AI 겨냥** | 알파경제 |  | https://www.alphabiz.co.kr/news/articleView.html?idxno=165526
+  생성형 인공지능(AI) 경쟁이 초거대 언어모델(LLM)에서 스마트폰과 PC 등 기기에서 직접 구동되는 경량 언어모델(SLM)으로 확대되고 있다. 이런 상황 속에서 카카오가 자체 개발한 경량 AI 모델 4종을 오픈소스로 공개하며 온디바이스 AI 라인업을 확대했다. 카카오는 허깅페이스(Hugging Face)에 자체 AI 모델 카나나(Kanana)의 Kanan
+- **카카오, 경량 언어모델 4종 오픈소스로 공개... “글로벌 수준 성능”** | 카카오 |  | https://www.kakaocorp.com/page/detail/12089
+  적용 [2026-07-28] 카카오가 자체 개발한 AI 모델 ‘카나나(Kanana)’의 경량 언어모델(SLM)을 오픈소스로 공개하며 AI 기술... 카카오는 이번 모델을 상업적 활용까지 허용하는 ‘카나나 오픈 라이센스(Kanana Open License)‘로 배포한다. 개발자, 스타트업, 연구기관 등 누구나 별도의 제약 없이 기술을 활용할 수 있어, 국내 
+- **피씨엔, 소멸 위기 '제주어' AI 번역 모델 개발…오픈소스로 전면 공개** | 한국IT서비스산업협회 |  | https://www.itsa.or.kr/layout/res/home.php?mid=53&go=pds.list&pds_type=9&num=7667
+  피씨엔은 소멸 위기에 처한 제주 방언(제주어)의 보존과 대중화를 위해 '제주 방언·표준어 양방향 인공지능(AI) 번역 거대언어모델(LLM)'을 자체 개발하고, 이를 글로벌오픈소스 플랫폼인 허깅페이스에 무료로 공개했다고 8일 밝혔다. 이번에 공개된 모델은 피씨엔이 제주어의 명맥을 잇고 누구나 쉽게 제주어를 이해하고 사용할 수 있도록 돕기 위해 개발한 공익적 
+- **카카오, 경량 AI 모델 4종 오픈소스 공개… “글로벌 수준 성능 확보”** | 문화경제 |  | https://www.cnbizm.com/news/articleView.html?idxno=309795
+  카카오가 자체 개발한 경량 언어모델(SLM) 4종을 오픈소스로 공개하며 온디바이스 AI 시장 공략과 국내 AI 생태계 확대에 나섰다. 카카오는 28일 허깅페이스(Hugging Face)를 통해 'Kanana-2' 경량 언어모델 4종을 공개했다고 발표했다. 공개 모델은 ▲Kanana-2-1.3B-base ▲Kanana-2-1.3B-instruct ▲Kanan
+- **[5월 2주] 피씨엔, 제주어-표준어 양방향 AI 번역 LLM 오픈소스 공개 외** | 오픈소스 포털 |  | https://www.oss.kr/pages/11/4510
+  5월 2주 국내외 오픈소스SW 관련 동향을 모아 정리하였습니다. 자세한 내용은 기사 제목을 클릭하시면 보실 수 있습니다. □ 피씨엔, 제주어-표준어 양방향 AI 번역 LLM 오픈소스 공개 피씨엔은 제주 방언과 표준어를 양방향 번역하는 AI 번역 LLM을 자체 개발해 허깅페이스에 무료 공개했습니다. 이번 모델은 소멸 위기 언어인 제주어의 보존과 대중화를 목표
+- **한국어 LLM의 미래를 엿보다! 최신 오픈소스 모델 동향과 커뮤니티 활용 팁** | 이너컴 |  | https://blog.naver.com/innercomminc/224155990502
+  가능한 경량화된 모델들도 활발히 연구되고 있습니다. 다양한 활용 분야: 단순 질의응답을 넘어 한국어 요약, 번역, 감성 분석, 텍스트 생성 등 특정 도메인에 최적화된 전문 LLM들이 오픈소스로 공개되고 있습니다. 멀티모달 통합: 텍스트... 발표되는 한국어 LLM 관련 최신 논문들을 꾸준히 확인하는 것이 중요합니다. 특히 국내 AI 학회(예: 대한전자공학회
+- **카카오, 경량 언어모델 4종 오픈소스로 공개** | 비즈워치 |  | https://news.bizwatch.co.kr/article/mobile/2026/07/28/0004
+  카카오 경량 모델이 활용되고 있다. 이번에 공개한 모델은 작은 크기에도 한국어와 영어 모두 글로벌 수준의 성능을 구현했다. 유사 크기의 최신 오픈소스 모델 대비 한국어와 영어, 지식과 수학 등 대부분 벤치마크에서 우수한 성능을... 카카오는 이번 모델을 상업적 활용까지 허용하는 '카나나 오픈 라이선스'로 배포했다. 개발자와 스타트업, 연구기관 등...
+- **모레, 고성능 한국어 LLM 오픈소스 공개** | 테크M |  | https://www.techm.kr/news/articleView.html?idxno=133059
+  AI 인프라 솔루션 기업 모레는 자체 개발한 한국어 거대언어모델(LLM) 파운데이션 모델인 'Llama-3-Motif-102B'(이하 Motif)를 허깅페이스에 오픈소스로 공개한다고 3일 밝혔다.모레는 메타가 LLM 라마(Llama)를 오픈소스로 공개한 이후, 전 세계 AI 생태계가 빠르게 확장된 것과 같이 고성능 한국어 LLM을 오픈소스로 배포해 한...
+- **카카오, 한국어 특화 경량 AI '카나나-2' 오픈소스 공개** | 뉴시스 |  | https://www.newsis.com/view/NISX20260728_0003725827
+  카카오는 자체 개발 AI 모델 '카나나' 경량 언어모델(SLM) 4종을 허깅페이스에 오픈소스로 공개했다고 28일 밝혔다. 2026.07.28. (사진=카카오 제공) *재판매 및 DB 금지
+- **LLM 종류 뭐가 다를까?｜모델별 차이부터 취업 활용까지 - 윈스펙 커뮤니티** | 윈스펙 |  | https://winspec.co.kr/community/freeboard/132664149
+  
+
+### 한국어 함수 호출 모델 (news, 10 results)
+
+- **리퀴드 AI, 온디바이스용 모델 'LFM2.5' 공개…환각 줄고 추론 강화** |  |  | https://www.aitimes.com/news/articleView.html?idxno=211132
+  어휘 사전 규모를 기존 6만5536개에서 12만8000개로 2배 확대해 한국어, 아랍어, 중국어, 일본어를 포함한 9개 언어를 효율적으로 처리할 수 있도록... LFM2.5는 기본적으로 파이썬 함수 호출 형태의 도구 사용을 지원하며, 필요에 따라 JSON 형식으로도 변경할 수 있다. 이를 통해 다양한 외부 도구와...
+- **코딩부터 보고서까지 오픈소스 AI 에이전트 선점 경쟁** |  |  | https://www.gokorea.kr/news/articleView.html?idxno=877381
+  함수 호출(Function Calling) 역량과 도구 활용 능력을 특화 학습한 모델들이 등장하면서, 방대한 클라우드 인프라를 독점하지 않고도 독립된 서버에서 구동... 글로벌 오픈소스 생태계는 허깅페이스(Hugging Face) 등 협업 플랫폼을 중심으로 다국어 지원 성능과 한국어 처리 특화 모델을 공유하며 진화 속도를 높이고...
+- **SKT 'A.X K1', 한국어 평가 '호랑이 리더보드' 3개 부문 1위** |  |  | http://www.inews24.com/view/1933046
+  SK텔레콤의 초거대 AI 모델 'A.X K1'이 한국어 AI 성능 평가 플랫폼 '호랑이 리더보드'에서 핵심 성능 지표 다수에서 1위를 기록했다. 28일 호랑이... 다른 국내 모델들도 영역별 강점을 드러냈다. '솔라 오픈 100B'는 정보 검색과 함수 호출 부문에서 각각 0.85점과 0.69점으로 1위를 차지했다. 네이버의...
+- **﻿카카오 '에이전틱 AI 벤치마크' 공개...국대 AI, 글로벌 모델에 크게 ...** |  |  | https://www.aitimes.com/news/articleView.html?idxno=206387
+  세부 평가 항목은 ▲복잡한 단계를 논리적으로 구성하는 '작업 계획 능력(Planning)' ▲필요한 API나 도구를 호출하는 '함수 호출(Function Call)' ▲불가능한 요청을 거절해 환각 현상을 방지하는 '호출 거부(Call Rejection)'로 구성됐다. 깃허브에 공개된 평가 결과에 따르면, 글로벌 모델 대비 국가대표 모델의...
+- **LG, 마곡서 '스파크 2026' 진행...엔비디아·구글·아마존·MS 등 참여** |  |  | http://www.econonews.co.kr/news/articleView.html?idxno=443925
+  한국어와 영어, 스페인어를 지원하며 외부 도구를 연결하는 모델 콘텍스트 프로토콜(MCP)과 함수 호출 기능도 지원한다. 15일과 16일에는 개발자 행사인 'LG AI 데브콘'이 열린다. 이 프로그램은 기존 소프트웨어 개발자 중심의 'LG SDC'를 AI 개발 분야까지 확대해 개편한 것이다. 엔비디아와 구글...
+- **﻿오픈소스 AI도 옵션이 붙기 시작했다 [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169002
+  0으로 풀었고, 샤오훙수는 한국어를 포함한 24개 언어의 목소리를 복제하고 설계하고 편집하는 모델을 역시 아파치 2.0으로 열었습니다. 그리고 그 세 자리를 모두 허깅페이스 내부 인력이 만든 데모가 차지했고, 세 개 모두 AI 비서가 호출할 수 있는 '부품'으로 등록돼 있었습니다. 다음 주에는 또 어떤...
+- **카카오 '카나나-하이브리드' 멀티모달·추론 한번에...독자 AI 모델 고도...** |  |  | https://www.techm.kr/news/articleView.html?idxno=148289
+  패턴은 모델의 '정확성'뿐 아니라 '신뢰도'를 함께 높일 수 있다"고 전했다. 한국어·이미지 분석·추론 앞섰다 해당 모델은 ▲기초 학습 ▲장문 사고... 카카오는 '카나나 하이브리드' 모델을 멀티 이미지·비디오 입력 성능 향상과 복잡한 요청을 해결하기 위한 다양한 함수 호출, 자동 추론 기능 등을...
+- **웨이트 앤 바이어스 코리아 '호랑이 리더보드 4' 공개...한국어 LLM 평가...** |  |  | https://www.aitimes.kr/news/articleView.html?idxno=37456
+  이하, W&amp;B 코리아)가 한국어 대형 언어모델(LLM)의 성능을 체계적으로 비교·분석할 수 있는 대표 플랫폼인 '호랑이 리더보드'의 새로운 메이저... BFCL(함수 호출), SWE-Bench Verified(버그 수정) 등을 도입했다. 이는 LLM이 단순한 텍스트 생성 모델을 넘어 에이전트의 구성 요소로 기능할 수 있는지를...
+- **카카오, AI 언어모델 함수호출 오픈소스 공개** |  |  | https://www.mediapen.com/news/view/957632
+  타사의 데이터셋이 주로 언어 모델의 정확한 함수 호출 메시지 생성 중심으로만 구축된 것에 비해, 카카오가 구축한 이번 데이터셋은 함수 호출 전후에 요구되는 사용자와의 적절한 상호 작용 메시지 생성 능력까지 평가 영역으로 포함했다는 점에서 차별성을 갖는다. 카카오는 한국어 AI 언어모델...
+- **카카오, AI 성능평가 데이터셋 한국어로 내놨다** |  |  | https://www.hankyung.com/article/202409272746i
+  카카오가 인공지능(AI) 언어모델의 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋인 ‘펑션챗-벤치’를 오픈소스 커뮤니티인 깃허브에 공개했다고... 지도 등 특정 API를 연결한 언어모델이 실시간 도로 정보를 제공하는 경우가 대표적인 사례다. 펑션콜 성능 평가용 데이터셋 중 한국어에 바탕을 둔 건 국내...
+
+### 한국어 함수 호출 모델 (web, 15 results)
+
+- **서비스형 백엔드 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%EC%84%9C%EB%B9%84%EC%8A%A4%ED%98%95_%EB%B0%B1%EC%97%94%EB%93%9C
+  가격 책정을 더 예측 가능하게 만드는 고정 요금제도 있다. 일부 제공업체는 무료 플랜 내에서 무제한 API 호출을 제공한다. 많은 BaaS 제공업체에서 사용되는 또 다른 비즈니스 모델은 PAYG(pay as you go)인데, 이는 개발자의 데이터베이스, 스토리지, 대역폭, 함수 호출, 사용자 수
+- **카카오, AI 언어모델 함수호출 오픈소스 공개** | 미디어펜 |  | https://www.mediapen.com/news/view/957632
+  카카오는 AI(인공지능) 언어모델의 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일
+- **카카오, 한국어 성능평가 데이터셋 구축** | IT조선 |  | https://it.chosun.com/news/articleView.html?idxno=2023092124135
+  최근 카카오가 한국어 언어모델(LLM)을 기반으로 한 성능평가 데이터셋을 구축했다. 오픈소스도 공개해 우리나라 IT 기업 최초로 한국어 대화 환경에서의 성능을 다면적으로 평가할 수 있게 했다.카카오는 AI 언어모델 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋 '펑션챗-벤치(Ben
+- **함수 호출 소개 | Gemini Enterprise Agent Platform** | Google Cloud 문서 |  | https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tools/function-calling?hl=ko
+  Google은 AI 기술을 사용하여 콘텐츠를 사용자의 기본 언어로 번역합니다. AI 번역에는 오류가 있을 수 있습니다.
+- **카카오, AI 언어모델 Function Call 성능 평가 벤치마크 데이터셋 국내 IT 기업 최초 ....** | 카카오 |  | https://www.kakaocorp.com/page/detail/11253
+  - 언어모델-외부 도구 연결기술 ‘펑션콜(Function Call)’ 성능 평가 위한 한국어 데이터셋 첫 구축 - 함수 이름 및 인자 추출 정확성, 호출 결과 전달 정확성, 누락 정보 인지 및 추가 질의 발생 여부, 호출 가능 함수 관련성 감지 등의 평가 기준 항목으로 구성 - AI 생태계의 활성화 위해 깃허브에 오픈소스로 공개… 향후 데이터셋 규모 확장 
+- **호출 규약 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%ED%98%B8%EC%B6%9C_%EA%B7%9C%EC%95%BD
+  함수 호출을 준비하고 함수 완료 후 환경을 복원하는 작업을 호출자와 피호출자 간에 어떻게 분할할지에 대한 설계 결정도 있다. 일부 호출 규약은 모든 함수가 호출되어야 하는 방식을 지정한다. 이러한 함수를 사용하는 전체 프로그램의 정확하고 신뢰할 수 있는 실행을 위해 모든 함수 호출에 올바른 호출 규약을 사용해야 한다. 서론 호출 규약은 일반적으로...
+- **HyperCLOVA X 하이퍼클로바 X 사용법·가격 — AI 챗봇 추천 가이드 2026 | 모켓** | moket.kr |  | https://www.moket.kr/tools/hyperclova-x
+  HyperCLOVA X 사이트 방문 ; 모켓은 도구를 소개하는 정보 사이트이며 판매자·운영사가 아닙니다. 결제·환불·구독은 각 도구의 공식 채널(또는 App Store·Google Play)에서 진행됩니다.
+- **카카오, AI 언어모델 펑션콜 성능평가 벤치마크 데이터셋 구축** | 데이터뉴스 |  | https://www.datanews.co.kr/news/article.html?no=134802
+  카카오(대표 정신아)는 인공지능(AI) 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 밝혔다.펑션콜은 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시..
+- **Snowflake Cortex AI 함수(LLM 함수 포함) | Snowflake Documentation** | snowflake.com |  | https://docs.snowflake.com/ko/user-guide/snowflake-cortex/aisql
+  이 페이지에서 ; 사용 가능한 함수 · Cortex AI 함수 · 도우미 함수 · Cortex Guard · 성능 고려 사항 · Cortex LLM 권한 · 계정 권한에 대한 USE AI FUNCTIONS · 호출자 권한이 제한된 AI 함수 사용 · CORTEX_USER 데이터베이스 역할 · AI_FUNCTIONS_USER 데이터베이스 역할 · CORTEX
+- **모델 엔드포인트 관리를 사용하여 원격 AI 모델 등록 및 호출 | Cloud SQL for MySQL** | Google Cloud 문서 |  | https://docs.cloud.google.com/sql/docs/mysql/model-endpoint-register-model?hl=ko
+  Google uses AI technology to translate content into your preferred language. AI translations can contain errors.
+
+### 한국어 도구 호출 에이전트 모델 (news, 10 results)
+
+- **KT, 전사 데이터 AI 에이전트가 쓴다…'에이전틱 플로우' 구축** |  |  | https://www.yna.co.kr/view/AKR20260903049300017?input=1195m
+  K 이벨류에이션은 AI 모델과 에이전트의 품질을 평가하는 체계로, 오픈 벤치마크와 한국어·국내 산업 환경에 특화한 자체 벤치마크를 활용해 모델과 에이전트의 성능을 평가한다. 특히 에이전트의 최종 결과뿐 아니라 계획 수립과 도구 호출, 의사결정 등 업무 수행 과정도 평가해 문제 발생 원인을 파악하고...
+- **LG유플러스·美 어라이즈 AI, ‘AI 에이전트 관리’ 맞손…성능·오류·...** |  |  | https://www.edaily.co.kr/News/Read?newsId=02978246645575856&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article
+  AI 에이전트의 성능과 응답 품질을 평가하고 운영 과정에서 발생하는 오류를 분석·관리하는 기술을 공동으로 고도화할 계획이다. 특히 한국어... 특히 AI 에이전트가 단순히 답변을 생성하는 수준을 넘어 외부 도구를 호출하거나 여러 단계의 작업을 수행하는 형태로 발전하면서, 각...
+- **코딩부터 보고서까지 오픈소스 AI 에이전트 선점 경쟁** |  |  | https://www.gokorea.kr/news/articleView.html?idxno=877381
+  가능한 에이전트 시스템 구축이 현실화됐다. 도구 사용 정확도를 측정하는 툴벤치(ToolBench) 평가 지표에서도 오픈소스 모델들은 외부 응용프로그램 인터페이스(API)를 호출하고 오류 발생 시 경로를 재설정하는 자가 교정(Self-Correction) 과정에서 안정적인 성능을 기록했다. 과거에는 연산 과정에서 지시 맥락을...
+- **AI 에이전트 허용 범위 벗어나는데...국내서 행위 기반 안전기준 만든다** |  |  | https://www.techm.kr/news/articleView.html?idxno=154971
+  민감정보 유출과 사기 위험을 살핀 시험에는 약 1500개 과제와 1200개 도구가 사용됐다. 한국어를 포함한 9개 언어를 대상으로 개인정보 유출과 사기 등 위험을 살폈다. 한국은 데이터 번역 및 검증, 모델, 온도, 평가 프롬프트를 달리한 시험에도 참여했다. 연구진은 AI 에이전트가 목표에 도달하는 과정의...
+- **카카오 '카나나-2', 한국어 안전성 평가서 젬마·큐웬 앞서** |  |  | https://www.itdaily.kr/news/articleView.html?idxno=241040
+  카카오가 공개한 평가에서 3B 인스트럭트 모델은 한국어 대화와 일부 지시 수행·도구 호출·코딩 지표에서 비교 대상인 큐웬 계열 모델을... 카카오는 앞으로 자체 개발 AI 모델에 출시 전 안전성 평가를 상시 적용하고 평가 범위를 텍스트 언어모델에서 멀티모달 모델과 에이전트형 AI로 확대할...
+- **"에이전트 시대, 멀티 모델 활용가속…소형 모델 비중 더 커질 것"** |  |  | https://www.digitaltoday.co.kr/news/articleView.html?idxno=695352
+  에이전트가 확산하면서 이 같은 역할 분담의 필요성은 더 커지고 있다. AI가 정보를 찾고 읽고 판단하고 행동하는 과정에서 모델을 반복 호출하는 만큼... KoAlpaca, Gemma-KO 등 한국어 기반 오픈모델을 개발했고 최근에는 소형모델과 에이전트, 추론 효율화로 연구 영역을 넓히고 있다. 소형모델과 오픈모델은...
+- **[독파모 2차전上] 추론·에이전트 성능 높인 4개 모델… ‘실전 경쟁력...** |  |  | https://www.ddaily.co.kr/page/view/2026081217071457815
+  최대 100만 토큰의 문맥을 지원하며 도구 호출과 다단계 추론, 에이전트 업무 수행 능력을 전면에 내세웠다. 업계에서는 한국어 처리 능력과 모델 규모 대비 효율성을 강점으로 꼽는다. 다만 최대 100만 토큰을 입력할 수 있다는 것과 긴 문맥 안의 정보를 실제 추론에 안정적으로 활용하는 능력은 별개인...
+- **단일 모델에서 모델 오케스트레이션으로 [이승현의 AI 네이티브]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092168295
+  번의 호출을 거치며 큰 비용 격차로 누적된다. 전 국민과 전 산업이 에이전트를 상시 가동하는 시대에 그 토큰을 전부 외산 API로 결제한다면 만성적인 토큰 무역수지 적자다. 다만 목표는 토큰 절감 자체가 아니라 한국어 작업의 완수 비용을 낮추는 것이어야 한다. 토큰을 아끼고도 답을 못 만드는 모델은...
+- **[인터뷰] 엄수창 데이터독 지사장 "AI 시대 보안 핵심은 에이전트 권한...** |  |  | https://www.dailysecu.com/news/articleView.html?idxno=208129
+  데이터독은 프롬프트 인젝션뿐 아니라 악성 스크립트와 패키지, 부적절한 도구 호출 등 AI 에이전트 실행 과정에서 발생하는 위협까지 탐지·차단하는... 전년 동기 대비 인력도 약 30~40% 증가했으며, 한국어 기술지원 조직도 운영하고 있다. 엄 지사장은 AI 시대의 보안은 AI 제품 하나를 보호하는 문제가...
+- **업스테이지, 독파모 2차 '솔라 오픈2' 공개...한국어·에이전트 성능↑** |  |  | https://www.getnews.co.kr/news/articleView.html?idxno=875873
+  도구 호출, 에이전트 종합 평가에서 딥시크 'V4 플래시', 미스트랄 '미디엄 3.5', 코히어 '커맨드 A+'보다 높은 점수를 기록했다고 전했다. 전작 솔라 오픈 모델과 비교해도 지식·과학 추론(GPQA-Diamond), 수학(HMMT), 코딩 등 주요 벤치마크에서 20점 이상 큰 폭으로 오르며 전반적 성능이 향상됐다. 한국어...
+
+### 한국어 도구 호출 에이전트 모델 (web, 15 results)
+
+- **AI 에이전트 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/AI_%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8
+  이들의 제어 흐름은 빈번하게 대형 언어 모델(LLM)에 의해 구동된다. 에이전트 시스템에는 메모리 구성 요소, 계획 로직, 도구 인터페이스 및 에이전트 구성 요소를 조정하기 위한 오케스트레이션 소프트웨어가 포함될 수도 있다. AI 에이전트에는 표준화된 정의가 없다. NIST는 에이전트형 AI를 안전한 운영, 상호 운용성 및 외부 시스템과의 신뢰할 수 있는 
+- **에이전트 하네스 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8_%ED%95%98%EB%84%A4%EC%8A%A4
+  에이전트 하네스(Agent harness) 는 대형 언어 모델(LLM)을 둘러싸고 있는 소프트웨어 인프라로, 모델 자체의 추론 능력을 넘어 도구 사용, 메모리, 상태 유지, 실행 환경 및 피드백... 추론과 행동을 루프 속에서 교대로 수행하는 모델의 패턴은 동료 평가를 거친 ReAct 프레임워크에서 도입되었으며, 모델이 외부 도구를 호출하는 능력은 Tool
+- **Dify Workflow Studio - 프로덕션을 위한 에이전틱 워크플로우 설계** | Dify |  | https://dify.ai/ko/workflows
+  모델 호출, 지식 검색, 도구, 코드, 분기, 트리거, 사람 검토를 위한 비주얼 캔버스 — 팀이 에이전틱 AI 앱을 실제 소프트웨어처럼 테스트하고 출시할 수 있습니다.
+- **컴퓨터 사용 - Interactions API | Google AI for Developers** | google.dev |  | https://ai.google.dev/gemini-api/docs/computer-use?hl=ko
+  Computer Use 도구를 사용하면 브라우저, 모바일, 데스크톱 제어 에이전트를 빌드하여 태스크와 상호작용하고 태스크를 자동화할 수 있습니다. 스크린샷을 사용하면 모델이 컴퓨터 화면을 '보고' 마우스 클릭 및 키보드 입력과 같은 특정 UI 작업을 생성하여 '작업'할 수 있습니다. 함수 호출과 마찬가지로...
+- **멀티 에이전트 시스템 설계 AI 도구 추천 — 무료·한국어 지원 (2026) | 모켓** | moket.kr |  | https://www.moket.kr/verdict/use/multi-agent-system-design-2
+  멀티 에이전트 시스템 설계 작업에 맞는 AI 도구 추천. 적합도순으로 검증된 AI를 직업·예산·한국어 조건으로 즉시 매칭. 광고·가입 없음.
+- **동적 워크플로우로 대규모 서브에이전트 조율하기 - Claude Code Docs** | claude.com |  | https://code.claude.com/docs/ko/workflows
+  동적 워크플로우는 Claude가 작성한 스크립트에서 많은 서브에이전트를 조율하며, 이를 다시 실행할 수 있습니다. 코드베이스 감사, 대규모 마이그레이션, 교차 검증 연구에 사용합니다.
+- **Gemini Deep Research 에이전트 | Gemini API | Google AI for Developers** | google.dev |  | https://ai.google.dev/gemini-api/docs/deep-research?hl=ko
+  에이전트의 기능을 제한하거나 확장할 도구를 명시적으로 지정할 수 있습니다. 도구 유형 값 설명 Google 검색 google_search 공개 웹을 검색합니다. 기본적으로 사용 설정됩니다. URL 컨텍스트 url_context 웹페이지 콘텐츠를 읽고 요약합니다. 기본적으로 사용 설정됩니다. 코드 실행 code...
+- **OWASP 기반 GenAI 보안 실무 점검 가이드 | AWS 기술 블로그** | Amazon Web Services, Inc |  | https://aws.amazon.com/ko/blogs/tech/owasp-genai-security-assessment-guide/
+  둘째, 자율형 멀티 에이전트 시스템은 단일 LLM 호출과는 근본적으로 다른 위협 모델을 요구합니다. 에이전트들이 팀 단위로 목표를 분담하고, 독립적으로 도구를 호출하며, 공유 메모리를 통해 협업하고, 다른 에이전트에게 작업을 위임하는 환경에서는 한 에이전트의 손상이 전체 워크플로로 전파됩니다. OWASP Agentic Top...
+- **[과기정통부/KISA] ('26. 7.) AI 보안 위협 대응 매뉴얼 발간** | 국가인공지능전략위원회 |  | https://www.aikorea.go.kr/web/board/brdDetail.do?menu_cd=000011&num=818
+  *파일원본 주소(URL) - 과학기술정보통신부 https://www.msit.go.kr/bbs/view.do?sCode=user&mId=328&mPid=243&pageIndex=&bbsSeqNo=127&nttSeqNo=3139462&searchOpt=ALL&searchTxt= - 한국인터넷진흥원(KISA) https... LLM은 2024년까지의 보안 논의
+- **바이브 코딩 툴 Ollama | 로컬 LLM 실행과 Cloud 모델 선택 기준** | 큐레이터 단비 |  | https://min-inter.co.kr/wiki/ollama-local-llm-cloud-models-guide/
+  Ollama는 로컬 컴퓨터에서 대규모 언어 모델, 즉 LLM을 내려받고 실행하고 관리하는 도구다. 처음에는 터미널에서 모델을 돌리는 간단한 런타임으로 알려졌지만, 2026년 6월 기준으로는 데스크톱 앱, 로컬 API, OpenAI 호환 API, Cloud 모델, 웹 검색 API, 코딩 도구 실행까지 묶은 오픈 모델 실행 플랫폼에 가깝다. 사용자가 Ollam
+
+### 한국어 툴 콜링 벤치마크 (news, 10 results)
+
+- **디노티시아, 한국어 특화 에이전틱 AI 연계 언어모델 'DNA 2.0' 공개** |  |  | https://www.digitaltoday.co.kr/news/articleView.html?idxno=580007
+  'DNA 2.0'은 사용자의 명령을 이해하고 검색·요약·계산 등의 작업을 수행할 수 있는 '툴 콜링(Tool Calling)' 기능을 대폭 강화했다. 특히 한국어 기반... LLM 한국어 리더보드 [사진: 디노티시아] 또 디노티시아는 LLM들의 한국어 기반 성능을 객관적으로 평가할 수 있는 벤치마크를 만들어 'LLM 한국어...
+- **올거나이즈, LLM 에이전트 역량 평가 플랫폼 '올인원 벤치마크' 공개 '주...** |  |  | http://www.issuenbiz.com/news/articleView.html?idxno=55223
+  다양한 상황에서 스스로 외부 도구를 호출하는 '툴 콜링(tool calling)' 능력을 평가하는 데는 'BFCL'를, 한국어 환경에서의 툴 콜링 능력 평가는  'FunctionChatBench'를 활용한다. 'TauBench'라는 벤치마크를 통해서는 유통, 항공 등 실제 산업 현장의 다양한 상황에서 LLM의 문제 해결 능력을 평가한다. 새로운...
+- **와이즈넛, '와이즈 에지' 개최…AI 에이전트 최적화 제품 출시** |  |  | https://www.koit.co.kr/news/articleView.html?idxno=202192
+  인텔리전스 △툴(Tool) 콜링과 실시간 리즈닝 △에이전트 운영 관리와 협업 지원 등으로 이루어져 있으며, 이는 단순 답변을 넘어 실제 실행까지... 특히, Llama 3.1 기반 벤치마크에서 H100을 압도하는 성능 효율을 입증하며, 국내 개발 칩의 글로벌 경쟁력을 확보했다고 발표했다. 장정훈 CTO는 이에...
+- **와이즈넛, 와이즈 엣지 개최... 신제품 선봬** |  |  | https://www.newsfreezone.co.kr/news/articleView.html?idxno=647600
+  인텔리전스, 툴(Tool) 콜링과 실시간 리즈닝, 에이전트 운영 관리와 협업 지원 등으로 이루어져 있으며, 이는 단순 답변을 넘어 실제 실행까지... 특히, Llama 3.1 기반 벤치마크에서 H100을 압도하는 성능 효율을 입증하며, 국내 개발 칩의 글로벌 경쟁력을 확보했다고 발표했다. 장정훈 CTO는 이에...
+- **와이즈넛, ‘AI 에이전트’ 신제품 대거 공개…‘현명한 AI’ 실현** |  |  | http://www.datanews.co.kr/news/article.html?no=140801
+  인텔리전스 ▲툴(Tool) 콜링과 실시간 리즈닝 ▲에이전트 운영 관리와 협업 지원 등으로 이뤄져 있으며, 이는 단순 답변을 넘어 실제 실행까지... 특히 Llama 3.1 기반 벤치마크에서 H100을 압도하는 성능 효율을 입증하며, 국내 개발 칩의 글로벌 경쟁력을 확보했다고 발표했다. 장정훈 CTO는 AI 검색·RAG...
+- **“명령하면 스스로 판단·처리”… 디노티시아, 한국형 ‘에이전트 AI’...** |  |  | https://www.geconomy.co.kr/news/article.html?no=303860
+  DNA 2.0은 검색, 요약, 계산 등 외부 도구와 연동되는 ‘툴 콜링(Tool Calling)’ 기능을 한국어 명령어에 최적화해 고도화했다. 명령 구조를 자동으로... 디노티시아는 한국어 성능 검증을 위한 자체 벤치마크 리더보드도 함께 공개했다. 이 리더보드는 자체 수집한 한국어 중심 평가 데이터를...
+- **[현장] 신동훈 KT 상무 “한국적 AI, 오픈소스로 전환”** |  |  | https://www.fetv.co.kr/news/article.html?no=195811
+  작성, 툴 콜링 등 B2B 환경에 특화된 기능을 갖추고 있다. 한국어에 최적화된 토크나이저를 자체 설계해 적용했으며, 국내 AI 커뮤니티와 협력한 최신... 독자적 벤치마크를 개발했고 글로벌 퍼블릭 벤치마크도 병행해 신뢰도를 확보했다”고 밝혔다. KT의 AI 개발 철학은 ‘소버린 AI’에 기반을 두고 있다....
+- **올거나이즈, LLM 에이전트 역량 평가 플랫폼 공개** |  |  | https://www.datanet.co.kr/news/articleView.html?idxno=199481
+  다양한 상황에서 스스로 외부 도구를 호출하는 '툴 콜링(tool calling)' 능력을 평가하는 데는 'BFCL'를, 한국어 환경에서의 툴 콜링 능력 평가는 'FunctionChatBench'를 활용한다. 'TauBench'라는 벤치마크를 통해서는 유통, 항공 등 실제 산업 현장의 다양한 상황에서 LLM의 문제 해결 능력을 평가한다. 새로운...
+- **AI 스타트업 올거나이즈, LLM 에이전트 역량 평가 플랫폼 출시** |  |  | https://www.hankyung.com/article/202502039191i
+  다양한 상황에서 스스로 외부 도구를 호출하는 ‘툴 콜링(tool calling)’ 능력을 평가하는 데는 ‘BFCL’를, 한국어 환경에서의 툴 콜링 능력 평가는 ‘FunctionChatBench’를 활용한다. ‘TauBench’라는 벤치마크를 통해서는 유통, 항공 등 실제 산업 현장의 다양한 상황에서 LLM의 문제 해결 능력을...
+- **[IT 소식] 구글 클라우드, CSAP 인증 취득 外** |  |  | https://www.viva100.com/article/20250203501235
+  다양한 상황에서 스스로 외부 도구를 호출하는 ‘툴 콜링’ 능력을 평가하는 데는 ‘BFCL’를, 한국어 환경에서의 툴 콜링 능력 평가는 ‘FunctionChatBench’를 활용한다. ‘TauBench’라는 벤치마크를 통해서는 유통·항공 등 실제 산업 현장의 다양한 상황에서 LLM의 문제 해결 능력을 평가한다. 새로운 LLM의...
+
+### 한국어 툴 콜링 벤치마크 (web, 15 results)
+
+- **벤치마크 - 나무위키** | 나무위키 |  | https://namu.wiki/w/%EB%B2%A4%EC%B9%98%EB%A7%88%ED%81%AC
+  TV 업계에서는 자체적으로 테스트용 영상 샘플이 주어지는데 Demonstration Disc라는 이름으로 제조사(삼성전자, LG전자, 소니, 파나소닉)에서 자체적으로 벤치마킹 전용 디스크를 배포한다. 또는 대표적으로 아바타, 살아있는 지구 등이 자주 사용되는 편. 찰리와 초콜릿 공장 2005년판도 벤치마크용으로 훌륭하다고 인정받는다. 3. 무용론 OS가 다
+- **KoALa-Bench: 한국어 음성 이해 및 충실성 평가를 위한 대규모 오디오 언어 모델 벤....** | Upstage AI |  | https://www.upstage.ai/ko/events/koala-bench-korean-lalm-benchmark
+  최근 음성을 직접 처리하는 대규모 오디오 언어 모델(LALM)이 빠르게 발전하고 있지만, 평가 체계는 여전히 영어 중심이며 한국어 음성 데이터셋은 전통적인 음성 인식에 머물러 있습니다. 본 발표에서는 업스테이지와 중앙대학교 SCAI 연구실의 산학 협력으로 구축한 KoALa-Bench를 소개합니다. KoALa-Bench는 한국어 음성 이해와 충실성(faith
+- **[AI 한쿡] 딥시크 `에이전트 성능`도 오픈AI에 안 뒤져... 벤치마크 등장** | 디지털데일리 |  | https://www.ddaily.co.kr/page/view/2025020316522164283
+  매일, 매주 전해지는 한국 인공지능(AI) 기업들의 소식을 핵심 내용과 의미만 간추려... 기능인 ‘툴 콜링(tool calling)’은 한국어·외국어 환경에 따른 별도 평가 도구가 사용됐으며, 유통, 항공 등 실제 산업 현장 내 다양한 시나리오에서의 문제 해결 역량을 평가하는 벤치마크도 포함됐다. 실제로 올거나이즈는 최근 저비용 개발...
+- **“와이즈넛, '2025 WISE Edge'서 차세대 AI 전략 공개” - 와이즈넛** | wisenut.com |  | https://www.wisenut.com/sub/promotion/press_view.php?idx=196
+  이번 행사는 실질적 AI 에이전트 도입과 활용을 위한 와이즈넛의 전방위적 AI 에이전트 신제품 전략을 본격 공개하는 자리로 마련됐다. 현장에서는 신규 출시된 AI 에이전트 구축 최적화 신제품 라인업과 AI반도체 기업 퓨리오사AI와의 AI 어플라이언스 계획 등이 다채롭게 공개돼 성황을 이뤘다. ◆“Autonomous Wiser World” … 스스로 학습·진
+- **올거나이즈, LLM 에이전트 역량 평가 플랫폼 ‘올인원 벤치마크’ 공개** | 스타트업엔 |  | https://www.startupn.kr/news/articleView.html?idxno=50532
+  국내 첫 LLM별 에이전트 성능 평가 플랫폼… 벤치마크 활용해 분석 후 대시보드로 결과 제공 올거나이즈 sLLM 포함 12종 LLM 분석… 에이전트 역량 외 언어 이해·지식 수준·명령 준수 등 LLM에 대한 종합적·입체적 평가 API 자동 구현으로 새로운 LLM 평가도 손쉽게 가능… 기존 대비 평가 시간 1/3 이하로 절감
+- **벤치마크 - 더위키** | 더위키 |  | https://thewiki.kr/w/%EB%B2%A4%EC%B9%98%EB%A7%88%ED%81%AC
+  토목공학 용어에 대한 내용은 벤치마크(토목) 문서를, 경영학 용어에 대한 내용은 벤치마킹 문서를, 기타 동음이의어에 대한 내용은 벤치마크(동음이의어) 문서를 참고하십시오.
+- **올거나이즈, LLM 에이전트 성능 평가 플랫폼 ‘올인원 벤치마크’ 공개** | 지티티코리아 |  | https://www.gttkorea.com/news/articleView.html?idxno=16617
+  LLM이 에이전트 역할을 수행하기 위해서는 도메인 별 지식과 문제 해결을 위한 툴 선택 및 활용 능력, 대화의 맥락 이해, 수집된 정보 활용 등 다양한 능력이 필요하다.LLM 올인원 솔루션 기업 올거나이즈(대표 이창수)가 LLM의 에이전트 역량을 평가하는 ‘올인원 벤치마크(All-in-One Benchmark)’를 공개한다고 3일 밝혔다. 올인원 벤치...
+- **진짜 일 잘하는 AI는 무엇?…올거나이즈, 에이전트 벤치마크 공개** | 머니투데이 |  | https://www.mt.co.kr/future/2025/02/03/2025020310295281567
+  [이 기사에 나온 스타트업에 대한 보다 다양한 기업정보는 유니콘팩토리 빅데이터 플랫폼 '데이터랩'에서 볼 수 있습니다.] 기업의 LLM(거대언어모델) 도입을 지원하는 스타트업 올거나이즈가 3일 LLM의 에이전트로서의 역량을 평가하는 '올인원 벤치마크'를 발표했다. 올인원 벤치마크는 LLM의 에이전트 성능을 종합적으로 평가하는 플랫폼이다. 도메인별 지식뿐 아
+- **올거나이즈, AI 에이전트용 LLM 성능 평가 툴 출시… 딥시크와 GPT-4o mini 성능 유....** | 디지틀조선일보 더에이아이 |  | http://www.newstheai.com/news/articleView.html?idxno=7021
+  다양한 상황에서 스스로 외부 도구를 호출하는 ‘툴 콜링(tool calling)’ 능력을 평가하는 데는 ‘BFCL’를, 한국어 환경에서의 툴 콜링 능력 평가는 ‘FunctionChatBench’를 활용한다. ‘TauBench’라는 벤치마크를 통해서는 유통, 항공 등 실제 산업 현장의 다양한 상황에서 LLM의 문제 해결 능력을 평가한다. 새로운 LLM 성능도
+- **[특허]벤치마크 표시 툴 및 벤치마크 표시 방법** | 사이언스온 |  | https://scienceon.kisti.re.kr/srch/selectPORSrchPatent.do?cn=KOR1020107021894
+  벤치마크 표시 툴은 상면이 평면 형상으로 형성되고, 이 상면에 벤치마크가 표시되는 표시 플레이트와, 이 표시 플레이트의 상면의 배면으로부터 연장되어, 건축물의 바닥 등의 구조체에 메워넣어져 표시 플레이트를 고정하는 스터드와, 표시 플레이트의 둘레에 설치되고, 구조체에 도포된 도료층에 매설되는 외주 플랜지를 포함한다.표시 플레이트를 건축물의 구조체에 배...
+
+### FunctionChat-Bench (news, 10 results)
+
+- **카카오, AI 기술 생태계 활성화 ‘앞장’…AI 언어모델 데이터셋 ‘Func...** |  |  | http://www.sentv.co.kr/news/view/696380
+  카카오는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 26일 밝혔다. 이를통해, AI 기술 생태계의 구축과 활성화를 위한 노력을 이어간다는 방침이다. 펑션콜(Function Call, 함수호출)이란 AI...
+- **카카오, 펑션 콜 성능 평가 데이터 셋 'FunctionChat-Bench' 구축** |  |  | https://www.cstimes.com/news/articleView.html?idxno=612305
+  카카오는 인공지능 언어 모델의 펑션 콜(Function Call, 함수 호출) 성능을 평가할 수 있는 데이터 셋인 'FunctionChat-Bench'를 구축하고, 지난 23일 오픈 소스로 공개했다고 27일 밝혔다. 펑션 콜은 AI 언어 모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보를 실시간 정보를 받아올...
+- **카카오, AI 에이전트 핵심 '툴 호출' 기능 오픈소스로 공개** |  |  | https://www.etnews.com/20250827000350
+  이번에 공개된 기술은 카카오가 자체 구축한 벤치마크 'FunctionChat-Bench' 연구 일환으로 진행됐다. 카카오는 인공지능 언어모델의 '함수호출(Function Calling)' 성능 평가 데이터셋 'FunctionChat-Bench'를 지난해 9월 오픈소스로, 지난달 업데이트된 버전을 깃허브에 공개한 바 있다. 툴 호출 기능은 최근 AI...
+- **카카오, AI 언어모델 '펑션콜' 성능 평가 벤치마크 데이터셋 구축** |  |  | http://www.enewstoday.co.kr/news/articleView.html?idxno=2181698
+  카카오는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 'FunctionChat-Bench'를 구축하고, 이를 오픈소스로 공개했다고 밝혔다. 펑션콜(Function Call, 함수호출)이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보를 실시간...
+- **카카오, AI 언어모델 성능 평가 데이터셋 공개** |  |  | https://www.thepublic.kr/news/articleView.html?idxno=236527
+  카카오는 인공지능 언어모델의 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋인 'FunctionChat-Bench'를 구축하고, 이를 지난 23일 오픈소스로 공개했다. '펑션콜(Function Call, 함수호출)'이란 AI언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보를 실시간 정보로 받아올...
+- **카카오, AI 언어모델 ‘Function Call’ 성능 평가 위한 한국어 데이터셋...** |  |  | http://www.boannews.com/media/view.asp?idx=133211&kind=
+  카카오는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 밝혔다.펑션콜(Function Call, 함수호출)이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은...
+- **[산업 이모저모] 삼성전자, 프리미엄 AI 태블릿 '갤럭시 탭 S10 울트라'·...** |  |  | https://www.greened.kr/news/articleView.html?idxno=318913
+  카카오(대표이사 정신아)는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 'FunctionChat-Bench'를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 밝혔다. 펑션콜(Function Call, 함수호출)이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에...
+- **[데일리 IT 단신] 넷마블, 업계 최초 ‘안전보건경영시스템’ 인증 획득...** |  |  | https://biz.newdaily.co.kr/site/data/html/2024/09/27/2024092700153.html
+  ◆카카오, AI 언어모델 성능평가 데이터셋 오픈소스 공개 카카오(는 인공지능 언어모델의 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고 오픈소스로 공개했다고 밝혔다. 펑션콜이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은...
+- **크래프톤, 음성 AI 파운데이션 ‘A.X K2 Raon-Speech’ 공개** |  |  | https://www.edaily.co.kr/news/newspath.asp?newsid=03276726645519440
+  LibriSpeech, KSponSpeech, VoiceBench, KVoiceBench, MMAU, KMMAU, API-Bank, FunctionChat-Bench 등을 포함해 한국어 24개, 영어 22개 등 총 46개의 벤치마크를 활용했다. A.X K2 Raon-Speech는 SK텔레콤의 A.X K2 기반 소형 언어 모델에 크래프톤이 자체 학습한 음성 
+- **크래프톤, 한국어 성능 1위 음성 AI 파운데이션 모델 ‘A.X K2 라온 스피...** |  |  | https://www.viva100.com/article/20260729500199
+  LibriSpeech, KSponSpeech, VoiceBench, KVoiceBench, MMAU, KMMAU, API-Bank, FunctionChat-Bench 등을 포함해 한국어 24개, 영어 22개 등 총 46개의 벤치마크를 활용했다. A.X K2 라온 스피치는 SKT의 A.X K2 기반 소형 언어 모델에 크래프톤이 자체 학습한 음성 인코더와 코덱
+
+### FunctionChat-Bench (web, 15 results)
+
+- **FunctionChat-Bench: 도구 연결 대화에서의 언어 모델 생성 능력 평가 / if(kakaoAI)2024 | ....** | devnote.kr |  | https://devnote.kr/youtube/video/10090
+  AI뉴스 - GLM-5.2 열풍, 구글 심각한 위기, GPT-5.6 소식, Codex Record & Replay, Mythos 논란, 미드저니 근황 등
+- **FunctionChat-Bench: 도구 연결 대화에서의 언어 모델 생성 능력 평가 / if(kakaoAI)2024 - ....** | conference-view.vercel.app |  | https://conference-view.vercel.app/videos/rv-pr2pYUss
+  Function Call은 언어모델과 외부 도구를 연결해 실시간 정보를 이용하거나 실세계 동작을 수행하도록 하는 기술입니다. 기술 개발과 성능 향상을 위해서는 항상 좋은 측정 방법이 필요합니다. 외부 도구를 사용하는 한국어 대화 환경에서의 Function Call 성능을 다면적으로 평가할 수 있도록 개발한 FunctionChat-Bench를 소개합니다. #
+- **카카오, AI 언어모델 성능평가 데이터셋 오픈소스 공개** | 한스경제 |  | http://www.hansbiz.co.kr/news/articleView.html?idxno=713544
+  카카오는 지난 23일 오픈소스 커뮤니티에 ‘깃허브’에 인공지능(AI) 언어모델의 펑션콜(함수호출) 성능을 평가할 수 있는 데이터셋 ‘펑션챗-벤치(FunctionChat-Bench)’를 공개했다고 27일 밝혔다.‘펑션콜’은 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보를 실시간 정보를 받...
+- **카카오, AI 언어모델 펑션콜 성능평가 벤치마크 데이터셋 구축** | 데이터뉴스 |  | https://www.datanews.co.kr/news/article.html?no=134802
+  카카오(대표 정신아)는 인공지능(AI) 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 밝혔다.펑션콜은 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시..
+- **카카오, AI 언어모델 성능 평가 데이터셋 구축…오픈소스 공개** | IT Times |  | https://www.ittimes.com/news/articleView.html?idxno=49592
+  카카오(대표이사 정신아)는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 '펑션챗-벤치(FunctionChat-Bench)'를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 27일 밝혔다.펑션콜이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보를 실시간 정...
+- **카카오, AI 펑션콜 성능 평가 툴 업데이트…깃허브에 오픈소스 공개** | 전자신문 |  | https://www.etnews.com/20250730000327
+  카카오가 인공지능(AI) 모델의 펑션콜(Function Calling·함수호출)을 평가하는 데이터셋을 업그레이드했다. 카카오는 지난해 9월 공개한 AI 언어모델의 함수호출 성능 평가 데이터셋 '펑션챗 벤치(FunctionChat-Bench)'의 업데이트 버전을 깃허브에
+- **카카오, AI 언어모델 성능 평가 데이터셋 오픈소스 공개** | 세계일보 |  | https://www.segye.com/newsView/20240927507473
+  카카오는 AI(인공지능) 언어모델의 펑션콜(Function Call·함수호출) 성능을 평가할 수 있는 데이터셋 ‘FunctionChat-Bench(펑션챗-벤치)’를 구축하고 지난 23일 오픈소스로 공개했다고 27일 밝혔다. 펑션콜은 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나, 사전에 학습하지 않은 정보를 실시간 정보를 받아올 수 있도...
+- **카카오, AI 언어모델 Function Call 성능 평가 벤치마크 데이터셋 국내 IT 기업 최초 ....** | 카카오 |  | https://www.kakaocorp.com/page/detail/11253
+  카카오(대표이사 정신아)는 인공지능 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 ‘FunctionChat-Bench’를 구축하고, 이를 지난 23일 오픈소스로 공개했다고 밝혔다. 펑션콜(Function Call, 함수호출)이란 AI 언어모델이 자체적으로 수행할 수 없는 동작을 지시하거나 사전에 학습하지 않은 정보
+- **카카오, AI 언어모델 성능 평가 데이터셋 오픈소스로 공개** | 머니투데이 |  | https://www.mt.co.kr/tech/2024/09/27/2024092710121260896
+  카카오가 27일 AI(인공지능) 언어모델의 펑션콜(Function Call, 함수호출) 성능을 평가할 수 있는 데이터셋인 'FunctionChat-Bench(펑션챗-벤치)'를 구축하고 지난 23일 오픈소스로 공개했다고 밝혔다.
+- **if(kakaoAI)2024** | 카카오 |  | https://if.kakao.com/2024/session/77
+  Function Call은 언어모델과 외부 도구를 연결해 실시간 정보를 이용하거나 실세계 동작을 수행하도록 하는 기술입니다. 기술 개발과 성능 향상을 위해서는 항상 좋은 측정 방법이 필요한데요. 외부 도구를 사용하는 한국어 대화 환경에서의 Function Call 성능을 다면적으로 평가할 수 있도록 개발한 FunctionChat-Bench를 소개합니다.
+
+### 카나나 경량 모델 도구 호출 (news, 10 results)
+
+- **카카오 '카나나-2', 한국어 안전성 평가서 젬마·큐웬 앞서** |  |  | https://www.itdaily.kr/news/articleView.html?idxno=241040
+  카나나-2의 일반 성능은 지난달 모델 공개 당시 별도의 벤치마크를 통해 측정됐다. 카카오가 공개한 평가에서 3B 인스트럭트 모델은 한국어 대화와 일부 지시 수행·도구 호출·코딩 지표에서 비교 대상인 큐웬 계열 모델을 앞섰지만, 수학과 일부 추론·지식 지표에서는 큐웬 계열 모델이 더 높은...
+- **카카오, '스마트폰 AI'로 승부…카나나 경량모델 4종 공개** |  |  | https://www.thelec.kr/news/articleView.html?idxno=60172
+  엄격한 지시 이행 평가에서도 카나나는 34.69점, 큐웬은 24.83점을 기록했다는 것이다. 외부 도구를 선택해 호출하는 능력은 69.64점 대 66.96점, 코드 생성 평가는 69.05점 대 55.56점이었다. 큐웬은 알리바바클라우드가 개발하는 글로벌 오픈웨이트 AI 모델군이다. 다만 비교 대상인 큐웬3.5-2B는 이 계열의 최고 성능...
+- **카카오, 온디바이스 AI '카나나-2' 공개…메모리 최대 72.7% 절감** |  |  | http://www.4th.kr/news/articleView.html?idxno=2115364
+  카카오는 자체 경량 모델을 '카나나 인 카카오톡'과 '카카오톡 대화·통화 요약', 행정안전부와 운영하는 'AI 국민비서' 등에 적용하고 있다.... Kanana-2-1.3B-instruct는 비교 모델 가운데 코드와 도구 호출, 대화, 지식 등 6개 평가 분야 중 4개에서 가장 높은 평균 점수를 냈다. Kanana-2-3B...
+- **'초거대' 경쟁에서 '작은 모델' 경쟁으로···빅테크·AI기업, '경량화...** |  |  | https://www.sisajournal-e.com/news/articleView.html?idxno=422196
+  카카오도 자체 AI 모델 '카나나'를 중심으로 경량 모델 개발을 병행하고 있다. 카카오톡과 주요 서비스에 AI 기능을 붙이려면 대형 모델 하나로 모든 요청을 처리하기 어려울 뿐만 아니라 이용자 접점이 넓을수록 호출량이 많아져 토큰 비용 부담도 커지기 때문이다. 서비스 성격에 따라 여러 작은 모델을...
+- **카카오, 에이전틱 AI 모델 ‘Kanana-2’ 오픈소스 공개 … 도구호출·사...** |  |  | https://biz.newdaily.co.kr/site/data/html/2025/12/19/2025121900040.html
+  카카오는 지난해 자체 개발 AI 모델 ‘카나나(Kanana)’의 라인업을 선보인 이래, 경량 사이즈의 모델부터 고난이도 문제 해결에 특화된 ‘Kanana-1.... 이전 모델(Kanana-1.5-32.5b) 대비 다중 대화 도구 호출(Multi-turn tool calling) 능력을 3배 이상 향상시켰다. 복잡한 단계별 요구 사항을 정확하게...
+- **카카오, 에이전틱 AI 구현에 최적화된 '카나나-2' 모델 오픈소스 공개** |  |  | https://www.g-enews.com/view.php?ud=2025121909402689093d7a510102_1
+  앞서 카카오는 지난해 자체 개발 AI 모델 '카나나'를 선보이고 경량 사이즈의 모델부터 고난이도 문제 해결에 특화된 '카나나-1.5'까지 꾸준히 오픈소스로... 카나나-2는 에이전틱 AI 구현의 핵심인 도구 호출 기능과 사용자 지시 이행 능력이 비약적으로 향상됐다. 이전 모델 대비 다중 대화 도구 호출 능력을 3배...
+- **카카오, ‘에이전틱 AI’ 구현 최적화…‘카나나-2’ 오픈소스 공개** |  |  | https://www.dt.co.kr/article/12036316?ref=naver
+  카카오는 지난해 자체 개발 AI 모델 '카나나'의 라인업을 선보인 이후 경량 사이즈의 모델부터 고난이도 문제 해결에 특화된 '카나나-1.5'까지 오픈소스로... 카나나-2는 에이전틱 AI 구현의 핵심인 도구 호출 기능과 사용자 지시 이행 능력이 향상됐다. 이전 모델 대비 다중 대화 도구 호출 능력을 3배 이상...
+- **첫 추론모델 꺼낸 카카오vs新옴니모달 개발 네이버…AI 대결 격돌 [빛이...** |  |  | https://www.sedaily.com/NewsView/2H1SXMXPND
+  앞서 정신아 카카오 대표는 올해 2분기 실적 발표 콘퍼런스 콜에서 “올해 5월 카나나 1.5 언어모델의 중형과 경량 버전을 공개했고 그 이후 7월 멀티모달... 추론 모델은 AI 에이전트를 개발하기 위해 필수적이다. 실제로 카카오가 이번 공개한 카나나-2 역시 에이전틱 AI 구현의 핵심인 도구 호출 기능과 사용자...
+- **카카오, 차세대 언어모델 'Kanana-2' 오픈소스 공개, 에이전틱 AI 승부수** |  |  | https://www.autodaily.co.kr/news/articleView.html?idxno=540112
+  카카오는 지난해 자체 개발 AI 모델 '카나나(Kanana)' 라인업을 선보인 이후, 경량 모델부터 고난이도 문제 해결에 특화된 'Kanana-1.5'까지 지속적으로... 이전 모델인 Kanana-1.5-32.5b 대비 다중 대화 도구 호출 능력을 3배 이상 개선했으며, 복잡한 단계별 요구 사항을 정확하게 이해하고 수행하도록...
+- **카카오, 에이전틱 AI 구현 최적화 ‘Kanana-2’ 모델 오픈소스 공개** |  |  | https://www.asiatime.co.kr/article/20251219500027
+  카카오는 지난해 자체 개발 AI 모델 ‘카나나(Kanana)’의 라인업을 선보인 이래, 경량 사이즈의 모델부터 고난이도 문제 해결에 특화된 ‘Kanana-1.... 이전 모델(Kanana-1.5-32.5b) 대비 다중 대화 도구 호출(Multi-turn tool calling) 능력을 3배 이상 향상시켰으며, 복잡한 단계별 요구 사항을 정확하게...
+
+### 카나나 경량 모델 도구 호출 (web, 15 results)
+
+- **카나나 - 나무위키** | 나무위키 |  | https://namu.wiki/w/%EC%B9%B4%EB%82%98%EB%82%98
+  모델 Kanana Model Family 언어모델 Kanana FLAG 초거대 언어모델 Kanana ESSENCE 중소형 언어모델 Kanana NANO 초경량 언어모델... 카나나 2 3.5.1. 발표 전 공개 내용 3.5.2. 발표 모델 다운로드 발표 2025년 12월 19일, kanana-2-30B-A3B 가 공개됐다. 성능은 Qwen3-30B-A3B-
+- **카카오 카나나 - IT 위키** | IT 위키 |  | https://itwiki.kr/w/%EC%B9%B4%EC%B9%B4%EC%98%A4_%EC%B9%B4%EB%82%98%EB%82%98
+  카나나(Kanana)는 카카오가 자체 개발하는 인공지능(AI) 모델 및 AI 서비스 브랜드로, 언어 모델(LLM)·멀티모달 언어 모델(LMM)·경량 언어 모델(SLM)과 이를 기반으로 한 AI 에이전트 및 안전성 모델 등을 포괄한다.[1] 카나나는 카카오가 자체 AI 기술을 기반으로 개발한 모델 패밀리이다. 2024년 열린 if(kakaoAI) 2024에서
+- **카카오, '카나나-2'의 경량 모델 4종 오픈소스로 공개** | GeekNews |  | https://news.hada.io/topic?id=32124
+  Kanana-2 SLM 모델군으로 3B 모델과 이를 압축한 1.3B 모델의 Base/Instruct 가중치를 제공 ; Kanana-2-3B는 TPU 클러스터에서 처음부터 사전학습한 뒤 인스트럭션 파인튜닝과 강화학습을 적용했으며, 1.3B 모델은 단계적 가지치기와 증류로 3B 모델에서 파생 1.3B 모델은 Sliding Window Attention과 전체 
+- **카카오, 업데이트된 ‘Kanana-2’ 모델 4종 오픈소스로 추가 공개** | 카카오 |  | https://www.kakaocorp.com/page/detail/11904
+  실제 성능 평가에서 동급 경쟁 모델인 ‘Qwen-30B-A3B-Instruct-2507’ 대비 ▲지시 이행 정확도, ▲ 멀티턴 도구 호출 성능, ▲ 한국어 능력 등에서 압도적인 우위를 기록했다. 카카오 김병학 카나나 성과리더는 “새로워진 Kanana-2는 ‘어떻게 하면 고가의 인프라 없이도 실용적인 에이전트 AI를 구현할 수 있을까’에 대해 치열하게 고민한
+- **카카오, ‘스마트폰 AI’로 승부…카나나 경량모델 4종 공개** | 디일렉 |  | https://www.thelec.kr/news/articleView.html?idxno=60172
+  카카오가 스마트폰과 개인용 컴퓨터에서 구동할 수 있는 경량 인공지능(AI) 모델을 공개했다. 카카오톡 등 실제 서비스에서 빠르고 저렴하게 작동하는 ‘작은 AI’를 확보하는 전략으로 풀이된다. 카카오는 28일 자체 개발한 ‘카나나-2’ 경량언어모델(SLM) 4종을 AI 개발 플랫폼 허깅페이스에 공개했다. 모델들은 13억개 파라미터를 가진 1.3B 모델과 30
+- **[AI픽] 카카오, AI 경량모델 4종 오픈소스 공개** | 한민족센터 |  | https://www.koreancenter.or.kr/news/articleView.html?idxno=1387558
+  재판매 및 DB 금지] (서울=연합뉴스) 한상용 기자 = 카카오[035720]는 자체 개발한 인공지능(AI) 모델 '카나나'의 경량 언어모델(SLM) 4종을 오픈소스로 공개했다고 28일 밝혔다. 이번에... 특히 이번에 공개한 일부 모델과 함께 개발한 더 작은 규모의 카나나-2-0.9B-인스트럭트는 대화와 지식, 코드, 수학, 지시 수행, 도구 호출 등 실
+- **카카오, 에이전틱 AI 구현에 최적화된 ‘Kanana-2’ 모델 오픈소스 공개** | 카카오 |  | https://www.kakaocorp.com/page/detail/11854
+  위한 도구 호출 및 사용자 지시 이행 능력 강화에 중점 - MLA·MoE 기법 적용해 연산 비용 낮추고 응답 속도 최적화…동일 구조 최신 모델과 유사 수준 - 향후 AI 에이전트 시나리오 특화 모델 개발 계획... 온 디바이스 경량 모델... 카카오는 지난해 자체 개발 AI 모델 ‘카나나(Kanana)’의 라인업을 선보인 이래, 경량 사이즈의 모델부터 고난
+- **카카오 공짜 AI 푼다…경량언어모델 4종 오픈소스로 공개** | 한국경제 |  | https://www.hankyung.com/article/202607280872g
+  사진=카카오 제공 카카오가 스마트폰과 개인용 컴퓨터에서 구동할 수 있는 경량언어모델(SLM) 4종을 오픈소스로 공개했다. 한국어 처리 효율을 30% 이상 높이고 긴 대화를 처리할 때... 카나나-2-1.3B-인스트럭트와 함께 개발한 0.9B 규모 모델도 대화, 지식, 코드, 수학, 지시 이행, 도구 호출 분야에서 큐원·젬마 등 글로벌 모델 대비 비슷한 수준
+- **[AI픽] 카카오, AI 경량모델 4종 오픈소스 공개** | 연합뉴스 |  | https://www.yna.co.kr/view/AKR20260728046300017
+  카카오[035720]는 자체 개발한 인공지능(AI) 모델 '카나나'의 경량 언어모델(SLM) 4종을 오픈소스로...
+- **카카오, 스마트폰에서 돌리는 AI 공개…‘카나나2’ 경량모델 4종 오픈소스** | 이코노미사이언스 |  | https://www.e-science.co.kr/news/articleView.html?idxno=132529
+  특히 지시 수행과 도구 호출, 대화 등 실제 서비스 활용 영역에서도 Qwen과 Gemma 계열의 동급 모델과 비교할 수 있는 수준이라는 게 카카오 측 설명이다. 한국어 처리 효율도 높였다.... 이번 공개 모델에는 상업적 활용이 가능한 ‘카나나 오픈 라이선스’를 적용해 국내 기업과 개발자의 서비스 개발 문턱도 낮췄다. AI 업계에서는 경량 모델의 경쟁력이 
+
+### 엑사원 1.2B 온디바이스 (news, 10 results)
+
+- **[통신3사 AI 경량화] LGU+, AI 줄여 스마트폰으로…익시오 승부** |  |  | https://dealsite.co.kr/articles/168391
+  정보통신기술(ICT) 업계에 따르면 LG유플러스와 LG AI연구원은 12억개 매개변수 규모인 ‘엑사원 4.0 1.2B’를 기반으로 익시오의 온디바이스 AI를 고도화했다. 엑사원 4.0 1.2B는 스마트폰 등 온디바이스 활용을 고려해 설계된 경량모델이다. LG AI연구원이 모델링과 데이터 엔지니어링을 맡고 LG유플러스가...
+- **옵트에이아이, 온디바이스 특화 자체 경량 AI 모델 '옵트기어' 공개** |  |  | https://www.aitimes.com/news/articleView.html?idxno=213630
+  서버용 거대 언어모델을 단순 축소한 것이 아니라 SRAM과 메모리 대역폭, 전력, 지연 시간이 제한된 온디바이스 환경을 고려해 설계된 것이... 애플 아이폰 17 프로에서의 토큰 생성 속도는 LG '엑사원 4.0-1.2B'의 4.9배에 달했다. 벤치마크 평가에서도 지식 평가(MMLU) 43.2점, 한국 문화·상식 평가(HAERAE)...
+- **"내 동생 작다고 깔보지마라" GPT-4o, 구광모의 엑사원 우위 주장 정면 ...** |  |  | https://www.womaneconomy.co.kr/news/articleView.html?idxno=238294
+  또한 엑사원 4.0의 1.2B 온디바이스 모델은 크기를 줄여서 가볍게 만들었다는 주장에 대해서도 GPT-4o는 의문을 제기했다. "모델을 작게 만든다고 해서 무조건 효율적인 건 아니다"라는 것이다. 예를 들어 작은 모델이라도 로컬 서버에선 클라우드에 비해 성능이 떨어질 수 있고 대규모 사용자 요청이...
+- **"의사 국시 통과"…LG, 국내 첫 하이브리드 AI '엑사원 4.0' 공개** |  |  | http://www.edaily.co.kr/news/newspath.asp?newsid=02965126642234848
+  엑사원 4.0 온디바이스용 1.2B모델은 오픈 AI의 GPT-4o 미니(mini) 성능을 뛰어 넘는다는 평가를 받는다. LG AI연구원은 엑사원 4.0을 오픈 웨이트 모델로 공개하고, 상용 응용프로그램 인터페이스(API) 서비스를 시작할 계획이다. LG AI 연구원은 15일 엑사원 4.0을 연구·학술·교육 목적으로 사용할 수...
+- **"일반AI+추론AI 통합해 세계 최고 수준 성능"...LG, 국내 첫 하이브리드...** |  |  | https://www.aitimes.kr/news/articleView.html?idxno=35664
+  엑사원 4.0 온디바이스 모델(1.2B) 벤치마크 성능 비교 1.2B 온디바이스 모델은 가전제품, 스마트폰, 자동차 전장 시스템, 로봇 등 다양한 기기에서 바로 활용할 수 있도록 개발되었다. 이 모델은 외부 서버와의 연결 없이 기기 내에서 빠르고 안전하게 정보를 처리할 수 있어 개인 정보 보호와...
+- **"AI로 세상을 바꾼다"…LG, '엑사원' 비즈니스 모델 확대 본격화** |  |  | https://www.goodkyung.com/news/articleView.html?idxno=273233
+  엑사원 4.0은 다양한 활용 목적에 대응할 수 있도록 ▲전문가 모델 (32B, 매개변수 320억개) ▲온디바이스 모델(1.2B, 매개변수 12억개) 등 두 가지 모델을 지원한다. 특히 32B 모델은 의사, 치과의사, 한약사, 관세사, 감정평가사, 손해사정사 등 6가지 국가 공인 전문 자격증 필기시험을 통과하며 높은 수준의...
+- **"글로벌 탑3 도약 목표"…LG AI 연구원이 공개한 '엑사원 생태계'는** |  |  | http://news.mt.co.kr/mtview.php?no=2025072212535324962
+  매개변수 320억개의 32B '전문가 모델'과 매개변수 12억개의 1.2B 온디바이스 모델 두 종류로 출시했다. 한국어 기반의 국내 다른 AI 모델과 달리 영어 기반으로 고성능을 구현했다. 엑사원 4.0 모델은 관세사, 감정평가사 등 6가지 국가 공인 전문 자격증 필기시험을 통과할 정도의 성능을 갖췄다. 이홍락 LG AI...
+- **"의사·한약사 시험도 통과했다"… LG, 국내 첫 하이브리드 AI '엑사원 4...** |  |  | https://www.newscj.com/news/articleView.html?idxno=3293466
+  온디바이스 모델인 1.2B(매개변수 12억개) 모델은 '엑사원 3.5' 2.4B 모델 대비 크기는 절반으로 줄어 경제적이면서도 수학, 코딩, 과학 분야 등 전문 분야 평가 지표에서 미국 오픈AI의 'GPT-4o 미니'보다 높은 성능을 보였다. LG AI연구원은 지난 3월 국내 첫 추론 AI 모델인 '엑사원 딥'에 이어 4개월여 만에...
+- **LG 엑사원 4.0, 글로벌 AI 평가에서 11위 달성... 한국 AI 모델 첫 톱 10 ...** |  |  | http://www.globalepic.co.kr/view.php?ud=2025073013073897348439a4874_29
+  엑사원 4.0은 연구 및 학술, 교육 목적으로 활용할 수 있도록 공개됐으며, 32B 전문가 모델과 1.2B 온디바이스 모델 두 종류로 제공된다. 전문가 모델은 의사, 치과의사, 한약사, 관세사, 감정평가사, 손해사정사 등 6가지 국가 공인 전문 자격증 필기시험을 통과할 정도의 전문성을 갖췄다....
+- **[K-AI 정예 5파전] 성과로 입증한 LG 엑사원 4.0, "프런티어 AI로 개발"** |  |  | https://dealsite.co.kr/articles/146281
+  초거대 언어모델 '엑사원(EXAONE)'을 기반으로 범용성과 전문성을 모두 갖춘 'K-엑사원'을 오픈소스로 공개하고 B2B·B2C·공공 전 영역을 아우르는 AI... 고성능 32B 모델과 온디바이스 1.2B 모델로 이원화해 대규모 연산이 필요한 영역과 경량 환경 모두를 지원하고, 멀티모달 비전·랭귀지 모델(VL)을 탑재해...
+
+### 엑사원 1.2B 온디바이스 (web, 15 results)
+
+- **LG AI연구원, 국내 첫 하이브리드 AI ‘엑사원 4.0’로 글로벌 3번째 도전** | 뉴스픽 |  | https://m.newspic.kr/view.html?nid=2025071517172242993
+  엑사원 4.0 온디바이스 모델(1.2B) 벤치마크 성능 비교. [사진=LG] [이뉴스...
+- **옵트에이아이, 온디바이스 특화 자체 경량 AI 모델 '옵트기어' 공개** | AI타임스 |  | https://www.aitimes.com/news/articleView.html?idxno=213630
+  서버용 거대 언어모델을 단순 축소한 것이 아니라 SRAM과 메모리 대역폭, 전력, 지연 시간이 제한된 온디바이스 환경을 고려해 설계된 것이 특징이다. 가중치와 배포 파일을... 애플 아이폰 17 프로에서의 토큰 생성 속도는 LG '엑사원 4.0-1.2B'의 4.9배에 달했다. 벤치마크 평가에서도 지식 평가(MMLU) 43.2점, 한국 문화·상식 평가(HAE
+- **온디바이스 대형언어모델 엑사원 4.0 1.2B가 자동생성한 건축환경문헌 기반 Q&A ....** | 네이버 학술정보 |  | https://academic.naver.com/article.naver?doc_id=1077510260
+  본 연구는 LMM(large language model)을 온디바이스 LMM 모델인 엑사원 4.0 1.2B를 이용해 건축환경 분야의 논문 36개를 수집 정제하고 Zero-shot 형태의 프롬프트로 입력하여 생성한 1,913개의 질의응답쌍의 품질검사를 목표로 한다. 그 결과 containment는 평균 0.399, cosine similarity(SBERT)
+- **EXAONE(엑사원) 뜻 · AI for Everyone** | percent.ac |  | https://ai.percent.ac/word/exaone
+  EXAONE ; 엑사원 LG AI연구원이 개발한 대형 언어 모델(LLM) 계열의 브랜드로, 'EXpert AI for everyONE(모두를 위한 전문가 AI)'에서 이름을 따 왔습니다. 2021년 초거대 모델로 출발해 2025년 7월 추론을 결합한 국내 첫 하이브리드 모델 4.0(32B·1.2B)을 오픈 웨이트로 공개했고, 2026년 1월에는 MoE 구조
+- **LG, 국내 첫 하이브리드 AI ‘엑사원 4.0’ 공개** | ER 이코노믹리뷰 |  | https://www.econovill.com/news/articleView.html?idxno=703591
+  온디바이스 모델 공개…“작지만 강력하다” 엑사원 4.0 온디바이스 모델(1.2B) 벤치마크 성능 비교. 사진=LG LG AI연구원은 32B(매개변수 320억 개) 크기의 전문가 모델과 1.2B(매개변수 12억 개) 크기의 온디바이스 모델을 공개했다. 빠르게 확장 중인 온디바이스 AI 시장에서 ‘엑사원’으로 주도권 잡기에 나선다는 계획이다. 해당 모델은 지난
+- **LGU+ '엑사원 3.5' 가벼워졌다…온디바이스 sLM 개발** | 뉴시스 |  | https://www.newsis.com/view/NISX20250925_0003343223
+  다음달 베타 테스트…내년 상반기 상용화 내년엔 iOS 운영체제 스마트폰까지 확대 엑사원 4.0도 온디바이스 sLM 구현 계획
+- **LG AI연구원, 국내 최초 하이브리드 모델 '엑사원 4.0' 공개** | 디일렉 |  | https://www.thelec.kr/news/articleView.html?idxno=38217
+  LG AI연구원이 지난 3월 엑사원 딥을 공개한데 이어 7월 엑사원 4.0을 공개했다. 엑사원 4.0은 전문가 모델(32B), 온디바이스 모델(1.2B)로 두 종류로 구성된다. (자료=LG)
+- **LG, 하이브리드 AI ‘엑사원 4.0’ 공개..."글로벌 프론티어 성능 도달"** | AI타임스 |  | https://www.aitimes.com/news/articleView.html?idxno=200630
+  엑사원 4.0 온디바이스(1.2B) 모델 성능 비교표 (사진=LG AI연구원) 지난해 12월 공개한 '엑사원 3.5 2.4B' 모델에 비해 크기는 절반으로 줄여 가볍고 경제적이면서도 벤치마크에서는 수학, 코딩, 과학 분야 등에서 GPT-4o 미니보다 높은 성능을 보였다는 설명이다. 한편, LG AI연구원은 AI 기술 대중화를 위해 허깅페이스 공식 AI 모델
+- **국내 첫 하이브리드 AI ‘엑사원 4.0’ 공개** | LG |  | https://www.lg.co.kr/media/release/29154
+  ■ 미국과 중국, 프랑스의 대표 오픈 웨이트 모델과의 벤치마크 비교에서 최고 성능 입증 □ 지식 기반의 빠른 답변부터 생각하고 증명하는 추론까지 하나의 모델로 가능 ■ 의사 국가시험 등 6가지 국가 공인 전문가 자격증 필기시험을 통과할 수준의 기본기와 전문성 모두 갖춘 전문가 모델 □ 온디바이스 모델은 작지만 강력, 오픈AI의 GPT-4o mini보다 성능
+- **온디바이스 대형언어모델 엑사원 4.0 1.2B가 자동생성한 건축환경문헌 기반 Q&A ....** | DBpia |  | https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12479369
+  자료유형 : 학술저널, 저자정보 : 정창헌 (경상국립대), 저널정보 : 대한건축학회 · 대한건축학회논문집 · 大韓建築學會論文集 第41卷 第11號(通卷 第445號) · KCI우수등재 · SCOPUS, 발행연도 : 2025.11, 수록면 : 259 - 269 (11page)
+
+### 한국어 처음부터 학습 소형 모델 (news, 10 results)
+
+- **'﻿오픈 가중치의 안전심사 시대' [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169373
+  사전학습됐습니다. GLM-5 계열에서 처음부터 이미지 입력까지 함께 다루도록 만들어진 첫 네이티브 멀티모달 모델입니다. 성적표도 만만치... '50개 언어'라는 표현은 공개 가중치의 모델 카드와 일치하지 않으므로, 한국어 사용을 염두에 둔다면 직접 검증하기 전까지 지원 언어로 포함해서는 안...
+- **[산업소식] KT, 추석 맞아 9월 멤버십 혜택 확대…외식부터 공연까지** |  |  | http://www.4th.kr/news/articleView.html?idxno=2117240
+  프로모션 대상은 1일부터 10월 31일까지 △GV60 △GV60 마그마 △GV70 전동화 모델 △G80 전동화 모델을 출고한 개인 및 개인사업자 고객이다. 법인 및... 한국어 능력이 우수한 지원자는 우대한다. 지원자 대상 오프라인 채용 프로그램도 운영한다. 현대건설은 14일부터 18일까지 서울 신사동 디에이치...
+- **한국어 특화 LLM 공개한 KT "정부 AI 파운데이션 모델 참여 준비"** |  |  | https://www.dailian.co.kr/news/view/1518202/?sc=Naver
+  새롭게 선보이는 믿:음 모델은 ▲115억 파라미터 규모의 ‘믿:음 2.0 베이스’ ▲23억 파라미터 규모의 ‘믿:음 2.0 미니’ 2종으로 모두 한국어와 영어를... 믿:음 2.0 미니는 베이스 모델에서 증류한 지식을 학습한 소형 모델이다. 성능을 한층 고도화한 믿:음 2.0 프로 모델도 조만간 선보일 예정이다. 신...
+- **“이제는 해볼만하다”...한국어 잘하는 AI 만들겠다는 이 기업은** |  |  | https://www.mk.co.kr/article/11290426
+  입장에서 한국어에 특화된 모델이 필요하다고 느꼈다. 그동안 회사 자체적으로 라마, 큐엠 등 빅테크 오픈소스를 베이스로 한 8개 정도의 소형언어모... 올해 안에 첫 모델을 내놓을 예정이다. 엔비디아 서버 구매도 진행하고 있다. 10명 규모의 별도 개발팀도 신설한다. 학습에 필요한 자료는 원하는...
+- **모레, '최강 한국어 성능' 갖춘 102B 오픈 소스 모델 공개..."GPT-4o·큐원...** |  |  | https://www.aitimes.com/news/articleView.html?idxno=165878
+  또 국내 최대 규모 한국어 정제 데이터를 확보해 학습에 포함했다. 무엇보다 AI 모델 개발을 위한 최적의 인프라와 AI 플랫폼 기술을 자체 개발해... 또 "모델 개발 측면에서 세번째이자 최종 목표는 다른 모델을 기반으로 하는 것이 아니라 처음부터 완전한 한국형 파운데이션 LLM을 만들어내는 것"이라고...
+- **크라우드웍스, 中 알리바바 이어 딥시크와 맞손…"한국어 SLM 구축 협력...** |  |  | https://news.einfomax.co.kr/news/articleView.html?idxno=4345662
+  지난달 알리바바의 모바일 지도 앱(App)인 고덕지도에 국내 지역정보(POI) 데이터를 제공하기로 한 데 이어 중국 AI 스타트업 딥시크(DeepSeek)와 한국어... 지난 4월에는 영어를 중심으로 학습한 LLM과 달리 국내 비즈니스 환경에 최적화된 소형언어모델(SLM) '웍스원'을 발표하기도 했다. 이에 따라 오픈AI...
+- **업스테이지, AWS 기반 소형언어모델 '솔라 미니' 출시** |  |  | https://www.itbiznews.com/news/articleView.html?idxno=129126
+  기반의 소형언어모델(SLM) '솔라 미니'를 출시했다. 솔라 미니는 아마존 세이지메이커 점프스타트, AWS 마켓플레이스에서 제공되며, 한국어와 영어... 다목적 모델로 개발된 솔라는 미세 조정이 가능해 기업 환경에 쉽게 맞춤화할 수 있는 점이 특징이다. 기업이 맞춤형 모델 개발을 위해 처음부터 훈련시킬...
+- **업스테이지, AWS 기반 소형언어모델 출시** |  |  | https://www.datanet.co.kr/news/articleView.html?idxno=191877
+  Mini) 소형언어모델(SLM)을 출시했다고 21일 발표했다. 솔라 미니는 한국어와 영어로 이해와 요약, 번역 및 새로운 콘텐츠 예측 등 다양한 언어 작업을... 다목적 모델이다. 추후 태국어와 일본어로도 제공될 예정이다. 업스테이지 고객은 솔라 미니를 활용해 자사 모델을 처음부터 훈련시킬 필요 없이...
+- **[부산ㆍ경남 대학 브리핑 모음(8월14일)] 인제대 컴퓨터·AI대학, 태국 치...** |  |  | https://www.dnews.co.kr/uhtml/view.jsp?idxno=202608131710030220014
+  2차 한국어 연수 시작 인제대학교(총장 전민현)가 일본 교류대학 학생들을 대상으로 한국의 선진 의료 시스템과 K-컬처를 전파하는 여름 연수... 산학협력 모델로 고도화하겠다”고 밝혔다. ◆ 국립창원대, 3개 캠퍼스 국립대학육성사업 협력체계 강화 창원?거창?남해캠퍼스 통합 업무공유회 개최…공동...
+- **도마에 오른 챗봇의 한국어 능력..."네이버보다 외산이 뛰어나다고?"** |  |  | https://www.aitimes.com/news/articleView.html?idxno=159530
+  그러나 이런 식으로 해외 유명 모델과 한국어 능력 벤치마크 결과를 비교한 것은 처음입니다. 네이버가 지난 4월 공개한 테크니컬 리포트에는 한국어 모델 '폴리글롯'과 오픈 소스 '팰컨', 메타의 '라마 2' 등 대부분 매개변수가 적은 소형언어모델(sLM)이 비교 대상이었습니다. 중요한 것은 벤치마크 결과가...
+
+### 한국어 처음부터 학습 소형 모델 (web, 15 results)
+
+- **카카오, 초소형 AI 언어모델 '카나나-2' 공개...3B 모델 압축해 1.3B 만들어 오픈 웨....** | 한국정보기술진흥원 |  | https://kitpa.org/news/1801
+  카카오, 초소형 AI 언어모델 '카나나-2' 공개...3B 모델 압축해 1.3B 만들어 오픈 웨이트로 배포, 3만2천 토큰 긴 문맥 처리·한국어 처리 효율 30% 개선 [한국정보기술신문] 카카오(Kakao)가 크기는 작지만 성능을 끌어올린 인공지능(AI) 언어모델 '카나나-2(Kanana-2)'를 누구나 내려받아 쓸 수 있는 형태로 공개했다. 카카오의 AI
+- **한국어 교육 어휘 내용 개발 4단계 어휘 정보.xlsx** | 국립국어원 |  | https://www.korean.go.kr/common/download.do?file_path=reportData&c_file_name=d893a36e-5103-4ba1-85ba-a516131440a8_0.xlsx&o_file_name=%ED%95%9C%EA%B5%AD%EC%96%B4%20%EA%B5%90%EC%9C%A1%20%EC%96%B4%ED%9C%98%20%EB%82%B4%EC%9A%A9%20%EA%B0%9C%EB%B0%9C%204%EB%8B%A8%EA%B3%84%20%EC%96%B4%ED%9C%98%20%EC%A0%95%EB%B3%B4.xlsx
+  한국어교육어휘내용개발(4단계) 등급 어휘 품사 길잡이말 빈도 정보 구 구성 정보 관련어 화용 정보 주제·기능 의미범주 조남호(2002) 강범모 외(2009) 연어 관용어 유의어1 (기초사전)... 통화료 모델료 경제생활 경제 수단 중급 -료 접사 조미료 없음 없음 조미료 향신료 중급 -률02 접사 출생률 없음 2273 -율02 경쟁률 문맹률 발생률 상승률 
+- **ETRI, 한국어 소형언어모델 ‘이글’ 공개** | 서울경제 |  | https://www.sedaily.com/article/13986230
+  한국전자통신연구원(ETRI)이 한국어를 학습한 30억 파라미터(매개변수) 규모의 소형언어모델(SLM) ‘이글’을 허깅페이스허브에 공개했다고 28일 밝혔다. ETRI는 비용 부담과 한국어 학습 한계로 글로벌 빅테크의 언어모델을 쓸 수 없는 국내 중소·중견기업에게 이글이
+- **내가 17살이라면 LLM을 처음부터 만드는 법을 배우겠다** | GeekNews |  | https://news.hada.io/topic?id=32846
+  Paul Graham은 지금 17살이라면 LLM을 처음부터 만드는 법을 배우고, 접근 가능한 하드웨어로 가능한 한 강력한 모델을 직접 학습해볼 것이라고 말함 반대로 당장 스타트업을 시작하지는 않을 것이며, 먼저 나중의 창업을 받쳐줄 기술적 기반을 쌓겠다고 함 LLM을 깊이 이해하는 과…
+- **언어 모델 - 나무위키** | 나무위키 |  | https://namu.wiki/w/%EC%96%B8%EC%96%B4%20%EB%AA%A8%EB%8D%B8
+  개요 LM, Language Model 입력값(자연어, 보통은 사용자의 문장)을 기반으로 통계학적 으로 가장 적절한 출력값을 출력하도록 학습된 모델이다. 규모가 큰 언어모델(LM)을 LLM(Large Language Models, 대규모 언어 모델)이라고 부르는데, 매개변수 규모가 막대한, GPT-4 같은 모델들이 이에 해당한다. 반대로 규모가 작은 쪽은 
+- **comsat-embed 공개: 한국어·일본어 Retrieval Benchmark 1위 임베딩 모델 — Sionic Tech Blog** | sionic.ai |  | https://blog.sionic.ai/comsat-embed
+  목차 ; 1. 문제 정의 2. 전체 파이프라인 개요 3. 주요 레시피1 : 다양한 문서 수집 4. 주요 레시피2 : 합성 쿼리 생성 5. 주요 레시피3 : 하드 네거티브 마이닝 6. 주요 레시피4 : 학습 7. 평가 8. GPU 인프라 9. 모델 사용하기 SionicAI는 EUREKA(Extremely Universal Robust Embedding for
+- **효율적 사전학습이 가능한 한국어 대형 언어모델 사전학습 기술 개발 | 한국전....** | THE VC |  | https://thevc.kr/rnd/96411b9a621c4c1a7222cd97
+  과학기술정보통신부 R&D | 총 사업비 59.8억원, 연구기간 2022년–2025년. 한국전자통신연구원이 주관하는 인공지능 분야 딥테크 R&D 과제 | 한국어 대형 언어모델, 크로스모달 인공지능
+- **A.X - 나무위키** | 나무위키 |  | https://namu.wiki/w/A.X
+  A.X 4 Qwen 2.5 기반으로 한국어 데이터를 SKT의 슈퍼컴퓨터 타이탄을 통해 추가 학습한 지식형 언어 모델이다. 토크나이저 자체 설계로 한국어 문장에서 GPT-4o 대비 33... 처음부터 한국어로 훈련시켜 한국어 이해능력이 압도적으로 뛰어나며, 70B 이하 소형모델을 훈련시킬 때 사용할 "교사 모델"의 역할도 겸할 것이라고 밝혔다....
+- **ETRI, 한국어 소형 생성언어모델 '이글' 공개…연산능력 해외 모델보다 15%↑** | 국가과학기술연구회 |  | https://blog.naver.com/nststory2014/223676738643
+  한국전자통신연구원(ETRI)이 한국어 중심 신경망 기반 소형 생성형 언어모델을 개발해 오픈소스로 공개했다. 대규모 언어모델을 활용할 수 없는 중소·중견기업에 단비가 될... 생성형 언어모델은 텍스트 데이터에서 언어능력을 학습, 사용자 질문이나 지시에 따라 다양한 텍스트 콘텐츠를 만들어내는 시스템이다. 글로벌 빅테크 기업들은 과거 100억개 파라미터 규모..
+- **SLM 소형 언어모델, GPT-4보다 100배 저렴한 AI 구축 가능할까?** | 비젠메디컬 |  | https://medical.vizensoft.com/insight/read?no=597
+  SLM 소형 언어모델, GPT-4보다 100배 저렴한 AI 구축 가능할까? - "GPT-4로 챗봇 만들어봤더니 한 달 API 비용이 수백만 원이 나왔어요. 도저히 사업화가 안 되겠 #SLM #소형언어모델 #경량LLM #온디바이스AI #AI비용절감 #Phi4 #EXAONE #LlamaAI #GemmaAI #AI온프레미스 #AI생산성 #생성형AI #한국은행보고
+
+### 한국어 비전 언어 모델 경량 공개 (news, 10 results)
+
+- **독파모 2차 모델 공개 SKT…김태윤 개발 총괄 "일하는 AI 본격화"** |  |  | https://www.bloter.net/news/articleView.html?idxno=670006
+  수학과 한국어 영역에서 두드러진 성과를 냈다"고 말했다. 김 담당에 따르면 'A.X K2'는 총 6880억개(688B) 매개변수를 갖춘 초거대 언어모델로 이전... 이를 위해 SKT는 텍스트 모델인 A.X K2와 함께 이미지와 텍스트를 이해하는 △비전 언어 모델(A.X K2 VL Light-Preview) △상담·회의 등 음성을 인식·분석하는 음성...
+- **SKT, 독자 AI 모델 'A.X K2' 공개…산업 현장·일상으로 AI 확산** |  |  | https://www.koit.co.kr/news/articleView.html?idxno=208205
+  AI 모델 A.X K2를 오픈소스로 공개했다. 기존 519B 규모의 A.X K1보다 모델 규모를 확대해 수학·과학 추론과 한국어 장문 이해 능력을 강화했다. A.X K2는... ■비전·음성 AI까지 확장 SK텔레콤은 A.X K2를 기반으로 비전언어(VL) 모델과 음성언어(ALM) 모델도 함께 공개했다. 비전 모델은 이미지와 텍스트를...
+- **LG AI연구원·SKT, 독파모 2단계 '격돌'...AI 신모델 공개·우군 확대** |  |  | https://www.techm.kr/news/articleView.html?idxno=153890
+  지원 언어는 ▲한국어 ▲영어 ▲스페인어 ▲독일어 ▲일본어 ▲베트남어에서 ▲프랑스어 ▲이탈리아어 ▲포루투갈어 ▲폴란드어를 추가했다. 24개... 에이닷엑스 K2는 ▲비전언어(VL) 라이트 프리뷰 ▲오디오언어모델(ALM) ▲라온 스피치 3개 파생 모델도 선보였다. VL 라이트 프리뷰는 사진과 문자를...
+- **SKT, AI 파운데이션 모델 'A.X K2' 공개…산업 전반 AI 전환 속도 높인다** |  |  | https://www.eroun.net/news/articleView.html?idxno=86485
+  688B 규모 차세대 AI 모델 공개…추론 성능 대폭 향상제조·국방·바이오 등 산업 현장 AI 적용 본격화에이닷·기업용 AI 서비스에도 경량 모델 확대 적용조 단위 후속 모델·비전·음성 AI로 글로벌 경쟁력 강화 이로운넷 = 조은결 기자 SKT는 독자 AI 파운데이션 모델 '에이닷엑스 케이투(A.X K2)'를...
+- **SKT, 독자 AI 파운데이션 2차 모델 공개…크래프톤과 음성 AI도 협업** |  |  | http://www.thebigdata.co.kr/view.php?ud=2026072910200650330a47484cf8_23
+  추론과 한국어·장문 이해 능력을 높인 게 특징이다. 자체 개발한 SGA(Sparse Gated Attention) 구조를 적용해 긴 문맥 처리 성능도 강화했다. 제조·국방·바이오 분야 실증과 에이닷, A. Biz 등 자사 서비스에도 적용할 계획이다. SK텔레콤은 비전 언어(VL), 음성(ALM) 등 파생 모델도 함께 공개했다. 이...
+- **네이버클라우드, 국방용 경량 옴니모달 AI 모델 공개…실시간 분석 지원** |  |  | http://www.efnews.co.kr/news/articleView.html?idxno=130332
+  이번에 공개된 HyperCLOVA X SEED 4B는 국방 환경에 최적화된 경량 옴니모달 모델이다. 네이버클라우드는 자체 개발한 비전 인코더 'HyperCLOVA X CLIP'과 오디오 인코더를 적용해 시각·청각 정보를 통합 처리할 수 있도록 설계했다고 설명했다. 특히 한국어 문서와 국내 환경 중심 데이터를 학습해 한국형 국방...
+- **LG, 추론 기능 강화한 '엑사원 4.5' 공개..."패스 2.0과 다른 파운데이션...** |  |  | http://www.lkp.news/news/articleView.html?idxno=79015
+  LG AI연구원은 한국어와 영어 외에 스페인어, 독일어, 일본어, 베트남어까지 공식 지원 언어를 확장했다. ◆ '엑사원 4.5', 오픈 웨이트 공개로 AI 생태계 확장 기여, 한국어와 한국 문화를 가장 잘 이해하는 AI로의 진화 준비 LG AI연구원은 2024년 8월 '엑사원 3.0'을 국내 최초로 오픈 웨이트 모델로...
+- **[재계는 지금] 카카오, 한국형 하이브리드 멀티모달 언어모델 공개 外** |  |  | https://dealsite.co.kr/articles/154430
+  한국어 질문을 있는 그대로 이해하고 사고하는 등 한국어 논리 전개 능력에서 독보적 경쟁력을 입증하기도 했다. ◆한미반도체, 우주항공 필수... 첫 단계로 부산시는 작년에 네이버클라우드의 경량화 AI 모델인 '하이퍼클로바X 대시'를 기반으로 부산시 특화 AI 모델 구축에 착수해 행정 규정과 사례...
+- **리퀴드 AI, 엣지 디바이스용 3B 비전 언어 모델 'LFM2-VL-3B' 공개** |  |  | https://www.aitimes.com/news/articleView.html?idxno=203450
+  새로운 비전 언어 모델(VLM)을 출시했다. 리퀴드 AI는 22일(현지시간) 독자 아키텍처 기반의 새로운 VLM 'LFM2-VL-3B'를 공개했다. 이 모델은 기존... 모델은 영어, 일본어, 프랑스어, 스페인어, 독일어, 이탈리아어, 포르투갈어, 아랍어, 중국어, 한국어 등 다국어 시각 이해도 지원한다. LFM2-VL-3B의...
+- **NC AI, 초경량 멀티모달 비전언어모델 공개…"스마트폰에서도 구동"** |  |  | https://www.sedaily.com/NewsView/2GVJUOI0R2
+  엔씨소프트(036570)의 인공지능(AI) 기업 NC AI가 초경량 멀티모달 비전언어모델(VLM) ‘바르코 비전 2.0 1.7B’를 30일 공개했다. 이번에 공개된 모델은... NC AI에 따르면 1.7B 모델은 텍스트 처리 및 한국어 성능에서 글로벌 톱 오픈소스 멀티모달 모델인 InternVL3 2B, Ovis2 2B 등을 압도해 동일 체급에서...
+
+### 한국어 비전 언어 모델 경량 공개 (web, 15 results)
+
+- **Gemma(언어 모델)** | 나무위키 |  | https://namu.wiki/w/Gemma(%EC%96%B8%EC%96%B4%20%EB%AA%A8%EB%8D%B8)
+  개요 구글에서 공개한 오픈 웨이트(Open-Weights) 경량 대규모 언어 모델(sLLM). Gemini의 경량화 모델이다. 2. 모델... PaliGemma 비전 기능이 포함된 모델이다. 이미지를 업로드하여 해당 이미지에 대해 질문할 수 있다. 2.2. Gemma 2... 1B를 제외한 나머지 모델은 모두 멀티모달 모델로, 이미지를 이해할 수 있다. 한
+- **대형 언어 모델 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%EB%8C%80%ED%98%95_%EC%96%B8%EC%96%B4_%EB%AA%A8%EB%8D%B8
+  대규모 언어 모델 ( 영어: large language model, LLM ) 또는 거대 언어 모델 (巨大言語 - )은 수많은 파라미터(보통 수십억 웨이트 이상)를 보유한 인공 신경망으로 구성되는 언어... 이는 개발사인 오픈AI가 GPT-2가 악용될 가능성을 우려해 처음에는 공개를 보류하기도 할만큼 강력했기 때문이다. 2020년에 발표된 GPT-3는 이보
+- **NC AI, 초경량 멀티모달 비전언어모델 공개…"스마트폰에서도 구동"** | 서울경제 |  | https://www.sedaily.com/article/14098380
+  엔씨소프트(036570)의 인공지능(AI) 기업 NC AI가 초경량 멀티모달 비전언어모델(VLM) ‘바르코 비전 2.0 1.7B’를 30일 공개했다. 이번에 공개된 모델은 17억 매개변수(파라미터) 규모의 경량 모델로, 개인용 PC나 스마트폰 등 온디바이스 환경에서 구
+- **HyperCLOVA** | 나무위키 |  | https://namu.wiki/w/HyperCLOVA
+  언어 모델이다. 2. 특징 ChatGPT 대비 한국어 데이터를 6,500배 더 학습해 자연스러운 한국어 표현은 물론이고 한국... HyperCLOVA X DASH 2024년 4월 25일 공개된 경량화 모델. 3.3.2. HyperCLOVA X Vision 2024년 8월 공개된 텍스트와 이미지를 동시에... 3B, 1.5B, 0.5B 모델 3가지로 구성됐다
+- **리퀴드 AI, 엣지 디바이스용 3B 비전 언어 모델 ‘LFM2-VL-3B’ 공개** | AI타임스 |  | https://www.aitimes.com/news/articleView.html?idxno=203450
+  새로운 비전 언어 모델(VLM)을 출시했다. 리퀴드 AI는 22일(현지시간) 독자 아키텍처 기반의 새로운 VLM ‘LFM2-VL-3B’를 공개했다. 이 모델은 기존 4억5000만(450M), 16억(1.6B) 매개변수 모델을 확장한 30억(3B) 매개변수 버전으로, 이미지와... 모델은 영어, 일본어, 프랑스어, 스페인어, 독일어, 이탈리아어, 포르투갈어,
+- **“답하는 AI에서 일하는 AI로”… A.X K2가 그리는 소버린 AI의 미래 – 김태윤 파....** | SK텔레콤 뉴스룸 |  | https://news.sktelecom.com/228834
+  SK텔레콤이 독자 AI 파운데이션 모델 ‘A.X K2’를 공개했다. A.X K2는 총 6,880억 개의 매개변수(688B)를 갖춘 초거대 언어모델로, 이전 모델인 A.X K1보다 수학·과학 추론과 한국어 지식, 장문 이해 및 에이전트 역량을 강화했다. 국내외 14개 벤치마크 평균 성능은 A.X K1보다 32.2%p 향상됐으며, 장문 이해와 에이전트 관...
+- **PaddleOCR-VL - Baidu가 공개한 0.9B 초소형 비전-언어 모델 다국어 OCR** | GeekNews |  | https://news.hada.io/topic?id=23795
+  문서 파싱에 최적화된 초소형 비전-언어 모델(VLM) 로, 한국어 포함 109개 언어를 지원하며 수식,표,차트,손글씨 등 복잡한 요소를 정확히 인식함 핵심 모델 PaddleOCR-VL-0.9B는 NaViT 기반 동적 해상도 비주얼 인코더와 ERNIE-4.5-0.3B 언어 모델을 결합해…
+- **경량화된 비전-언어 모델의 효율적 학습을 위한 자기지도학습 설계** | earticle |  | https://www.earticle.net/Article/A468914
+  본 논문은 연안 해역의 CCTV 영상 데이터를 분석하여 위험 상황(예: 고립된 요구조자, 산불, 태풍 등)을 인지하고, 이를 자연어로 설명할 수 있는 경량 비전-언어 모델(VLM)
+- **작지만 강하다…NC AI, ‘바르코 비전 2.0 1.7B’ 공개** | 디지털타임스 |  | https://www.dt.co.kr/article/12007728
+  NC AI가 최고 성능의 초경량 멀티모달 비전언어모델(VLM)을 공개했다. NC AI는 온디바이스 환경에서 구동할 수 있는 초경량 멀티모달 인공지능(AI) 모델 ‘바르코 비전 2.0 1.7B’(파라미터 수 70억개)를 공개했다고 밝혔다. 바르코 비전 2.0은 이미지
+- **엔씨소프트, 한국어 특화 비전언어모델·멀티모달 벤치마크 5종 공개** | 조선비즈 |  | https://biz.chosun.com/it-science/ict/2024/12/04/4WGCJEJ4ZZCSTNYL4CBEOLLSCM/
+  엔씨소프트, 한국어 특화 비전언어모델·멀티모달 벤치마크 5종 공개 엔씨소프트NC가 뛰어난 한국어 성능을 자랑하는 중소형 오픈소스 비전언어모델비전언어모델, VLM 바르코 비전VARCO-VISION과 한국어 멀티모달 벤치마크 5종을 4일 공개했다고 밝혔다. 비전언어모델은
+
+### 한국어 문서 이해 AI 모델 공개 (news, 10 results)
+
+- **카페24·업스테이지, AI 모델 활용 확대 맞손…‘솔라 프로 4’ 실무 적...** |  |  | https://economist.co.kr/article/view/ecn202609110023
+  수행하는 AI 에이전트 활용에 초점을 맞춘 모델이다. 한국어 구어체와 실무 문서를 다루는 업무와 반복적인 작업에서 일관된 응답을 제공하는 데... 업스테이지는 지난 3일 솔라 프로 4의 실무 활용 방법을 담은 가이드도 공개했다. 다수의 상품 후기를 분석해 고객 의견을 정리하거나 상세페이지의...
+- **AI가 허문 언어 장벽, 한국어 패치 작업 활발 [게임 인더스트리]** |  |  | https://game.donga.com/124102/
+  국내 개발사가 만든 콘솔 게임이 많지 않았고 해외 게임의 정식 한국어화도 드물었던 만큼, 공략집을 참고하거나 내용을 제대로 이해하지 못한 채... 여전히 한국어로 만나기 어려웠습니다. 하지만 몇 년 사이 대규모언어모델(LLM)과 인공지능(AI)을 활용한 코딩이 발전하면서 언어 장벽도 빠르게 낮아지고...
+- **코히어, 문서 AI '파스 5' 공개…벤치마크 점수보다 활용성에 무게** |  |  | https://zdnet.co.kr/view/?no=20260829164324
+  5'를 공개했다. PDF, 슬라이드, 이미지 같은 문서를 AI가 읽고 활용할 수 있는 형태의 텍스트로 바꿔주는 모델이다. 한국어를 포함한 9개 언어를... 파스 5는 문서를 사람이 눈으로 보듯 페이지 전체를 한 번에 읽는다. 기존 모델은 글자를 하나하나 인식하는 작업과 그 내용을 이해하는 작업을 따로 나눠...
+- **﻿오픈소스 AI도 옵션이 붙기 시작했다 [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169002
+  중국 센스타임(商湯科技)이 지난 20일 정식 공개한 이 모델은 이름에 '8B'가 붙어 있지만, 이해 담당과 생성 담당 트랜스포머를 따로 두는 구조라 실제... 사내 문서함이나 결재 시스템을 MCP로 열어 두면 AI 비서가 곧바로 쓸 수 있어 편리하지만, 동시에 AI가 읽은 문서 어딘가에 숨어 있던 악의적 지시문에...
+- **업스테이지, 신규 AI 모델 ‘솔라 프로 4’ 공개** |  |  | https://www.sedaily.com/article/20079356?ref=naver
+  업스테이지는 문서 이해와 정보 추출, 긴 맥락 추론, 연속적인 의사결정 등 실제 업무 환경에서 요구되는 작업 흐름을 안정적으로 수행하는 데 모델 개발의 초점을 맞췄다. 솔라 프로 4는 공개 직후 한국 인공지능(AI) 모델 최초로 글로벌 개발자 플랫폼에 이름을 올렸다. 미국 누스 리서치가 개발한 AI...
+- **업스테이지 솔라 프로 4 써보니··· '높은 가격 경쟁력에 프로그램 코...** |  |  | https://it.donga.com/109346/
+  대응 언어는 한국어는 물론 일본어와 영어를 지원하며 채팅, 추론, 구조화된 출력 및 도구호출 등을 바탕으로 문서 및 코딩 사무 작업에 유리하다. 기술 측면에서는 독자AI 파운데이션 모델의 일환으로 구축해온 ‘오피스버스(OfficeVerse)’ 파이프라인을 통해 코딩 및 작업 성능을 크게 끌어올렸다....
+- **[IP리더를 만나다](5) 소기영 지온컨설팅 부사장 “AI 시대에도 특허번...** |  |  | https://www.etnews.com/20260827000054
+  특히 2015년에는 WIPO에서 발주한 일-영 번역사업 공개입찰에서 한국 업체로서는 처음으로 수행기관으로 선정됐다. 이어 2019년에는 WIPO 한-영 번역사업도... 정확한 이해가 필요하다. 동시에 기밀성이 확보된 환경에서 대량의 자료를 신속하고 정확하게 처리할 수 있는 AI 모델을 구축하는 것이 전제돼야 할...
+- **"한국 AI, 미국·중국 이어 세계 3강 굳혔다"…독자 AI 모델 3팀 다음 단...** |  |  | https://www.aitimes.kr/news/articleView.html?idxno=41486
+  이들이 2026년 상반기 개발해 공개한 AI 모델 4개 모두 에포크 AI의 '주목할만한 AI 모델'에 등재됐다. 정부는 에포크 AI가 2026년 선정한 주목할만한... NIA 벤치마크는 수학, 지식, 장문 이해, 지시 이행, 한국어뿐 아니라 안전성과 신뢰성까지 평가했다. 4개 정예팀의 벤치마크 평가 평균은 22....
+- **BC카드, AI '다이어트' 성공… 모델 크기 69% 줄이고 속도 3배** |  |  | https://www.s-journal.co.kr/news/articleView.html?idxno=43132
+  모델 용량은 줄었지만 AI 성능은 대부분 유지됐다. BC카드가 원본 모델과 경량화된 모델을 대상으로 한국어 이해 및 추론 능력 등 8종류의 성능 평가를... 지난달에는 자체 개발한 AI 플랫폼 'BCGPT WebUI' 오픈소스도 공개했다. 이 플랫폼은 문서 검색과 질의응답, 콘텐츠 생성, 다중 AI 협업 등을 한 환경에서...
+- **소스코드 외부 전송 없이 AI 코딩…팀스파르타, ‘AI 서밋 서울 2026’서...** |  |  | https://www.venturesquare.net/1107471/
+  K-AI 리더보드의 HLE(Ko) 평가에서 0.123점을 기록했다. 현재 공개된 리더보드에서는 국내 모델 가운데 가장 높은 점수다. HLE(Ko)는 과학과 수학, 인문학 등 여러 분야의 고난도 문제를 한국어로 제시해 모델의 추론 능력을 평가하는 지표다....
+
+### 한국어 문서 이해 AI 모델 공개 (web, 15 results)
+
+- **ChatGPT - 나무위키** | 나무위키 |  | https://namu.wiki/w/ChatGPT
+  언어를 이해해야 한다. 이 부분에서 기존의 대화형 AI는 부족한 점이 많았기에 동문서답을 하거나 아예 답변을 못하는 경우가 많아 단답형 외에는 활용도가 매우 제한적이었다.... 2024년 9월에 공개된 o1 계열 모델은 입시가 굉장히 치열한 한국에서도 대비에 많은 노력이 필요한 대학수학능력시험의 수학 4점, 과탐 3점 문제도 종종 푸는 사례가 등장했다. o
+- **대형 언어 모델 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/%EB%8C%80%ED%98%95_%EC%96%B8%EC%96%B4_%EB%AA%A8%EB%8D%B8
+  트랜스포머 모델, 프롬프트 등. 토큰화 는 자연어 처리의 일부로 일반 인간 언어를 저수준 기계 시스템(LLMS)이 이해할... 반면 Mistral AI의 Mistral 7B 및 Mixtral 8x7B는 보다 자유로운 아파치 라이선스를 채택하였다. 2025년 1월에는 DeepSeek가 6,710억 개의 파라미터를 가진 가중치 공개 모델 DeepSeek R1을
+- **CLOVA X - 나무위키** | 나무위키 |  | https://namu.wiki/w/CLOVA%20X
+  이야기 창작, 이야기 설정 창작 어시스턴트, 각종 창의성이 필요한 문구 및 문서 작성(광고 문구, 리뷰, 자소서 등등)... 부정적 평가 전체적으로 한국어 특화 모델인 것에 비해서 한국어 이해력이 다른 세계적인 초대형 모델에 비해서 그렇지 돋보이지도 않고, 어떤 부분에서는 오히려 심하게 뒤쳐지기도 한다. 백만, 천만 같은 한국식 숫자 읽는 법도 틀리는...
+- **한국어 잘 이해하는 AI 나온다···'형태소 45억개 학습'** | 헬로디디 |  | http://www.hellodd.com/news/articleView.html?idxno=68688
+  한국어를 잘 이해하는 인공지능(AI) 서비스 개발에 가속도가 붙을 전망이다.ETRI(한국전자통신연구원)는 최첨단 한국어 언어 모델 '코버트'(KorBERT)를 만들어 온라인에 공개했다고 11일 밝혔다. 이번 기술 개발로 한국어를 활용하는 인공지능(AI) 질의응답, AI 지능형 검색, AI 비서 등 AI 서비스 개발이 한층 고도화될 전망이다.언어 처리를...
+- **온더아이티, 깃허브·허깅페이스에 ‘한국어 문서 AI 모델·벤치마크 ’공개** | 데이터넷 |  | https://www.datanet.co.kr/news/articleView.html?idxno=211564
+  문서의 구조와 맥락을 해석해 검색, 요약, 질의응답으로 연결하는 기술이 기업 AI의 필수 인프라로 부상함에 따라 기업용 AI 시장의 문서 처리 기술이 단순 문자 인식을 넘어 문맥을 파악하는 문서 이해로 옮겨가고 있다.이에 온더아이티(대표 이병구)는 비전언어모델(VLM: Vision-Language Model) 기반의 한국어 도큐먼트 OCR 모델 ‘Bi...
+- **[2026년 8월 GPT-6 공개] 한국어 이해도 테스트 결과와 산업별 필수 활용 가이드** | 준이맘 |  | https://blog.naver.com/dlrlsud123/224382511334
+  드디어 공개된 OpenAI의 GPT-6 모델! 한국어 맥락 이해도가 비약적으로 상승하며 국내 산업계에 가져올 변화를 상세히... 기존 AI가 딱딱한 비서 느낌이었다면, 이제는 정말 대화가 통하는 동료라는 느낌이 강하게 들더라고요. 사용자가 고민을... 첫째, 금융 및 법률 분야의 문서 요약입니다. 수백 페이지에 달하는 복잡한 약관이나 판례를 한국 법률 용어
+- **Grok - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/Grok
+  하인라인이 일종의 이해 형태를 묘사하기 위해 만든 동사 그록에서 따왔다. 이 봇은 음모론, 아돌프 히틀러 찬양... 2024년 4월 12일, xAI가 문서, 도표, 그래프, 스크린샷 및 사진을 포함한 "다양한 시각적 정보를 처리"할 수 있다고... 소스 공개 라이선스로 출시되었다. 그록3 2025년 2월 17일, xAI는 주력 AI 모델인 그록3를 출시하고
+- **AI 언어 이해력, 1위는 폴란드어…한국어 22위, 왜?** | 지디넷코리아 |  | https://zdnet.co.kr/view/?no=20251107144358
+  다국어 AI의 한계 이번 연구는 현재 대형 언어 모델들이 다국어, 특히 비영어권 언어의 긴 맥락 처리에서 상당한 한계를 가지고 있음을 보여준다. 한국어를 포함한 많은 언어가 짧은 맥락에서는 비교적 괜찮은 성능을 보이지만, 실제 업무에서 자주 필요한 긴 문서 처리에서는 크게 뒤처진다. 연구진은 원룰러 벤치마크 공개를 통해 다국어 및 교차 언어 긴 맥락...
+- **한국어 LLM 활용 과제 - AI 교육 4권 : LLM 이론과 응용: 구조를 이해하고 검증 가능....** | 틸노트 |  | https://tilnote.io/books/6a0b7c303bfab6e39288928c/6a0b7c2f3bfab6e392889280
+  이 장에서 배울 것 ; 이번 장에서는 한국어 데이터와 한국 업무 환경에서 LLM을 쓸 때 생기는 실무 문제를 다룬다. 핵심은 단순하다. 한국어 LLM 활용은 "영어로 잘 되는 것을 한국어로 번역하면 된다"의 문제가 아니다. 조사, 어미, 띄어쓰기, 존댓말, 문서 양식, 개인정보, 보안 정책, 평가 데이터 부족이 함께 얽힌 문제다. 이 장을 마치면 다음을 설
+- **한국어 AI 모델 선택 가이드: Solar·EXAONE·KoGPT 성능·비용 한눈에 비교** | 비젠메디컬 |  | https://medical.vizensoft.com/insight/read?no=618
+  한국어 AI 모델 선택 가이드: Solar·EXAONE·KoGPT 성능·비용 한눈에 비교 - 지난 2년간 국내 기업들의 AI 도입 사례를 들여다보면, 공통적으로 반복되는 좌절이 있 #한국어LLM #Solar모델 #EXAONE #HyperCLOVA #KoGPT #Polyglot #한국어AI #LLM선택가이드 #AI파인튜닝 #소버린AI
+
+### 한국어 OCR 오픈소스 모델 2026 (news, 10 results)
+
+- **BC카드, 글로벌 오픈소스 무대서 금융 AI 경쟁력 입증** |  |  | https://www.hankookilbo.com/news/article/A2026062620200000788?did=NA
+  BC카드는 지난 5월 세계 최대규모 오픈소스 기술컨퍼런스인 ‘레드햇 서밋 2026’에 국내 금융사로는 최초로 초청받아 에이전틱 AI 운영 플랫폼 사례를... BC카드는 허깅페이스에 자체AI 모델과 한국어 금융 데이터셋을 공개해 현재 38개 LLM과 5개 데이터셋을 무료로 제공하고 있다. 공개 모델은 월 평균...
+- **비씨카드, AI가 핫딜 찾고 55만 맛집 추천…외국인은 스테이블코인 QR결...** |  |  | https://www.hankyung.com/article/2026082013651
+  ◇AI 서비스 ‘확대’ 비씨카드는 지난 5월 세계 최대 규모의 오픈소스 기술 콘퍼런스인 ‘레드햇 서밋(Red Hat Summit) 2026’에 국내 금융사로는 처음... 현재 38개 LLM과 5개 한국어 금융 데이터셋을 무료로 공개했다. 공개된 모델은 월평균 15만여 건의 다운로드를 기록하고 있다. ◇가상자산까지 결제...
+- **김영우 BC카드 대표, 에이전틱 AI 금융 혁신 속도…데이터 기반 신사업...** |  |  | https://www.fntimes.com/html/view.php?ud=2026071614073123489efc5ce4ae_18
+  글로벌 무대서 금융 AI 경쟁력 입증 올해 5월 미국에서 열린 세계 최대 규모의 오픈소스 기술 컨퍼런스 '레드햇 서밋(Red Hat Summit) 2026'에서 BC카드가... 현재 38개의 LLM과 5개의 한국어 금융 데이터셋을 공개했으며, 해당 모델은 월평균 15만여건의 다운로드를 기록하고 있다. BC카드는 AI 기술을 기반으로...
+- **수익모델 불투명해진 카드사, 'AI'로 새 활로 뚫는다** |  |  | https://www.m-i.kr/news/articleView.html?idxno=1386173
+  지난 5월 세계 최대 오픈소스 기술 콘퍼런스 '레드햇 서밋 2026'에 국내 금융사 최초로 초청받아 '에이전틱 AI' 운영 사례를 발표했다. 에이전틱 AI는 단순... BC카드는 자체 개발 AI 모델과 한국 금융 특화 데이터세트를 오픈소스 플랫폼인 '허깅페이스'에 공개했다. 현재 38개 LLM과 5개 한국어 금융 데이터세트를...
+- **BC카드, 생성형 AI 혁신 금융 최다 지정** |  |  | https://www.donga.com/news/Economy/article/all/20260624/134168032/2
+  BC카드는 5월 세계 최대 규모의 오픈소스 기술 콘퍼런스인 ‘레드햇 서밋 2026’에 국내 금융사 최초로 초청받아 ‘에이전틱 AI’ 운영 사례를... 거대언어모델(LLM) 공유 플랫폼인 ‘허깅페이스’에 공개해 전 세계 개발자들이 활용할 수 있도록 지원하고 있다. BC카드는 현재 38개 LLM과 5개 한국어 금융...
+- **글로벌 경쟁력 입증…BC카드, ‘AI 리딩 금융사’ 도약 속도** |  |  | https://www.dt.co.kr/article/12068177?ref=naver
+  BC카드는 지난달 세계 최대 규모의 오픈소스 기술 콘퍼런스인 '레드햇 서밋(Red Hat Summit) 2026'에 국내 금융사로는 최초로 초청받아 에이전틱(Agentic) AI... 5개의 한국어 금융 데이터셋을 무료로 공개했으며 이를 통해 국내 금융권 유일의 글로벌 LLM 서비스 기여자(Contributor)로 활동 중이다. 공개된 모델은...
+- **﻿AI가 눈을 뜨고, 머릿속에 세상을 그리기 시작했다 ﻿[정원훈의 AI 트...** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092163309
+  모델입니다. 총 80억 파라미터 중 토큰당 약 10억 개만 켜지는 MoE(전문가 혼합) 구조에 12만8000 토큰 문맥, CPU·GPU 통틀어 동급 최고 속도, 한국어 포함... 엔비디아의 세계 모델에 맞설 오픈소스 진영의 대항마가 나올지, 1비트 브라우저 생성 모델이 어디까지 화질을 끌어올릴지, 그리고 무검열 모델의...
+- **AI가 흔든 37년 'HWP'… 잠자던 공공문서 데이터화 "이제 시작"** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092162225
+  정부의 HWPX 의무화, 글로벌 AI 서비스의 HWP 지원, 오픈소스 파서(Parser)·편집기 등장, 국내 문서 엔진 기업들의 문서 구조화 기술 경쟁이 맞물리면서... 회사는 이를 RAG 등 AI 모델이 활용할 수 있는 데이터 정비 기술로 내세우고 있다. 이 밖에도 광학문자인식(OCR), 검색엔진, RAG 솔루션, 클라우드...
+- **﻿'엔비디아·클라우드·GPU' 없이… AI가 책상 위로﻿ [정원훈의 AI 트렌...** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092162118
+  '소비자용 GPU에서도 돌아가는 오픈소스 영상 생성 모델 설퍼-2-베이스(Sulphur-2-base)', '13억 파라미터로 70억급 비전 성능을 낸 미니CPM-V 4.6(MiniCPM-V... 기존 슈퍼토닉 2의 5개 언어에서 6배 이상 언어 폭을 넓혔고, 한국어는 당연히 포함입니다. 핵심 수치를 보면 살짝 놀랍습니다. ONNX 런타임...
+- **[기업家] 네이버 ④ㅣ 대화형 검색·글로벌 인프라·멀티모달까지…AI 전...** |  |  | https://www.cbci.co.kr/news/articleView.html?idxno=570812
+  ● 2026-04-17 네이버, 독자 비전 인코더 개발…AI 모델에 직접 적용 소버린 AI (PG) (사진=연합뉴스) 네이버가 자체 개발한 비전 인코더를 모든 AI 모델에 전면 적용하기로 결정했다. 이로써 중국 오픈소스 인코더 사용으로 불거졌던 독자성 논란을 해소하고, 한국어와 한국 문화에 최적화된 멀티모달 AI 경쟁력...
+
+### 한국어 OCR 오픈소스 모델 2026 (web, 15 results)
+
+- **한국어 OCR 솔루션 8가지: 정확도와 가격 비교 (2026)** | lido.app |  | https://www.lido.app/kr/hangugeo-ocr
+  2026년 기준 국내 한국어 OCR 정확도 1위는 Naver Clova OCR(97~99%)이며, 사업자등록번호 10자리·전자세금계산서·한자 혼용 문서처럼 한국 업무 특유의 서식을 처리하려면 국내 학습 데이터를 보유한 솔루션을 선택해야 합니다. 예산과 자동화 범위에 따라 NHN Cloud OCR, 카카오엔터프라이즈, Lido 등 8가지 솔루션 중 업무에 맞
+- **무료 OCR 프로그램 8가지: 한국어 문서 인식 비교 (2026년)** | lido.app |  | https://www.lido.app/kr/mooryo-ocr
+  2026년 현재 무료로 사용할 수 있는 한국어 OCR 프로그램으로는 Naver Clova OCR, Google Drive OCR, Microsoft OneNote, NewOCR.com, OnlineOCR.net, Adobe Scan, Tesseract, Lido 총 8가지가 있습니다. 각 도구마다 한국어 인식 정확도와 무료 한도, 처리 가능한 파일 형식이 
+- **NVIDIA Nemotron** | 나무위키 |  | https://namu.wiki/w/NVIDIA%20Nemotron
+  # 7월에는 Mistral AI와 공동으로 Mistral-Nemo 12B를 내놓으면서 Apache 2.0 라이선스로 풀린 오픈 모델에도 이름을... Nemotron OCR v2 - 영어, 한국어, 중국어, 일본어, 러시아어 등 6개 언어를 지원하는 OCR 특화 모델. 4. 기술... # NVIDIA 측은 자사 모델을 "진정한 오픈 소스"라고 표현하지만, O
+- **[Snapocket] OCR을 위한 VLM 선택하기 | 이주한 기술 블로그** | Github |  | https://lh99tw.github.io/blog/2026/04/17/ocr%EC%9D%84-%EC%9C%84%ED%95%9C-vlm-%EC%84%A0%ED%83%9D%ED%95%98%EA%B8%B0/
+  개요 ; OCR을 위한 오픈소스 VLM을 선택할 때, 개인이 고를 수 있는 두 가지 최선의 선택지는 PaddleOCR-VL과 GLM-OCR이다. Marker-Inc-Korea에서 발표한 KO-VLM-Benchmark 에는 다양한 모델의 한국어 VLM 벤치마크가 첨부되어있다. 성능 측면만을 고려하면 위 벤치마크의 모델들을 채택하는 것이 가장 좋은 선택이다. 
+- **온더아이티, Vision-Language Model 기반 한국어 Document OCR 모델 'BizOnAI V-OCR' 공개** | 한국인공지능소프트웨어산업협회 |  | https://www.sw.or.kr/site/sw/membernews/membernewsView.do?newsNo=50396
+  제목 : 온더아이티, Vision-Language Model 기반 한국어 Document OCR 모델 'BizOnAI V-OCR' 공개, 링크[바로가기] : https://www.etnews.com/20260422000215, 회원사 : (주)온더아이티
+- **고문서 OCR·디지털화 AI 도구 추천 — 무료·한국어 지원 (2026) | 모켓** | moket.kr |  | https://www.moket.kr/verdict/use/historical-document-ocr
+  맞춤 AI 도구 ; Hyperscience ; CLOVA OCR ; Mathpix ; 비정형 문서 IDP(지능형 문서 처리) AI 플랫폼으로 손글씨·자유양식 문서의 맥락과 의미를 추출해 표준 데이터로 변환한다. | 추천 업무: 비정형 문서 맥락 판단
+- **한국형 OCR 모델 — 한국어·영문·중문 OCR 세계 최상위 · Corepin** | corepin.ai |  | https://corepin.ai/ocr
+  한국 계약서·사업 문서·영수증 정확도에서 Claude Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · 국내 OCR 서비스를 모두 추월했습니다. 영문·중문 페이지까지 한 번의 호출로 자동 처리 , 국내 시장 평균가 대비 약 50% 저렴, 100% 국내 처리로 규제 준수.
+- **GLM-OCR: 0.9B 파라미터로 SOTA 성능을 달성한 초경량 오픈소스 OCR 모델 (feat. Z.ai) - ....** | PyTorchKR |  | https://discuss.pytorch.kr/t/glm-ocr-0-9b-sota-ocr-feat-z-ai/8956/1
+  GLM-OCR 모델 소개 ; GLM-OCR은 중국의 선도적인 AI 연구 기업인 Zhipu AI(Z.ai)에서 공개한 0.9B(약 9억 개) 규모의 초경량 멀티모달 모델입니다. 이 모델은 단순히 이미지 내의 텍스트를 추출하는 전통적인 광학 문자 인식(OCR)의 범위를 넘어, 문서의 레이아웃, 도표, 수식, 그리고 서식 정보를 완벽하게 이해하고 이를 구조화된 
+- **Cohere Transcribe - SOTA 오픈소스 음성 인식 모델** | GeekNews |  | https://news.hada.io/topic?id=28165
+  입력은 오디오 파형을 log-Mel 스펙트로그램으로 변환, 출력은 전사된 텍스트 ; 2B(20억) 파라미터 규모의 대형 Conformer 인코더가 음향 표현을 추출하고, 경량 Transformer 디코더가 토큰을 생성
+- **설치형 오픈소스 OCR 엔진 성능 비교: OCT 결과 이미지를 대상으로 - 논문** | DBpia |  | https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11949280
+  설치형 오픈소스 OCR 엔진 성능 비교: OCT 결과 이미지를 대상으로 Performance Comparison of Installed Open-Source OCR Engines: Analyzing OCT Result Images
+
+### 온디바이스 OCR 한국어 (news, 10 results)
+
+- **뉴플로이, 온디바이스 AI 문서 OCR 서비스 ‘뉴플로이 AI’ 출시** |  |  | https://zdnet.co.kr/view/?no=20260819102548
+  업무 자동화 소프트웨어 기업 뉴플로이, 온디바이스 AI 문서 OCR 서비스 ‘뉴플로이 AI’ 무료 출시 뉴플로이는 문서 레이아웃 분석, 한국어·영어 OCR, 표 구조 분석 등 역할별로 특화된 소형 AI 모델을 결합하는 방식을 적용했다. 사용자는 필요한 모델만 선택·실행할 수 있기에 고성능 GPU 없이 일반 PC의...
+- **[ZD SW 투데이] 채널톡, '불편 없는 기업' 한국어 번역본 출간 外** |  |  | https://zdnet.co.kr/view/?no=20250211175058
+  [편집자주] ◆채널톡, '불편 없는 기업' 한국어 번역본 출간 채널톡 운영사 채널코퍼레이션이 KS한국고용정보와 함께 고객 상담 혁신 전략을 담은 '불편... 공공기관은 온디바이스와 온프레미스 방식 중 선택해 도입할 수 있다. '셀비 노트'는 기관 내부망 설치로 보안성을 높이고 다수 사용자 동시 접속 및...
+- **플리토 이정수 대표 "온디바이스 AI, LLM으로 데이터 중요성 커져"** |  |  | https://www.donga.com/news/It/article/all/20240304/123805196/1
+  인식(OCR), 음성 데이터도 모은다. 텍스트는 플리토 번역 플랫폼 전반에서 유입되고, 이미지나 목소리, 사진 등은 플랫폼 사용자가 제공한다. 또한 다국어... 데이터에 한국어 STT (Speech to Text), TTS(Text to Speech) 데이터를 꾸준히 학습시켜 나가야 한다”라고 덧붙였다. 또한 온디바이스 AI를 위한 소형 언어 모델...
+- **'버릴 줄 아는 AI'의 시대﻿ [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092167016
+  그동안 온디바이스 TTS의 약점은 '읽기는 하는데 심심하다'였습니다. 감정 연기는 큰 모델과 클라우드의 영역으로 여겨졌죠. 그 벽을 1억 개 남짓한... 한국어 지원이 관건인데, 이 대목은 오히려 국내 음성 AI 기업들에 기회로 읽힙니다. 3위: Mage-VL | microsoft "영상을 '코덱처럼' 본다… 볼 것만 골라...
+- **[인터뷰] 민경삼 HP 전무 “프린트 AI 준비 끝났다… AI 시대, 프린터 '메...** |  |  | https://www.ddaily.co.kr/page/view/2026072915225650437
+  다만 “한국은 고유한 언어와 디지털 환경을 갖춘 시장인 만큼, 실제 도입을 위해서는 한국어 콘텐츠와 국내 사용 환경에 대한 충분한 현지화·검증... 이를 '스마트 디바이스 솔루션(SDS)'과 연동해 부품 교체 주기나 고장 위험을 예측함으로써, 엔지니어의 불필요한 출동을 줄이고 업무 중단 시간을...
+- **"다글로, 받아쓰기는 충분... 연결성 승부 시작" [구픽 AI, 쓰고 묻다] ①** |  |  | https://www.ddaily.co.kr/page/view/2026071114412045858
+  국내 STT의 한국어 받아쓰기 성능 자체가 어느 정도 상향 평준화됐다는 얘기다. 관건은 받아쓴 텍스트를 어떻게 요약·기획·문서 작성 같은 후속 작업과... 장기는 초경량화를 통한 온디바이스 AI다. 이 대표는 “온디바이스 모델은 내부 개발을 완료한 상태”라며 “모바일 구동 시 개인정보 유출 우려와...
+- **﻿100만 토큰이 '기본'이 된 한 주 ﻿[정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092165502
+  100만 토큰 컨텍스트를 지원하고, 기반 모델의 비전(이미지·OCR) 능력까지 상속해 사진을 '읽는' 것도 됩니다. 여기까지만 보면 '작은 몸집에 긴... 뒤집어 보면, '한국어에 강한 온디바이스 PII 필터'는 국내 기업에 열려 있는 뚜렷한 사업 기회이기도 합니다. 2위 : FaceAnything | UmutKocasari "사진 몇 장이면...
+- **"국내 원조 LLM '바르코', 더 강력하고 똑똑한 멀티모달로 돌아왔다"...N...** |  |  | https://www.aitimes.kr/news/articleView.html?idxno=35689
+  7B 경량 모델은 스마트폰이나 PC 등 다양한 엣지 디바이스에서도 원활하게 동작할 수 있도록 설계됐다. 이는 클라우드 환경 뿐만 아니라 개인... 기존 OCR(광학문자판독) 모델들과 달리 이미지와 언어 정보를 동시에 학습한 VLM기반 접근 방식을 채택, 기존 오픈소스 OCR 모델 대비 한국어 OCR 능력이 더...
+- **[IT는 지금] 오픈AI, 삼성전자 임직원 대상 챗GPT 엔터프라이즈 공급 外** |  |  | https://dealsite.co.kr/articles/163983
+  노타는 교통, 안전, 기상, 재난, 환경 분야 AI 모델의 경량화·최적화와 온디바이스 AI 기술을 담당하며, LLM 기반 자동 보고 체계를 통해 도시 데이터를 실시간으로 분석·전파하는 역할을 맡는다. 회사는 업스테이지의 한국어 특화 언어모델과 연계해 소버린 AI 기반 도시 서비스를 구현하고 AI의 인지...
+- **﻿AI가 눈을 뜨고, 머릿속에 세상을 그리기 시작했다 ﻿[정원훈의 AI 트...** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092163309
+  총 80억 파라미터 중 토큰당 약 10억 개만 켜지는 MoE(전문가 혼합) 구조에 12만8000 토큰 문맥, CPU·GPU 통틀어 동급 최고 속도, 한국어 포함 8개 언어... 온디바이스·엣지를 정조준한 것이죠. 답을 내기 전에 '사고의 연쇄'를 거치는 추론 모델이고, 문맥창은 이전 세대의 3만2000 토큰에서 12만8000 토큰으로...
+
+### 온디바이스 OCR 한국어 (web, 15 results)
+
+- **뉴플로이, 온디바이스 AI 문서 OCR 서비스 ‘뉴플로이 AI’ 출시** | 지디넷코리아 |  | https://zdnet.co.kr/view/?no=20260819102548
+  뉴플로이가 온디바이스 AI 모델 기반의 문서 광학문자인식(OCR) 소프트웨어 ‘뉴플로이 AI’를 무료 제공한다.19일 회사에 따르면, 뉴플로이 AI는 PDF와 스캔 문서의 글자, 표, 레이아웃을 인식해 내용 전체를 데이터 형태로 구조화한다. 단순 텍스트 인식에 그치지 않고 문서 레...
+- **온디바이스 AI 기반 무료 OCR 서비스 '뉴플로이 AI' 발표** | 디일렉 |  | https://www.thelec.kr/news/articleView.html?idxno=61133
+  업무 자동화 소프트웨어 기업 뉴플로이가 자체 개발 온디바이스 인공지능(AI) 모델 기반의 문서 광학문서인식(OCR) 소프트웨어 '뉴플로이 AI(Newploy AI
+- **뉴플로이, 온디바이스 문서 OCR '뉴플로이 AI' 출시** | 아시아경제 |  | https://www.asiae.co.kr/article/2026081910161747294
+  뉴플로이는 온디바이스 인공지능(AI) 기반 문서 광학문자인식(OCR) 소프트웨어 '뉴플로이 AI'를 출시하고 개인·기업 고객에게 무료로 제공한다고 19일 밝혔다.
+- **뉴플로이, 온디바이스 AI 문서 OCR 서비스 ‘뉴플로이 AI’ 무료 출시** | 데이터넷 |  | https://www.datanet.co.kr/news/articleView.html?idxno=213883
+  업무 자동화 소프트웨어 기업 뉴플로이(대표 김진용)는 온디바이스 AI 모델 기반의 문서 OCR 소프트웨어 ‘뉴플로이 AI’를 출시하고, 개인·기업 고객 모두에게 무료 제공한다고 밝혔다.‘뉴플로이 AI’는 PDF와 스캔 문서의 글자, 표, 레이아웃을 인식해 내용 전체를 데이터 형태로 구조화해 단순 텍스트 인식에 그치지 않고 문서 레이아웃 분...
+- **뉴플로이, 온디바이스 AI 문서 OCR 공개** | 한스경제 |  | http://www.hansbiz.co.kr/news/articleView.html?idxno=857782
+  | 서울=한스경제 김종효 기자 | 뉴플로이는 온디바이스 AI 문서 OCR 소프트웨어 '뉴플로이 AI'를 출시했다고 19일 밝혔다. 개인과 기업 고객 모두에게 무료로 제공한다.'뉴플로이 AI'는 PDF와 스캔 문서의 글자, 표, 레이아웃을 인식해 데이터를 구조화한다. 문서 레이아웃 분석, 표 구조 및 셀 단위 텍스트 인식, 표 내 데이터 연관 관계 분석...
+- **"문서 외부 전송 없이 PC에서 처리"...뉴플로이, 온디바이스 AI 공개** | 테크M |  | https://www.techm.kr/news/articleView.html?idxno=154415
+  뉴플로이가 온디바이스 AI 기술을 적용한 문서 OCR 소프트웨어 '뉴플로이 AI'를 새롭게 선보였다. 문서 데이터를 외부 서버로 전송하지 않고 사용자 PC에서 직접 처리할 수 있도록 설계한 것이 특징이다.뉴플로이는 개인과 기업 고객을 대상으로 뉴플로이 AI를 무료 제공한다고 19일 밝혔다. PDF와 스캔 문서에 포함된 글자와 표, 레이아웃 등을 인식해...
+- **뉴플로이, 온디바이스 AI 문서 OCR 서비스 '뉴플로이 AI' 무료 출시** | 아이뉴스24 |  | http://www.inews24.com/view/1996218
+  업무 자동화 소프트웨어 기업 뉴플로이(대표 김진용)는 온디바이스 AI 모델 기반의 문서 OCR 소프트웨어 '뉴플로이 AI(Newploy AI)' 출시하고 무료 제공한다고 19일 밝혔다. 뉴플로이 AI는 PDF와 스캔 문서의 글자, 표, 레이아웃을 인식해 내용 전체를 데이터 형태로 구조화한다. 단순 텍스트 인식에 그치지 않고 문서 레이아웃 분석, 표 구...
+- **뉴플로이, 온디바이스 AI 문서 OCR 소프트웨어 ‘뉴플로이 AI’ 출시** | 디스커버리뉴스 |  | https://www.discoverynews.kr/news/articleView.html?idxno=1098904
+  업무 자동화 소프트웨어 기업 뉴플로이(대표 김진용)가 온디바이스 AI 기술을 기반으로 한 문서 OCR 소프트웨어 ‘뉴플로이 AI(Newploy AI)’를 출시했다.뉴플로이 AI는 PDF 및 스캔 문서 내의 텍스트, 표, 전체 레이아웃을 인식해 전체 내용을 데이터 형태로 구조화하는 소프트웨어다.단순 문자 인식 외에 문서 레...
+- **뉴플로이, 온디바이스 AI 기반 '문서 OCR' 서비스 출시** | 머니투데이 |  | https://www.mt.co.kr/future/2026/08/19/2026081909491947104
+  [이 기사에 나온 스타트업에 대한 보다 다양한 기업정보는 유니콘팩토리 빅데이터 플랫폼 '데이터랩'에서 볼 수 있습니다. ] 업무 자동화 소프트웨어 스타트업 뉴플로이가 문서를 외부 서버로 전송하지 않고 사용자의 PC에서 처리하는 온디바이스 AI(인공지능) 기반 문서 광학문자인식(OCR) 소프트웨어 '뉴플로이 AI'를 출시했다고 19일 밝혔다.
+- **뉴플로이, 온디바이스 AI 문서 OCR 서비스 뉴플로이 AI 무료 출시** | 베타뉴스 |  | https://www.betanews.net/article/view/beta202608190012
+  뉴플로이가 온디바이스 AI 모델 기반의 문서 OCR 소프트웨어 '뉴플로이 AI'를 출시하고, 무료 제공한다. '뉴플로이 AI'는 PDF와 스캔 문서의 글자, 표, 레이
+
+### 한국어 VLM 1B 미만 (news, 0 results)
+
+- none
+
+### 한국어 VLM 1B 미만 (web, 15 results)
+
+- **언어 모델이 ‘위험한’ 주제에 대해 열려 있는 것을 얻는 것 – Unite.AI** | unite.ai |  | https://www.unite.ai/ko/getting-language-models-to-open-up-on-risky-subjects/
+  
+- **[논문 리뷰] Seedream 3.0 Technical Report - Moonlight** | themoonlight.io |  | https://www.themoonlight.io/ko/review/seedream-30-technical-report
+  고품질 이미지 생성 속도를 4-8배 높이고 복잡한 타이포그래피까지 해결하는 Seedream 3.0의 혁신 기술을 확인하세요.
+- **비전 언어 모델, 작아졌지만 성능은 더 강화 | 인기 스토리** | HyperAI초신경 |  | https://hyper.ai/ko/stories/162982590eb14efea5dddb37006724ca
+  비전 언어 모델의 최신 동향 (더 나은, 더 빠른, 더 강력한) 비전 언어 모델(VLMs)이 최근 화제가 되고 있다. 지난 블로그 글(2024년 4월 작성)에서는 VLMs에 대해 많이 이야기하였는데, 그 중 LLaVA는 첫 번째 성공적이고 재현 가능한 오픈소스 비전 언어 모델로 소개되었다. 이 모델을 발견, 평가, 미세 조정하는 방법에 대한 팁도 함께 제공
+- **VLM 관련 AI 뉴스 | AI Trends** | aitrends.kr |  | https://aitrends.kr/tag/vlm
+  입력 노이즈에 흔들리는 AI 설명, 얼마나 믿을 수 있을까? ; 입력의 미세한 변화에도 AI의 설명이 급변하는 문제를 해결하기 위해 사후 기여도 분석 기법의 안정성을 측정하는 벤치마크가 공개됐다.
+- **[2024/03/18 ~ 03/24] 이번 주의 주요 ML 논문 (Top ML Papers of the Week)** | GeekNews |  | https://news.hada.io/topic?id=14019
+  DAIR.AI에서 매주 공개하는 ML 논문들에 대한 글을 자동 번역해보았습니다. 이번 주에 선정된 논문들에는 대체로 대규모 언어 모델(LLMs)을 활용한 연구들이 많이 보입니다. 특히, 'Tool Use in LLMs', 'Step-by-Step Comparisons Make LLMs Better Reasoners', 'LLM4Decompile', 'Age
+- **(붙임3) 2026년 AI바우처 지원사업 공급기업 POOL 최종 목록(1428개사).xlsx** | 정보통신산업진흥원 |  | https://www.nipa.kr/comm/getFile?srvcId=BBSTY1&upperNo=dDeoF4I4omGVAcXfEFhPkw==&fileTy=ATTACH&fileNo=4tHMdTXVms6zrFX1onIWBQ==
+  공급기업 Pool 2026년 AI바우처 지원사업 공급기업 POOL(1,428개사) 현황(최종) 연번 기업명 전문분야 AI솔루션 기업정보 1 주식회사 오앤 분석지능,시각지능,언어·음성지능,행동지능 솔루션명 : 다이비티 (DYVITY) 주요기능 : 다이비티 솔루션 제품군 - 휴먼객체 인식 관련 제품군 (스포츠 동작분석(태권도 품새 동작 등), 슛 동작 분석, 
+- **우주개발 동향과 전망** | 한국항공우주연구원 |  | https://www.kari.re.kr/attach/3938973305218ec95c30779112f5c22d/9a9db098b587ee18b321c826f3707a49
+  우주개발 동향과 전망 2022.11 한국항공우주연구원 정책팀 RI KARI 한국항공우주연구원 KOREA AFROSPICE Research INSTITUTE 04 05 05 07 09 24 25 Ⅰ. 연구요약 Ⅱ. 2021년 정부 우주개발... 6%), 한국(0.7%), 캐나다(0.5%) 순으로 높게 나타난다. 특히 러시아의 경우 정부 우주개발 예산이 201
+- **[현장] SK AI 서밋 2025, AI 모델 트랙 가보니..."글로벌 초격차 좁히는 한국형 AI 주....** | 테크42 |  | https://www.tech42.co.kr/%ED%98%84%EC%9E%A5-sk-ai-%EC%84%9C%EB%B0%8B-2025-ai-%EB%AA%A8%EB%8D%B8-%ED%8A%B8%EB%9E%99-%EA%B0%80%EB%B3%B4%EB%8B%88-%EA%B8%80%EB%A1%9C%EB%B2%8C-%EC%B4%88%EA%B2%A9%EC%B0%A8-%EC%A2%81%ED%9E%88/
+  SK텔레콤 A.X, 통화요약 5000만건 처리하는 독자 모델… LLM의 추론 능력과 전문 모델의 지식 융합 고부가가치 산업으로 확장 최근 서울 삼성동 코엑스에서 진행된 'SK AI 서밋 2025'은 3만5000명의 온·오프라인 참가자가 참석하며 성황리에 막을 내렸다. 지난해보다 5000명이 늘어난 참가자 수와 함께 8개국 78개 기관이 참여하며, 국내 최대
+- **생성형AI 데이터 품질관리 가이드 v2.0** | 한국지능정보사회진흥원 |  | https://www.nia.or.kr/common/board/Download.do?bcIdx=28106&cbIdx=26537&fileNo=3
+  LMM, 합성데이터를 중심으로 과학기술정보통신부 NIA 한국지능정보사회진흥원 TTA 한국정보통신기술협회 Telecommunications Techeology Association Ⅰ 개요 제 1 장 추진 배경 및 목적 ··············································································
+- **gWorld: Trillion Labs가 공개한, 실행 가능한 코드로 모바일 세상을 시뮬레이션하는 ....** | PyTorchKR |  | https://discuss.pytorch.kr/t/gworld-trillion-labs/8974
+  gWorld 소개 ; gWorld는 한국의 초지능 연구 스타트업 Trillion Labs에서 공개한 혁신적인 인공지능 모델로, 세계 최초로 오픈 웨이트(Open-weight)로 공개된 시각적 모바일 GUI 월드 모델(World Model) 입니다. 이 모델은 모바일 환경에서 사용자의 특정 행동(Action)이 주어졌을 때, 그 결과로 나타날 다음 화면의 상
+
+### 브라우저에서 실행 한국어 AI 모델 (news, 10 results)
+
+- **'﻿오픈 가중치의 안전심사 시대' [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169373
+  AI 응용프로그램(Spaces) 톱3 허깅페이스 스페이스는 AI 모델을 웹 브라우저에서 바로 체험할 수 있는 플레이그라운드입니다. 코드 한 줄 없이 최신 AI... '50개 언어'라는 표현은 공개 가중치의 모델 카드와 일치하지 않으므로, 한국어 사용을 염두에 둔다면 직접 검증하기 전까지 지원 언어로 포함해서는...
+- **[AI 전쟁] 'AI 에이전트 시대' 개막 알린 OpenAI 'GPT-6 아스트라'… 반도...** |  |  | https://www.businesskorea.co.kr/news/articleView.html?idxno=276738
+  '묻고 답하기'를 넘어 '스스로 실행하는 AI'로의 대전환 그동안 생성형 AI 모델들은 사용자의 질문에 텍스트나 이미지로 답을 주는 '보조자' 역할에... 105만 토큰에 달하는 거대한 컨텍스트 창을 갖춘 아스트라는 웹 브라우저 탐색, 텍스트 문서 작성을 넘어서 온라인 폼 입력, 소프트웨어 설치 및...
+- **﻿오픈소스 AI도 옵션이 붙기 시작했다 [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169002
+  AI 응용프로그램(Spaces) 톱3 허깅페이스 스페이스는 AI 모델을 웹 브라우저에서 바로 체험할 수 있는 플레이그라운드입니다. 코드 한 줄 없이 최신 AI... 3위: MCP | FireRedTTS3 | Hugging-apps "목소리를 복제하고, 설계하고, 고쳐 쓴다… 한국어도 지원" 중국 샤오훙수(小紅書)의 파이어레드(FireRed) 팀이 만든 음성
+- **AWS '아마존 퀵', 기업 업무 파고든다…검색부터 실행까지 자동화** |  |  | https://www.epnc.co.kr/news/articleView.html?idxno=405484
+  사업기획 업무에서는 회의에서 나온 피드백을 기존 기획안에 반영하고 브라우저 자동화를 통해 경쟁사 웹사이트에서 필요한 정보를 수집했다. 리서치... 기업에서 에이전트가 수행하는 업무 범위가 넓어질수록 데이터 접근 권한과 실행 과정에 대한 관리도 중요해질 전망이다. 기업용 AI 역시 모델의 답변...
+- **아마존 퀵으로 기사 써봤더니…“질문하는 AI 넘어, 내 업무를 기억하고...** |  |  | https://www.venturesquare.net/1105554/
+  앱이 실행돼 있어야 한다. 개인이 쓰던 AI를 팀으로…조직에서는 ‘공유와 통제’가 중요해진다 개인이 자신의 업무에 AI를... 브라우저 등 다양한 환경에서 사용할 수 있다. AWS 측은 엑셀 작업부터 간단한 질의까지 업무 성격이 다양한 만큼 기반 모델을...
+- **[AI 클로즈업] 구글 ‘스파크’ 한국 출시…브라우저 에이전트 경쟁 본...** |  |  | https://www.ddaily.co.kr/page/view/2026080317330001757
+  출시하면서 브라우저 조작형 인공지능(AI) 에이전트 경쟁이 본격화했다. 오픈AI와 앤트로픽이 각각 챗GPT와 클로드를 중심으로 복잡한 업무를 대신하는 범용 에이전트를 키우는 사이 구글은 크롬과 지메일, 문서, 검색 등 자체 서비스를 하나의 실행환경으로 묶었다. AI 경쟁의 무게중심도 질문에 답하는 모델에...
+- **﻿AI 유통 계층의 부상 ﻿[정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092168558
+  AI 응용프로그램(Spaces) 톱3 허깅페이스 스페이스는 AI 모델을 웹 브라우저에서 바로 체험할 수 있는 플레이그라운드입니다. 코드 한 줄 없이 최신 AI... 텍스트→영상, 이미지→영상, 영상→영상은 물론 텍스트→음향까지 한 모델이 담당합니다. 한국어를 포함해 9개 언어의 프롬프트를 지원한다는 점도...
+- **클릭의 종말? 검색창이 ‘명령창’ 됐다 [AI 딥다이브]** |  |  | https://www.mk.co.kr/article/12066874
+  실제 실행 인프라를 갖추는 경쟁으로 옮겨갈 수 있다. 트래픽에 의존해온 언론·광고 시장은 더 직접적인 충격을 받을 수 있다. 한국언론진흥재단... AI탭 이용자 반응과 재방문율 등을 고려해 4분기 중 생성형 AI 광고 모델을 도입하는 것이 목표라고도 밝혔다. 브라우저도 전장이다. 네이버는 AI 기능을...
+- **답변 넘어 실행으로…네이버, 'AI탭' 핵심 기술 공개** |  |  | https://www.digitaltoday.co.kr/news/articleView.html?idxno=681168
+  네이버는 이런 경쟁력의 원천으로 오랫동안 축적해 온 한국어 검색 데이터와 블로그·카페·쇼핑·플레이스 등 서비스 자산을 꼽았다. 질의응답에서는... 서비스도 AI탭에 연결할 계획이다. 웨일 브라우저 전용 에이전트, 연내 건강 에이전트 출시도 예고했다. 결국 네이버가 공개한 모델, 하네스 엔지니어링...
+- **"네이버표 AI, 공식 데뷔"…한국어 능통에 쇼핑·구매까지 가능** |  |  | https://www.news1.kr/it-science/internet-platform/6209593
+  네이버는 AI탭 정식 출시에 맞춰 실행 중심의 대화형 검색 서비스에 최적화된 차세대 AI 모델을 탑재했다. 이 모델은 네이버의 서비스 환경에 맞춤... 이 서비스는 AI탭과 마찬가지로 웹브라우저 크롬 안에서 구글의 생성형 AI인 '제미나이'를 통해 정보를 찾을 수 있도록 돕는다. 제미나이를 크롬 안에서...
+
+### 브라우저에서 실행 한국어 AI 모델 (web, 15 results)
+
+- **Show GN: 온글 – 브라우저 안에서 작동하는 로컬 AI 번역 및 TTS 크롬 익스텐션** | GeekNews |  | https://news.hada.io/topic?id=32072
+  안녕하세요. 웹페이지를 한국어로 번역하고 음성으로 읽어주는 Chrome 확장 프로그램을 만들었습니다. 이미 브라우저에서 번역 잘되는데 뭐하러 만들었냐고 물으신다면, 이 것 마저도 보안에 막혀있는 곳이 있습니다. ㅠ 선택한 텍스트, 전체 웹페이지, 유튜브 자막을 번역할 수 있습니다. 번역과 한국어 음성 생성은 WebGPU/WASM을 이용해 브라우저 안에서 처
+- **AI 에이전트 - 위키백과 한국어** | 위키백과 한국어 |  | https://ko.wikipedia.org/wiki/AI_%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8
+  이들의 제어 흐름은 빈번하게 대형 언어 모델(LLM)에 의해 구동된다. 에이전트 시스템에는 메모리 구성 요소, 계획 로직... 4계층 : 전개 및 인프라 - AI 에이전트를 실행하기 위한 강력한 기술적 토대를 제공한다. 5계층 : 평가 및 관측 가능성... 웹 브라우저 에이전트(예: 오픈AI 오퍼레이터)가 있다. 2025년 중반까지 AI 에이전트는 비디오 
+- **WebLLM Chat (브라우저에서 도는 대화 AI)** | AI Teading |  | https://ailearn.space/article/webLlmChat
+  언어 모델을 브라우저 안에서 직접 실행해 대화하는 서비스입니다. 대화 내용이 서버로 전송되지 않고 내 컴퓨터 안에서만 처리된다는 점이 다른 챗봇과 다릅니다. 화면은 한국어를 지원합니다.
+- **[2025-10] 디지털서비스 이슈리포트 02 AI 기업은 왜 자체 브라우저 확보에 집착하....** | 디지털서비스 이용지원시스템 |  | https://www.digitalmarket.kr/web/board/BD_board.view.do?domainCd=2&bbsCd=1030&bbscttSeq=20251031102035953
+  02 AI 기업은 왜 자체 브라우저 확보에 집착하는가? │김영욱 SAP Product Engineering Product Expert 최근 AI 업계는 LLM과 확장 서비스의 고도화를 넘어, 사용자와의 접점인 ‘브라우저’를 둘러싼 치열한 경쟁 국면에 접어들었다. AI 기업들이 브라우저 확보에 이토록 집착하는 이유는 단순한 제품 확장을 넘어, 웹 지배권과 핵
+- **지금 바로 쓰는 생성형 AI** | AI Teading |  | https://ailearn.space/course/create
+  오늘 당장 쓸모 있는 도구들만 모았습니다. 묻고, 그리고, 사진을 손보고, 번역하는 일을 브라우저에서 바로 해봅니다. 12개 자료 · 4단계
+- **컴퓨터 사용 - Interactions API | Google AI for Developers** | google.dev |  | https://ai.google.dev/gemini-api/docs/computer-use?hl=ko
+  함수 호출과 마찬가지로 Computer Use 작업을 수신하고 실행하는 클라이언트 측 실행 환경을 구현해야 합니다. 지원되는 모델 목록은 모델 버전을 참고하세요. Gemini 3.x 모델은 다음과 같은 여러 고급 기능을 지원합니다. 멀티 환경 지원: 브라우저, 모바일, 데스크톱 환경용 빌드 에이전트 의도를 사용한...
+- **내장된 AI를 사용한 번역 | AI in Chrome** | Chrome for Developers |  | https://developer.chrome.com/docs/ai/translator-api?hl=ko
+  Google은 AI 기술을 사용하여 콘텐츠를 사용자의 기본 언어로 번역합니다. AI 번역에는 오류가 있을 수 있습니다.
+- **AI를 사용한 클라이언트 측 번역 | AI in Chrome** | Chrome for Developers |  | https://developer.chrome.com/docs/ai/translate-on-device?hl=ko
+  Google은 AI 기술을 사용하여 콘텐츠를 사용자의 기본 언어로 번역합니다. AI 번역에는 오류가 있을 수 있습니다.
+- **Claude Code의 작동 방식 - Claude Code Docs** | claude.com |  | https://code.claude.com/docs/ko/how-claude-code-works
+  Claude Code는 터미널에서 실행되는 에이전트 어시스턴트입니다. 코딩에 탁월하지만 명령줄에서 할 수 있는 모든 작업을 도와줄 수 있습니다: 문서 작성, 빌드 실행, 파일 검색, 주제 조사 등. Claude에게 작업을 주면 세 가지 단계를 거칩니다: 컨텍스트 수집, 작업 수행, 결과 검증. 이 단계들은 함께 진행됩니다. Claude는 파일을 검색하여 코
+- **한국어 특화 AI 서비스 개발 언어모델 등장** | 지디넷코리아 |  | https://zdnet.co.kr/view/?no=20190611094150
+  과학기술정보통신부와 정보통신기획평가원(IITP)의 혁신성장동력 프로젝트로 추진 중인 엑소브레인 사업에서 최첨단 한국어 언어모델이 공개됐다.인공지능(AI) 비서, AI 질의응답, 지능형 검색 등 한국어를 활용한 AI 서비스 개발이 한층 고도화될 것으로 전망된다.한국전자통신연구원(ETRI)은 ...
+
+### 한국어 AI 학습 데이터셋 공개 2026 (news, 10 results)
+
+- **[Daily AI] 트릴리온랩스, 모바일 월드모델 'gWorld' 논문 ICML 2026 채택** |  |  | https://www.ddaily.co.kr/page/view/2026070710425324810
+  트릴리온랩스는 8B와 32B 두 규모에서 모델을 개발해 오픈웨이트로 공개했다. 픽셀 대신 코드로 상태를 예측하는 방식이 모델 규모와 무관하게 일관된... 한국어 복합추론 데이터 1만건 구축 크라우드웍스는 과학기술정보통신부가 주관하고 한국지능정보사회진흥원(NIA)이 추진하는 ‘2026년도 AI허브 학습용...
+- **일본어 전용 AI에 한국어 가르쳐… 블루아카이브 목소리의 비밀** |  |  | https://www.newscj.com/news/articleView.html?idxno=3409879
+  넥슨게임즈가 일본어 전용 AI 음성 합성 모델을 한국어 환경에 이식해 블루아카이브 캐릭터 음성을 고도화한 개발 과정을 17일 공개했다. 김명지 넥슨게임즈 IO본부의 파트장은 이날 경기 성남시 판교에서 진행 중인 '2026 넥슨 개발자 콘퍼런스(NDC 26)' 세션에서 'Style-Bert-VITS2(SBV2)' 오픈소스 모델을 한국어에...
+- **'﻿오픈 가중치의 안전심사 시대' [정원훈의 AI 트렌드]** |  |  | https://it.chosun.com/news/articleView.html?idxno=2023092169373
+  3 | Text Generation "사전학습은 한 줄도 안 했다… 후반 훈련만으로 점수를 약 6.2배 끌어올린 모델" 중국 지푸AI가 8월 28일 허깅페이스에 가중치를 공개... 1위: Rare Disease, Real Kid: MVA Hackathon 2026 | SageBio "전 세계 환자 50명 미만의 질환…한 아이의 약 85GB 데이터가 연구자에
+- **[시론] 모티프의 독파모 평가 이의 제기는 타당한가** |  |  | https://zdnet.co.kr/view/?no=20260828093721
+  스탠퍼드 HAI의 '2026 AI 인덱스'는 모델 순위 근거로 AAII가 아니라 아레나 Elo를 쓴다. 프론티어 랩들이 출시 때 AAII 점수를 인용하는 것은 사실이지만... 행정·법률 데이터의 정합성, 안전성 검증, 그리고 한국어 토큰 효율. 이 축의 지표는 외부에서 가져올 수 없다. 국가가 직접 설계하고 보유해야 하며, 비공개...
+- **엔비디아, 600만 건 ‘한국형 데이터’ 전격 투입…K-AI 밀착 지원** |  |  | http://www.edaily.co.kr/news/newspath.asp?newsid=05192246645418416
+  서울 2026’에서 한국형 합성 데이터셋인 ‘네모트론-페르소나-코리아(Nemotron-Personas-Korea)’를 선보였다. 이번 데이터셋 공개는 국내 AI 개발자들이 겪고 있는 고품질 한국어 데이터 부족 문제를 해결하는 동시에, 개인정보 유출 우려가 없는 안전한 학습 환경을 제공한다는 점에서 의미가 크다....
+- **GPU 넘은 엔비디아, 한국 데이터까지 손댔다…소버린 AI 속도전** |  |  | https://zdnet.co.kr/view/?no=20260428174318
+  이번 데이터셋 공개는 단순 기술 성과를 넘어 AI 인프라 경쟁 구도가 데이터 영역으로 확장되고 있음을 보여주는 사례로 해석된다. 그동안 그래픽처리장치(GPU) 등 컴퓨팅 자원이 핵심 경쟁력이었다면, 최근에는 학습 데이터 확보가 AI 성능과 직결되는 핵심 변수로 부상하고 있기 때문이다. 특히 국가별...
+- **[LAB을 찾아서]판결문 속 개인정보, 사람 대신 AI가 지운다** |  |  | https://view.asiae.co.kr/article/2026042308201977609
+  인공지능(AI)이 대신하는 기술이 나왔다. 정연돈 고려대 컴퓨터학과 교수 연구팀이 수작업에 의존해온 비식별화 과정의 병목을 해소하고 판결문 공개... 규모의 학습 데이터를 구축했고, 이를 기반으로 AI가 문맥 속 개인정보를 스스로 식별하고 제거하도록 설계했다. 특히 한국어의 교착어 특성과 복잡한...
+- **[#IT라운지] 여기어때 '빌라폰테인 할인'·'잡코 스마트픽' 급성장·SDT-모...** |  |  | https://www.newsworks.co.kr/news/articleView.html?idxno=827081
+  ◆엘리스 '한국어 AI 교육용 데이터셋 공개' 엘리스그룹이 한국어 교육용 데이터셋 2종을 글로벌 오픈소스 플랫폼 '허깅페이스에 공개했다. 공개된... 한국어 웹 텍스트에서 교육적 가치 점수를 통과한 콘텐츠만 선별해 구축한 것으로, 사실성·문맥 일관성·교육 적합성을 평가해 한국어 AI 모델 학습에...
+- **판결문 공개 빨라지나...고려대 연구팀, 민감정보 비식별 AI 처리 기술 ...** |  |  | http://www.lec.co.kr/news/articleView.html?idxno=751908
+  대규모 학습 데이터를 구축하고, 인공지능이 이를 학습해 비식별화를 수행하는 방식이다. 기존 모델에 조건부 무작위장을 결합해 한국어 특유의... 데이터를 학습하면서 저장한 판단 기준의 개수로, 적을수록 모델이 가볍고 빠르게 작동한다 *벤치마크 데이터셋: AI나 프로그램의 성능을...
+- **에이아이웍스, 국내 최초 '한국형 스키마 기반 대화 데이터셋(KoSGD)' 허...** |  |  | https://www.etnews.com/20260108000391
+  공개한 KoSGD 데이터셋은 기술적 완성도와 실용성 측면에서 세 가지 핵심 차별점을 갖추고 있다. △한국어 ToD 벤치마크 제시: 모델이 학습... 회사는 이를 바탕으로 2026년까지 금융,이커머스 및 테스트 등 다양한 도메인에 ToD기반의 AI 에이전트 솔루션과 AICC 기술 고도화를 본격적으로 출시할...
+
+### 한국어 AI 학습 데이터셋 공개 2026 (web, 15 results)
+
+- **엘리스그룹, '한국어 AI 교육용 데이터셋' 허깅페이스 공개** | 뉴시스 |  | https://www.newsis.com/view/NISX20260114_0003476814
+  인공지능(AI) 인프라와 클라우드, 산업별 솔루션을 제공하는 AI 풀스택 기업 엘리스그룹이 한국어 교육용 데이터셋 2종을 글로벌 오픈소스 플랫폼 ‘허깅페이스(Hugging Face)’에 공개했다고 14일 밝혔다. 엘리스그룹은 한국어 AI 모델 학습에 적합한 고품질 데이터를 연구자, 개발자, 기업이 폭넓게 활용할 수 있도록 제공해 국내외 AI 연구·개발 활성
+- **공지 사항 - 문화체육관광부 국립국어원** | 언어정보나눔터 |  | https://kli.korean.go.kr/boards/noticeView.do?recordId=1733&lang=ko
+  안녕하세요. 국립국어원 <모두의 말뭉치>에서 안내드립니다. 국어학 연구 및 인공지능 연구 개발을 위해 활용하실 수 있는 신규 말뭉치 16종, 수정 공개 말뭉치 7종이 2026년 6월 30일자로 새롭게 공개되었습니다. ■ 신규 공개 말뭉치 16종 묵자-점자 병렬 말뭉치 2021 묵자-점자 병렬 말뭉치 2025 문어 말뭉치 2025 표 설명 말뭉치 2025 이
+- **엘리스그룹, 한국어 AI 교육용 데이터셋 허깅페이스에 공개** | 서울경제 |  | https://www.sedaily.com/article/14170913
+  엘리스그룹은 한국어 교육용 데이터셋 2종을 글로벌 오픈소스 플랫폼 '허깅페이스'에 공개했다고 15일 밝혔다. 엘리스그룹은 한국어 AI 모델 학습에 적합한 고품질 데이터를 연구자, 개발자, 기업이 폭넓게 활용할 수 있도록 제공해 국내외 AI 연구·개발
+- **엘리스그룹, AI 교육용 한국어 데이터셋 허깅페이스 공개** | 디지털타임스 |  | https://www.dt.co.kr/article/12040645
+  엘리스그룹은 한국어 교육용 데이터셋 2종을 오픈소스 플랫폼 허깅페이스에 공개했다고 14일 밝혔다. 엘리스그룹은 한국어 인공지능(AI) 모델 학습에 적합한 고품질 데이터를 연구자·개발자·기업이 활용할 수 있도록 제공해 국내외 AI 연구개발(R&D) 활성화를 지원할 계획
+- **한국어 지식기반 관계 데이터** | AI-Hub |  | https://www.aihub.or.kr/aihubdata/data/view.do?dataSetSn=71633
+  구축년도 : 2022 · 갱신년월 : 2024-03 · 조회수 : 35,705 · 다운로드 : 1,866 · 용량 : 195.80 MB
+- **데이터 찾기** | aihub.or.kr |  | https://aihub.or.kr/aihubdata/data/view.do?srchOptnCnd=OPTNCND001&currMenu=115&searchKeyword=AI&dataSetSn=71981
+  소개 ; 태국과 캄보디아의 다양한 자료를 체계적으로 수집·정제한 동남아시아 지식·문화 데이터는 지역 고유의 언어와 문화적 맥락을 반영한 고품질 데이터셋입니다. 다국어 AI 모델 학습을 위한 원천데이터와 라벨링·QA 데이터로 활용되어, 다양한 분야에서 문화적 적합성을 강화하는 기반을 제공합니다.
+- **데이터 찾기** | aihub.or.kr |  | https://aihub.or.kr/aihubdata/data/view.do?srchOptnCnd=OPTNCND001&currMenu=115&searchKeyword=AI+%EA%B8%B0%EB%B0%98&dataSetSn=71981
+  
+- **'독파모' 정예팀 데이터 3544만 건 개방…'AI허브'서 무료 - 정책뉴스 | 뉴스** | 대한민국 정책브리핑 |  | https://www.korea.kr/news/policyNewsView.do?newsId=148970751
+  '독파모' 정예팀 데이터 3544만 건 개방 정부가 '독자 인공지능(AI) 파운데이션 모델' 프로젝트로 확보한 29종의 AI 학습용 데이터 3544만 건을 무료 개방한다. 과학기술정보통신부와 한국지능정보사회진흥원(NIA)은 이번 프로젝트 5개 정예팀이 1차 단계평가 과정에서 구축한 데이터를 AI허브 누리집(aihub.or.kr)에 공개한다고 27일 밝혔다.
+- **엘리스그룹, 1900억 토큰 규모 한국어 데이터셋 허깅페이스에 공개** | 디지털타임스 |  | https://www.dt.co.kr/article/12040545
+  엘리스그룹이 한국어 교육용 데이터셋 2종을 글로벌 오픈소스 플랫폼 ‘허깅페이스’에 공개했다고 14일 밝혔다. 엘리스그룹은 한국어 인공지능(AI) 모델 학습에 적합한 고품질 데이터를 연구자, 개발자, 기업이 폭넓게 활용할 수 있도록 제공해 국내외 AI 연구·개발 활성화
+- **다문화교육포털 상세** | 중앙다문화교육센터 |  | https://www.edu4mc.or.kr/guide/news/view.html?newsitemid=02100311.20260115060233001
+  엘리스그룹은 한국어 교육용 데이터셋 2종을 글로벌 오픈소스 플랫폼 '허깅페이스'에 공개했다고 15일 밝혔다. 엘리스그룹은 한국어 AI 모델 학습에 적합한 고품질 데이터를 연구자, 개발자, 기업이 폭넓게 활용할 수 있도록 제공해 국내외 AI 연구·개발 활성화를 지원할 계획이다. 이번에 공개된 데이터셋은 거대언어모델(LLM)의 한국어 성능을 학술?교육 도메인에
+
+---
+
+## Naver proper, via SerpApi (engine=naver), 2026-09-12, 16 queries x {news, web}, 310 results, 0 errors
+
+Full result list above this section was replaced by the SerpApi run in the same file (see harness/naver_sweep.py).
+Leads that needed verification, and what they turned out to be:
+
+| Naver headline | verified as | effect on our claims |
+|---|---|---|
+| NC AI 초경량 멀티모달 비전언어모델, 스마트폰에서도 구동 (이투데이) | VARCO-VISION-2.0-1.7B, 2025-07-30, research licence, 2.12B actual params | none: already in the prior-art table; still above 1B |
+| 카카오 '에이전틱 AI 벤치마크' 공개 (AI타임스) | Kakao Orchestration Benchmark, ICLR 2026, released 2026-02-04: planning + function calling + refusal over 17 domains and ~100 virtual tools; results on GitHub; no model under 2B scored | a second Korean agentic benchmark to report on once a Songgot line is strong enough; the sub-2B row is empty |
+| 리퀴드 AI, 가장 작은 온디바이스 추론 모델 (AI타임스) | LFM2.5-1.2B-Thinking, 2026-01-20, 1.17B, ~900 MB, open weights, Korean among 8 languages, BFCLv3 57 | non-Korean comparator at on-device size; add to the FunctionChat table when time allows |
+| 카카오 카나나-하이브리드 (테크M) | Kanana-v-4b-Hybrid, 2026-01-05, 4B, research, not released | none |
+| 에이아이웍스 KoSGD (전자신문) | AIWORKX/KoSGD on the Hub, CC BY-SA 4.0: Korean schema-guided dialogue (21 services, intents, slots, canonical values), machine translation of Google SGD with full human review | **acquired**: slot filling is the argument-extraction skill our model lacks; converts to tool-call rows (intent = tool, slots = arguments) |
+| 뉴플로이 온디바이스 문서 OCR (여러 매체) | closed product, 2026-08-19, no weights or benchmark numbers found | add to the vision prior-art list as a closed product |
+
+Not found on Naver: any Korean model under 1B with a published tool-calling number; any Korean vision-language model under 1B; any Korean model running in a browser. The Naver gate for the claim in paper section 7 is now CLOSED as of 2026-09-12.

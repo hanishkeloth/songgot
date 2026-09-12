@@ -251,7 +251,11 @@ browser. Our numbers are exact-match under our own scorer, not the benchmark's G
 say so wherever they appear. Korean leaderboards (Dnotitia, Horangi, NIA K-AI) bracket models at 27B
 or 30B and below and have no on-device or sub-1B category, so "ranked" claims are not available to a
 model of this size in Korea today. For the vision model in preparation we found no Korean
-vision-language model under 1B parameters; we will say "we found none", not "none exists".
+vision-language model under 1B parameters; we will say "we found none", not "none exists". A Naver-native sweep on
+2026-09-12 (16 queries through Naver's own index, docs/NAVER_SWEEP_2026-09-12.md) found the same picture and one
+closed product to note: 뉴플로이 (Newploy) shipped an on-device Korean document OCR service on 2026-08-19 without
+weights or benchmark numbers. Kakao's Orchestration Benchmark (ICLR 2026) is a second Korean agentic benchmark on
+which no model under 2B parameters has been scored.
 
 ## 8. Release
 

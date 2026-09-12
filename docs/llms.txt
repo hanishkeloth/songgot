@@ -2,7 +2,7 @@
 
 > Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.
 
-Author: Hanish Keloth (Palette). Published 2026-09-11. Licence: Apache 2.0.
+Author: Hanish Keloth (Palette). Published 2026-09-12. Licence: Apache 2.0.
 
 ## Facts
 - What is Songgot? Songgot (송곳, Korean for awl) is a Korean-first tiny agentic language model for tool calling and structured extraction on the device, trained from scratch by Hanish Keloth at Palette and released under Apache 2.0.

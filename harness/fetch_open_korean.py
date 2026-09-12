@@ -97,3 +97,9 @@ def hf_text():
 @app.function(image=image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 60 * 6, ephemeral_disk=524288)
 def hf_vision():
     _snap(HF_VISION, "vision"); note("hf_vision DONE")
+
+
+@app.function(image=image, volumes={V: vol}, cpu=4, memory=16384, timeout=60 * 60 * 2, ephemeral_disk=524288)
+def hf_one(repo: str, lic: str = "see card"):
+    """Fetch one Hub dataset with its licence line recorded in PROVENANCE.md."""
+    _snap({repo: lic}, "one"); note(f"hf_one {repo} DONE")
