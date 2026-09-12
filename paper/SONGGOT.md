@@ -225,6 +225,19 @@ written by the build from the run logs; a row reads "training" until its run has
   post-training renders them. Post-trained on v6 it scores 24.6 percent against 23.8 for the 6B-token
   base; post-trained on v7 it scores 25.0 against 27.6. Both differences sit inside the benchmark's
   error bar (section 5), so the two bases are a tie on this test, and v8 is trained on both.
+- Six times the parameters on the wrong corpus lose. Songgot-L (24 layers, hidden 1024, 303M parameters)
+  was pretrained from scratch for 24B tokens on the second corpus, the general Korean web mix that had
+  already cost the 12-layer model six points, and post-trained on v8: 28.2 percent call, 72.4 name
+  (published as palette-lab/songgot-l with that number). The 50M model on the first corpus scores 33.0.
+  Size and corpus are confounded in that comparison, so the same 303M model is being pretrained on the
+  first corpus with the instruction bucket; until it is scored, the honest statement is that at this
+  scale the corpus has mattered more than the parameter count every time we have measured it.
+- Songgot-V after a multiple-choice stage (113,844 questions rewritten as four-way choices, 2,500 steps)
+  scores K-DTCBench 0.258 and K-MMBench 0.294: still chance. The loss with a shuffled image equals the
+  loss with the right one during that stage, so the model learned the answer format from the text and
+  not from the page. Reading a page (stage 1) and reasoning over it in a benchmark format are different
+  skills, and a 50M language model has not shown the second one. The vision line waits for a larger
+  language model.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
