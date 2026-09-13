@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.608,
+ "name_acc": 0.936,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.67,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.64,
+   "name_acc": 0.96
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.58,
+   "name_acc": 0.92
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.61,
+   "name_acc": 0.92
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.54,
+   "name_acc": 0.88
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentCryptoPrices\", \"arguments\": {\"currency\": \"KRW\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getMovieDetails\", \"arguments\": {\"title\": \"강남\", \"year\": 2015}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n\n이 요청에 맞는 도구가 없어요.\n<function=getCurrentTimeForLocation>\n<parameter=location>\n서울\n</parameter>\n</function>\n</tool_call>"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n\n이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTopTrendingVideos>\n<parameter=category>\n영화\n</parameter>\n</fu"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTodayBoxOfficeRanking>\n</function>\n</tool_call>\n</tool_call>\n<function=recommendLottoNumber>\n</function>"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTodayBoxOfficeRanking>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n<function=getMovieDetails>\n<pa"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentUTCTime\", \"arguments\": {}}"
+  },
+  {
+   "id": "getWalkInfo#25#4_close",
+   "q": "이중섭거리에서 천지연폭포까지 도보로 얼마나 걸릴까?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"이중섭거리\\\",\\\"destination\\\":\\\"천지연폭포\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"천지연폭포\", \"destination\": \"이중섭거리\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#4_close",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"calculateCaloriesBurnedByWalking\", \"arguments\": {\"distance\": 100, \"weight\": 70}}"
+  },
+  {
+   "id": "getWalkInfo#27#8_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"getRestStops\", \"arguments\": {\"origin\": \"경복궁\", \"destination\": \"창덕궁\"}}"
+  },
+  {
+   "id": "get_movie_details#30#exact",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"친구와 함께하는 영화\", \"year\": 2026}}"
+  }
+ ]
+}

@@ -39,6 +39,7 @@ Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions), exact
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.6 |
+| Songgot-X 0.8B (line B: Qwen3.5-0.8B base + v8, 200k rows, 1 epoch) | 0.8B | 67.0 | 64.0 | 58.0 | 61.0 | 54.0 | 60.8 | 93.6 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 76.0 | 72.0 | 70.0 | 71.0 | 63.0 | 70.4 | 93.8 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
 | DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.2 |

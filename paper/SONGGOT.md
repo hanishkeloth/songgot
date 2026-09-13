@@ -182,6 +182,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.6 |
+| Songgot-X 0.8B (line B: Qwen3.5-0.8B base + v8, 200k rows, 1 epoch) | 0.8B | 67.0 | 64.0 | 58.0 | 61.0 | 54.0 | 60.8 | 93.6 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 76.0 | 72.0 | 70.0 | 71.0 | 63.0 | 70.4 | 93.8 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
 | DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.2 |
@@ -238,6 +239,14 @@ written by the build from the run logs; a row reads "training" until its run has
   not from the page. Reading a page (stage 1) and reasoning over it in a benchmark format are different
   skills, and a 50M language model has not shown the second one. The vision line waits for a larger
   language model.
+- The same 303M model on the first corpus with the instruction bucket, 12B tokens, post-trained on v8: 29.4
+  percent (name 75.0), against 31.0 for the 12-layer model on the identical corpus recipe and 33.0 for the
+  published 12-layer model. Two controlled pairs now agree: at this token budget more parameters do not
+  raise call accuracy, and the corpus decides. Published as palette-lab/songgot-l with that number.
+- Line B, for scale: Qwen3.5-0.8B post-trained on 200,000 v8 rows for one epoch with its own chat template
+  scores 60.8 percent (name 93.6), 15.6 points above its zero-shot 45.2 and 2.2 below EXAONE-4.0-1.2B. It is
+  published as Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it
+  shows what the v8 data is worth to a model that has read trillions of tokens.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
