@@ -231,8 +231,16 @@ written by the build from the run logs; a row reads "training" until its run has
   already cost the 12-layer model six points, and post-trained on v8: 28.2 percent call, 72.4 name
   (published as palette-lab/songgot-l with that number). The 50M model on the first corpus scores 33.0.
   Size and corpus are confounded in that comparison, so the same 303M model is being pretrained on the
-  first corpus with the instruction bucket; until it is scored, the honest statement is that at this
-  scale the corpus has mattered more than the parameter count every time we have measured it.
+  first corpus with the instruction bucket (29.4, next bullet); at this scale the corpus has mattered more
+  than the parameter count every time we have measured it.
+- Our own documents do not help pretraining either. A third corpus mixed 30 percent document text (Palette's
+  private Korean documents, 0.73B tokens, and the ko-vdr page markdown, 0.19B) into the first corpus with the
+  instruction bucket, 12B tokens on the 12-layer model: 24.2 percent call after v8, against 31.0 for the same
+  recipe without the documents and 33.0 for the plain 6B-token run. Every pretraining change we have tried on
+  the 12-layer model, more passes, general web text, document text, six times the parameters, instruction
+  rows in the stream, has tied or lost against the original 6B tokens of Korean Wikipedia and fineweb-edu.
+  For a tool-calling model of this size, pretraining text is not the lever between 33 and 63; the
+  comparators that score there have read three orders of magnitude more text than we have.
 - Songgot-V after a multiple-choice stage (113,844 questions rewritten as four-way choices, 2,500 steps)
   scores K-DTCBench 0.258 and K-MMBench 0.294: still chance. The loss with a shuffled image equals the
   loss with the right one during that stage, so the model learned the answer format from the text and
