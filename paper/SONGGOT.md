@@ -241,6 +241,13 @@ written by the build from the run logs; a row reads "training" until its run has
   rows in the stream, has tied or lost against the original 6B tokens of Korean Wikipedia and fineweb-edu.
   For a tool-calling model of this size, pretraining text is not the lever between 33 and 63; the
   comparators that score there have read three orders of magnitude more text than we have.
+- A copy-training bucket does not fix argument copying. Since 203 of the 500 misses were the right tool with a
+  garbled copy of a query span as the value, we generated 300,000 pretraining exercises that copy a Korean span
+  verbatim from context (particle stripped) and mixed them with the tool-calling rows at 15 percent of the 6B-token
+  stream. Result after v8: 29.6 percent; wrong-tool errors fell from 127 to 116, but right-tool-wrong-value errors
+  rose from 203 to 229. The skill transferred to the pretraining task and not to the benchmark. With this, the
+  12-layer recipe is at its measured ceiling of 33 percent, and we stop spending compute on it until a large clean
+  Korean text corpus is in hand; the paper will say when that changes.
 - Songgot-V after a multiple-choice stage (113,844 questions rewritten as four-way choices, 2,500 steps)
   scores K-DTCBench 0.258 and K-MMBench 0.294: still chance. The loss with a shuffled image equals the
   loss with the right one during that stage, so the model learned the answer format from the text and

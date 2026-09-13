@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.296,
+ "name_acc": 0.754,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.35,
+   "name_acc": 0.98
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.33,
+   "name_acc": 0.82
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.33,
+   "name_acc": 0.75
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.29,
+   "name_acc": 0.75
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.18,
+   "name_acc": 0.47
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getTodayBoxOfficePerformanceComparison\",\"arguments\":{\"first_movie_title\":\"현재 박스오피스\",\"second_movie_title\":\"현재 박스오피스\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getCurrentTopSeries\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"none\",\"arguments\":{}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"getCurrentTopSeries\",\"arguments\":{}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#4_random",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"generate_random_password\",\"arguments\":{\"length\":10,\"include_uppercase\":true,\"include_lowercase\":true,\"include_numbers\":true}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#4_close",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"informLottoWinnerPrizeByRound\",\"arguments\":{\"round\":1001}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#8_random",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\":\"calculate_discount\",\"arguments\":{\"original_price\":1000,\"discount_percentage\":20}}"
+  }
+ ]
+}
