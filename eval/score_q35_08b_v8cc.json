@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.586,
+ "name_acc": 0.884,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.67,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.6,
+   "name_acc": 0.88
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.55,
+   "name_acc": 0.85
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.59,
+   "name_acc": 0.88
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.52,
+   "name_acc": 0.82
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getBoxOfficePerformanceComparison\", \"arguments\": {\"first_movie_title\": \"\", \"second_movie_title\": \"\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getDailyNewsHeadlines\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"재밌어\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요.\n이 요청에 맞는 도구가 없어요"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"최근 영화\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#6#8_close",
+   "q": "행운의 로또 숫자를 뽑아주세요",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLuckMessage\", \"arguments\": {}}"
+  },
+  {
+   "id": "searchFriendBirthday#18#4_close",
+   "q": "근데 준혁이는 생일이 언제야",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"준혁이\\\"}\"}",
+   "out": "{\"name\": \"searchFriendBirthday\", \"arguments\": {\"friendName\": \"준혁은\"}}"
+  }
+ ]
+}

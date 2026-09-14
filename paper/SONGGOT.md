@@ -274,6 +274,12 @@ written by the build from the run logs; a row reads "training" until its run has
 - The preview checkpoint used to open the demo on 2026-09-10 is an early one (65M tokens,
   24,000 post-training examples) and is labelled as such in the table.
 
+**Copy-consistent subset (line B, 2026-09-14).** We trained the same Qwen3.5-0.8B recipe on the 306,868 v8 rows in
+which every argument value appears verbatim in the query (200,000 sampled, one epoch, booleans typed as JSON).
+Exact match fell to 58.6 call / 88.4 name, from 61.8 / 94.8 on the plain v8 sample. Removing the rows where the gold
+value is a normalisation of the query (07:00 for 아침 7시, ISO dates, canonical city names) removes exactly the
+behaviour the benchmark rewards, and the smaller name set lost tool coverage. The published Songgot-X stays as it is.
+
 ## 6b. Songgot-V, first numbers
 
 Songgot-V pairs the from-scratch language model with an open pretrained vision tower (SigLIP2 base, 512px, Apache
