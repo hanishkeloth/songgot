@@ -328,3 +328,15 @@ calls it can do locally (alarms, timers, notes, calendar files) while handing th
 when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.5 s per request from prompt
 to parsed call with the 12-layer weights (755 prompt tokens, 31 generated, 21 tokens per second),
 1.7 s with the 39M weights.
+
+Songgot-X runs in the same app. Measured on 2026-09-14 in Chrome on the same machine, single thread, Q4_K_M
+GGUF (494 MB): 3.5 s per request from prompt to parsed call (764 prompt tokens, 42 generated, 12.2 tokens per
+second). Two defects had to be removed first, and neither is specific to our weights. The llama.cpp converter
+reads `mtp_num_hidden_layers = 1` from the Qwen3.5 config and declares 25 blocks plus a next-token-prediction
+layer, although the fine-tuned checkpoint holds no such tensors (transformers drops them), so the file loaded
+nowhere ("tensor blk.24.attn_norm.weight not found"); rewriting the header to the 24 blocks that exist fixes it,
+and the exporter now does this itself. And the 248,320-entry vocabulary makes the logits buffer vocab x n_batch
+x 4 bytes, 508 MB at the runtime's default batch of 512, which the single-thread WebAssembly heap cannot
+allocate ("Invalid typed array length"); a batch of 64 keeps it at 64 MB. The official Qwen3.5-0.8B Q4_0 file
+shows the same behaviour in the same runtime (19.8 tokens per second at batch 32), which is how the second
+defect was separated from the first.

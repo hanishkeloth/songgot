@@ -458,9 +458,38 @@ def sft(epochs: int = 2, lr: float = 3e-4, batch: int = 32, max_len: int = 1024,
 # ----------------------------------------------------------------------------- export
 gguf_image = image.run_commands(
     "git clone --depth 1 https://github.com/ggml-org/llama.cpp /opt/llama.cpp",
-    "cd /opt/llama.cpp && cmake -B build -DGGML_NATIVE=OFF && cmake --build build --target llama-quantize -j 8",
+    "cd /opt/llama.cpp && cmake -B build -DGGML_NATIVE=OFF && cmake --build build --target llama-quantize llama-cli llama-completion -j 8 || cmake --build build --target llama-quantize llama-cli -j 8",
     "pip install -r /opt/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt",
 )
+
+
+def _fix_phantom_mtp(path: str):
+    """Qwen3.5 checkpoints carry mtp_num_hidden_layers=1 in config.json, and the llama.cpp converter adds that layer to
+    block_count and writes nextn_predict_layers even when the fine-tuned safetensors hold no mtp.* tensors (transformers
+    drops them). The result is a GGUF that no runtime can load ("tensor blk.24.attn_norm.weight not found"). When the last
+    block is missing, rewrite the header to the real depth: block_count, the per-layer recurrent flags, no nextn key."""
+    import sys
+    sys.path.insert(0, "/opt/llama.cpp/gguf-py")
+    import numpy as np, gguf
+    from gguf.scripts.gguf_new_metadata import copy_with_new_metadata, MetadataDetails, get_field_data
+    r = gguf.GGUFReader(path)
+    arch = get_field_data(r, "general.architecture")
+    blocks = 1 + max((int(t.name.split(".")[1]) for t in r.tensors if t.name.startswith("blk.")), default=-1)
+    declared = int(get_field_data(r, f"{arch}.block_count"))
+    if blocks <= 0 or declared == blocks:
+        return
+    print(f"[export] {arch}: header says {declared} blocks, tensors hold {blocks}; rewriting header", flush=True)
+    new = {f"{arch}.block_count": MetadataDetails(gguf.GGUFValueType.UINT32, blocks)}
+    key = f"{arch}.attention.recurrent_layers"
+    if key in r.fields:
+        rec = list(get_field_data(r, key))
+        new[key] = MetadataDetails(gguf.GGUFValueType.ARRAY, [np.asarray(rec[:blocks])[i].item() for i in range(blocks)], sub_type=r.fields[key].types[-1])
+    tmp = path + ".fixed"
+    w = gguf.GGUFWriter(tmp, arch=arch, endianess=r.endianess)
+    copy_with_new_metadata(r, w, new, [f"{arch}.nextn_predict_layers"])
+    del r
+    os.replace(tmp, path)
+
 
 
 @app.function(image=gguf_image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 30)
@@ -482,6 +511,7 @@ def export_gguf(src: str = "sft/final", dst: str = "export", name: str = "songgo
     import subprocess
     d = f"{V}/ckpt/{src}"; out = f"{V}/{dst}"; os.makedirs(out, exist_ok=True)
     subprocess.run(["python", "/opt/llama.cpp/convert_hf_to_gguf.py", d, "--outfile", f"{out}/{name}-f16.gguf", "--outtype", "f16"], check=True)
+    _fix_phantom_mtp(f"{out}/{name}-f16.gguf")
     for q in ("Q8_0", "Q4_K_M"):
         subprocess.run(["/opt/llama.cpp/build/bin/llama-quantize", f"{out}/{name}-f16.gguf", f"{out}/{name}-{q.lower()}.gguf", q], check=True)
     vol.commit()

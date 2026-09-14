@@ -13,13 +13,18 @@ leaves the device. Measured on 2026-09-10: 1.5 s per request on an M5 Max, singl
 Limits today: it ships the from-scratch 50M model (33.0 percent), and GitHub Pages cannot set the two HTTP headers
 (COOP/COEP) that unlock multithreaded WebAssembly, so it runs on one core.
 
-## This week: both models in the same app
+## Done 2026-09-14: both models in the same app
 
-1. Songgot-X 0.8B (line B, 61.8 percent) exported to GGUF: Q4_K_M about 0.55 GB, Q8_0 about 0.9 GB. The browser
-   runtime (wllama 3.6.1) already contains the Qwen3.5 architecture, verified in its binary.
-2. A model switch in Pocket: Songgot 50M (54 MB, default on phones, from scratch) and Songgot-X 0.8B (desktop
-   default, base named in the About panel). Each model gets its own prompt renderer and output parser, exactly the
-   ones used in the benchmark harness, so the app's behaviour is the measured behaviour.
+1. Songgot-X 0.8B (line B, 61.8 percent) ships as GGUF (Q4_K_M 494 MB, Q8_0 774 MB) on palette-lab/songgot-x-0.8b and
+   runs in Pocket: 3.5 s per request in Chrome on an M5 Max, single thread (764 prompt tokens, 42 generated,
+   12.2 tokens per second). Two fixes were needed and are recorded in paper section 9: the converter's phantom MTP
+   block (header rewritten to 24 layers, now automatic in harness/songgot_modal.py) and the 248k-vocabulary logits
+   buffer (n_batch 64 per model in app/app.js).
+2. The model switch: Songgot 50M (54 MB, default, from scratch) and Songgot-X 0.8B (base named in the label and the
+   footer). Each model has its own prompt renderer and output parser, the ones used in the benchmark harness.
+
+## Next week
+
 3. Self-host the app on a static host that sets COOP/COEP (Cloudflare Pages or Railway) for multithreading; keep the
    GitHub Pages URL as the single-thread fallback.
 
