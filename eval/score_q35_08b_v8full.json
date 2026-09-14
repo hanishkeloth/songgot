@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.586,
+ "name_acc": 0.916,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.64,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.58,
+   "name_acc": 0.93
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.59,
+   "name_acc": 0.92
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.58,
+   "name_acc": 0.91
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.54,
+   "name_acc": 0.83
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</parameter>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</parameter>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</parameter>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</parameter>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "informWeather#11#exact",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#4_random",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#8_random",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#8_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#exact",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"현대서울\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#4_random",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"현대서울\"}}"
+  }
+ ]
+}

@@ -44,8 +44,11 @@ def prompt_and_completion(tok, query: str, tools: list, call: dict):
     tl = [{"type": "function", "function": t} for t in tools]
     user = [{"role": "user", "content": query}]
     prompt = tok.apply_chat_template(user, tools=tl, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+    # values rendered as JSON text so booleans come out as true/false and numbers unquoted; the Jinja template would
+    # otherwise stringify Python True as "True" and the parser would keep it as a string (20/20 password items lost, 2026-09-14)
+    args = {k: (json.dumps(v, ensure_ascii=False) if isinstance(v, (bool, int, float, list, dict)) else v) for k, v in (call.get("arguments") or {}).items()}
     asst = {"role": "assistant", "content": NONE_REPLY} if call["name"] == "none" else \
-        {"role": "assistant", "content": "", "tool_calls": [{"type": "function", "function": {"name": call["name"], "arguments": call.get("arguments", {})}}]}
+        {"role": "assistant", "content": "", "tool_calls": [{"type": "function", "function": {"name": call["name"], "arguments": args}}]}
     full = tok.apply_chat_template(user + [asst], tools=tl, tokenize=False, add_generation_prompt=False, enable_thinking=False)
     turn = full[full.rfind("<|im_start|>assistant"):]
     turn = re.sub(r"^<\|im_start\|>assistant\n(<think>\s*</think>\s*)?", "", turn)
@@ -65,7 +68,7 @@ def parse_call(out: str) -> str:
     for k, v in re.findall(r"<parameter=([^>\n]+)>(.*?)</parameter>", fm.group(2), re.S):
         v = v.strip()
         try:
-            args[k] = json.loads(v)
+            args[k] = json.loads(v.lower() if v in ("True", "False") else v)
         except Exception:
             args[k] = v
     return json.dumps({"name": fm.group(1).strip(), "arguments": args}, ensure_ascii=False)

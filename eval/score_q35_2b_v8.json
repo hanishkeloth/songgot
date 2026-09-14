@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.612,
+ "name_acc": 0.938,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.66,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.65,
+   "name_acc": 0.98
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.61,
+   "name_acc": 0.92
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.6,
+   "name_acc": 0.95
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.54,
+   "name_acc": 0.84
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n\n<function=get_movie_details>\n<parameter=title>\n재밌어 영화\n</parameter>\n<parameter=year>\n2026\n</parameter>\n</function>\n</tool_call>\n\n<function=get"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"재밌어\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "informWeather#9#8_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"get_humidity\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#12#8_close",
+   "q": "백현동 날씨는 어떤가요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"백현동\\\"}\"}",
+   "out": "{\"name\": \"get_humidity\", \"arguments\": {\"location\": \"백현동\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#4_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"시드니\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_random",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"시드니\"}}"
+  },
+  {
+   "id": "getCurrentTimeForLocation#14#8_close",
+   "q": "지금 스위스 취리히의 시각이 궁금합니다.",
+   "gt": "{\"name\":\"getCurrentTimeForLocation\",\"arguments\":\"{\\\"location\\\":\\\"스위스 취리히\\\"}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"시드니\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#exact",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"더 현대서울\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#4_random",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"더 현대 서울\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#4_close",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"더 현대 서울\"}}"
+  },
+  {
+   "id": "getWalkInfo#26#8_random",
+   "q": "여의도역에서 더현대서울까지 걸어서 얼마나 걸려",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"여의도역\\\",\\\"destination\\\":\\\"더현대서울\\\"}\"}",
+   "out": "{\"name\": \"getWalkInfo\", \"arguments\": {\"origin\": \"여의도역\", \"destination\": \"더 현대 서울\"}}"
+  }
+ ]
+}

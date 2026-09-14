@@ -65,13 +65,29 @@ def _norm(v):
     return v
 
 
+def _bare_function(text: str):
+    """Leniency applied to every model alike: a <function=NAME>...</function> block without the <tool_call> wrapper
+    (Qwen3.5-style output that lost its opening tag), first occurrence wins. Adopted 2026-09-14; it lifted Kanana-2
+    from 70.4 to 73.2 and Songgot-X from 60.8 to 61.8, so the numbers in the paper are the lenient ones."""
+    m = re.search(r"<function=([^>\n]+)>(.*?)(?:</function>|$)", text, re.S)
+    if not m:
+        return None
+    args = {}
+    for k, v in re.findall(r"<parameter=([^>\n]+)>\s*(.*?)\s*</parameter>", m.group(2), re.S):
+        try:
+            args[k] = json.loads(v.lower() if v in ("True", "False") else v)
+        except Exception:
+            args[k] = v
+    return {"name": m.group(1).strip(), "arguments": args}
+
+
 def parse_call(text: str):
     """Find the first {...} JSON object with a name; tolerate wrappers like <tool_call> or code fences."""
     if not text:
         return None
     m = re.search(r"\{.*\}", text, re.S)
     if not m:
-        return None
+        return _bare_function(text)
     s = m.group(0)
     for cand in (s, s[: s.rfind("}") + 1]):
         try:
@@ -98,7 +114,7 @@ def parse_call(text: str):
                         return parse_call(json.dumps(d, ensure_ascii=False))
                     except json.JSONDecodeError:
                         break
-    return None
+    return _bare_function(text)
 
 
 def gt_options(item):

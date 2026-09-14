@@ -23,12 +23,13 @@ network.
 ## "How good is it?"
 
 FunctionChat-Bench SingleCall (Kakao, 500 Korean items, 5 tool conditions), exact match on function name and
-arguments under our own public scorer, measured 2026-09-11:
+arguments under our own public scorer (lenient parser, 2026-09-14):
 
 | model | params | who made it | call accuracy |
 |---|---|---|---|
-| Kanana-2-1.3B-Instruct | 1.3B | Kakao (also authored the benchmark) | 70.4 |
+| Kanana-2-1.3B-Instruct | 1.3B | Kakao (also authored the benchmark) | 73.2 |
 | EXAONE-4.0-1.2B | 1.28B | LG | 63.0 |
+| **Songgot-X 0.8B (line B, on Qwen3.5-0.8B)** | 0.8B | Palette post-training | 61.8 |
 | Qwen3.5-0.8B | 0.8B | Alibaba | 45.2 |
 | Qwen3-0.6B | 0.6B | Alibaba | 43.2 |
 | **Songgot-M (from scratch)** | **126M** | **Palette** | **33.2** |

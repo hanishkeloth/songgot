@@ -1,17 +1,17 @@
 {
  "n": 500,
  "call_acc": 0.048,
- "name_acc": 0.122,
+ "name_acc": 0.126,
  "by_condition": {
   "exact": {
    "n": 100,
    "call_acc": 0.0,
-   "name_acc": 0.06
+   "name_acc": 0.07
   },
   "4_random": {
    "n": 100,
    "call_acc": 0.08,
-   "name_acc": 0.15
+   "name_acc": 0.16
   },
   "4_close": {
    "n": 100,

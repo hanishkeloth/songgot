@@ -1,7 +1,7 @@
 {
  "n": 500,
- "call_acc": 0.608,
- "name_acc": 0.936,
+ "call_acc": 0.618,
+ "name_acc": 0.948,
  "by_condition": {
   "exact": {
    "n": 100,
@@ -10,18 +10,18 @@
   },
   "4_random": {
    "n": 100,
-   "call_acc": 0.64,
-   "name_acc": 0.96
+   "call_acc": 0.66,
+   "name_acc": 0.99
   },
   "4_close": {
    "n": 100,
-   "call_acc": 0.58,
-   "name_acc": 0.92
+   "call_acc": 0.6,
+   "name_acc": 0.94
   },
   "8_random": {
    "n": 100,
-   "call_acc": 0.61,
-   "name_acc": 0.92
+   "call_acc": 0.62,
+   "name_acc": 0.93
   },
   "8_close": {
    "n": 100,
@@ -53,18 +53,6 @@
    "q": "요즘 어떤 영화가 재밌어?",
    "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
    "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n\n이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTopTrendingVideos>\n<parameter=category>\n영화\n</parameter>\n</fu"
-  },
-  {
-   "id": "getTodayBoxOfficeRanking#4#4_random",
-   "q": "최근 영화 순위 트렌드를 알고싶습니다",
-   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTodayBoxOfficeRanking>\n</function>\n</tool_call>\n</tool_call>\n<function=recommendLottoNumber>\n</function>"
-  },
-  {
-   "id": "getTodayBoxOfficeRanking#4#4_close",
-   "q": "최근 영화 순위 트렌드를 알고싶습니다",
-   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
-   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n<function=getTodayBoxOfficeRanking>\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n<function=getMovieDetails>\n<pa"
   },
   {
    "id": "getTodayBoxOfficeRanking#4#8_close",
@@ -101,6 +89,18 @@
    "q": "7번방의 선물은 무슨 내용이야?",
    "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
    "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"친구와 함께하는 영화\", \"year\": 2026}}"
+  },
+  {
+   "id": "get_movie_details#30#4_random",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n<function=get_movie_details>\n<parameter=title>\n친"
+  },
+  {
+   "id": "get_movie_details#30#4_close",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"음악\"}}"
   }
  ]
 }

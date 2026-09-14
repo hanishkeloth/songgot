@@ -1,32 +1,32 @@
 {
  "n": 500,
- "call_acc": 0.704,
- "name_acc": 0.938,
+ "call_acc": 0.732,
+ "name_acc": 0.972,
  "by_condition": {
   "exact": {
    "n": 100,
-   "call_acc": 0.76,
-   "name_acc": 0.99
+   "call_acc": 0.77,
+   "name_acc": 1.0
   },
   "4_random": {
    "n": 100,
-   "call_acc": 0.72,
-   "name_acc": 0.96
+   "call_acc": 0.76,
+   "name_acc": 1.0
   },
   "4_close": {
    "n": 100,
-   "call_acc": 0.7,
-   "name_acc": 0.94
+   "call_acc": 0.71,
+   "name_acc": 0.95
   },
   "8_random": {
    "n": 100,
-   "call_acc": 0.71,
-   "name_acc": 0.96
+   "call_acc": 0.73,
+   "name_acc": 1.0
   },
   "8_close": {
    "n": 100,
-   "call_acc": 0.63,
-   "name_acc": 0.84
+   "call_acc": 0.69,
+   "name_acc": 0.91
   }
  },
  "fails_sample": [
