@@ -71,7 +71,17 @@ def _bare_function(text: str):
     from 70.4 to 73.2 and Songgot-X from 60.8 to 61.8, so the numbers in the paper are the lenient ones."""
     m = re.search(r"<function=([^>\n]+)>(.*?)(?:</function>|$)", text, re.S)
     if not m:
-        return None
+        # MiniCPM5-style XML: <function name="NAME"><param name="k">v</param>...</function>, same leniency.
+        m2 = re.search(r'<function name="([^"\n]+)">(.*?)(?:</function>|$)', text, re.S)
+        if not m2:
+            return None
+        args = {}
+        for k, v in re.findall(r'<param name="([^"\n]+)">\s*(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?\s*</param>', m2.group(2), re.S):
+            try:
+                args[k] = json.loads(v.lower() if v in ("True", "False") else v)
+            except Exception:
+                args[k] = v
+        return {"name": m2.group(1).strip(), "arguments": args}
     args = {}
     for k, v in re.findall(r"<parameter=([^>\n]+)>\s*(.*?)\s*</parameter>", m.group(2), re.S):
         try:
