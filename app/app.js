@@ -3,10 +3,20 @@
 // then performs the ones it can do locally and hands the rest to the right site when online.
 import { Wllama } from "./vendor/wllama/dist/index.js";
 
-const MODEL_VERSION = "2026-09-11-6b-tokens-3-epochs-v8-set";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
-const HF_MODEL = "https://huggingface.co/palette-lab/songgot-12l/resolve/main/songgot-q8_0.gguf?v=" + MODEL_VERSION;
-const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL("./models/songgot-q8_0.gguf", location.href).href : HF_MODEL;
-const MODEL_LABEL = "Songgot Q8_0 · 50M · 54 MB · 33.0% FunctionChat";
+const MODEL_VERSION = "2026-09-14";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
+// Two models, both post-trained by Palette, labelled honestly in the app:
+//   songgot   the from-scratch 50M model (our own weights end to end), 54 MB, runs on any phone
+//   songgotx  Songgot-X 0.8B, built on Qwen3.5-0.8B (Apache 2.0) and post-trained by us, 494 MB, desktop and Android
+const MODELS = {
+  songgot: { url: "https://huggingface.co/palette-lab/songgot-12l/resolve/main/songgot-q8_0.gguf?v=" + MODEL_VERSION, label: "Songgot 50M · from scratch · 54 MB · 33.0%", short: "Songgot 50M · from scratch", mb: 54, n_ctx: 1024, format: "songgot" },
+  songgotx: { url: "https://huggingface.co/palette-lab/songgot-x-0.8b/resolve/main/songgot-x-q4_k_m.gguf", label: "Songgot-X 0.8B · on Qwen3.5 base · 494 MB · 61.8%", short: "Songgot-X 0.8B · on an open base", mb: 494, n_ctx: 2048, format: "qwen35" },
+};
+const isMobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
+let modelKey = new URLSearchParams(location.search).get("m") || (() => { try { return localStorage.getItem("songgot.model"); } catch { return null; } })() || (isMobile ? "songgot" : "songgotx");
+if (!MODELS[modelKey]) modelKey = "songgot";
+const MODEL = MODELS[modelKey];
+const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL(`./models/${modelKey === "songgotx" ? "songgot-x-q4_k_m" : "songgot-q8_0"}.gguf`, location.href).href : MODEL.url;
+const MODEL_LABEL = MODEL.label;
 const $ = (id) => document.getElementById(id);
 const chat = $("chat"), input = $("input"), send = $("send"), status = $("status"), dot = $("dot"), bar = $("bar"), chips = $("chips");
 const params = new URLSearchParams(location.search);
@@ -36,21 +46,34 @@ function pickTools(query, k = 6) {
 }
 function stripTool(t) { const { _text, ...rest } = t; return rest; }
 
-// ---------- prompt in the exact training format ----------
+// ---------- prompts in the exact formats the benchmark harness uses ----------
+const QWEN_PREFIX = "<|im_start|>system\n# Tools\n\nYou have access to the following functions:\n\n<tools>\n";
+const QWEN_SUFFIX = "</tools>\n\nIf you choose to call a function ONLY reply in the following format with NO suffix:\n\n<tool_call>\n<function=example_function_name>\n<parameter=example_parameter_1>\nvalue_1\n</parameter>\n<parameter=example_parameter_2>\nThis is the value for the second parameter\nthat can span\nmultiple lines\n</parameter>\n</function>\n</tool_call>\n\n<IMPORTANT>\nReminder:\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\n- Required parameters MUST be specified\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\n</IMPORTANT><|im_end|>\n<|im_start|>user\n";
+const QWEN_TAIL = "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n";
 function buildPrompt(candidates, query) {
-  const toolsJson = JSON.stringify(candidates.map(stripTool));
-  return `<|system|>\n${toolsJson}\n<|user|>\n${query.trim()}\n<|call|>\n`;
+  const plain = candidates.map(stripTool);
+  if (MODEL.format === "qwen35") return QWEN_PREFIX + plain.map((t) => JSON.stringify({ type: "function", function: t })).join("\n") + "\n" + QWEN_SUFFIX + query.trim() + QWEN_TAIL;
+  return `<|system|>\n${JSON.stringify(plain)}\n<|user|>\n${query.trim()}\n<|call|>\n`;
+}
+function parseCall(text) {
+  if (MODEL.format === "qwen35") {
+    const m = text.match(/<function=([^>\n]+)>([\s\S]*?)(?:<\/function>|$)/); if (!m) return null;
+    const args = {};
+    for (const pm of m[2].matchAll(/<parameter=([^>\n]+)>\s*([\s\S]*?)\s*<\/parameter>/g)) { const v = pm[2]; try { args[pm[1]] = JSON.parse(v === "True" || v === "False" ? v.toLowerCase() : v); } catch { args[pm[1]] = v; } }
+    return { name: m[1].trim(), arguments: args };
+  }
+  try { return JSON.parse(text); } catch { const m = text.match(/\{[\s\S]*\}/); if (m) { try { return JSON.parse(m[0]); } catch {} } }
+  return null;
 }
 
 async function callModel(query) {
   const candidates = pickTools(query);
   const prompt = buildPrompt(candidates, query);
   const t0 = performance.now();
-  const res = await wllama.createCompletion({ prompt, max_tokens: 160, temperature: 0, stop: ["<|end|>"] });
+  const res = await wllama.createCompletion({ prompt, max_tokens: 200, temperature: 0, stop: MODEL.format === "qwen35" ? ["<|im_end|>", "</tool_call>"] : ["<|end|>"] });
   const text = (res.choices && res.choices[0] ? res.choices[0].text : String(res)).trim();
   const ms = Math.round(performance.now() - t0);
-  let call = null;
-  try { call = JSON.parse(text); } catch { const m = text.match(/\{[\s\S]*\}/); if (m) { try { call = JSON.parse(m[0]); } catch {} } }
+  const call = parseCall(text);
   return { call, text, ms, candidates, usage: res.usage };
 }
 
@@ -140,12 +163,13 @@ window.addEventListener("offline", () => ready && setStatus("ready · offline", 
 
 // ---------- boot ----------
 (async () => {
-  say("Songgot Pocket. 말한 것을 실행할 행동으로 바꿔 주는 기기 내장 비서입니다. 첫 실행 때 모델(54 MB)을 한 번 받아 두면 그 뒤로는 인터넷 없이 동작합니다.", "sys");
+  say(`Songgot Pocket. 말한 것을 실행할 행동으로 바꿔 주는 기기 내장 비서입니다. 첫 실행 때 모델(${MODEL.mb} MB)을 한 번 받아 두면 그 뒤로는 인터넷 없이 동작합니다. 답변은 AI 모델이 생성합니다.`, "sys");
+  const sel = $("model"); if (sel && sel.tagName === "SELECT") { sel.value = modelKey; sel.onchange = () => { try { localStorage.setItem("songgot.model", sel.value); } catch {} location.search = "?m=" + sel.value; }; }
   try {
     tools = (await (await fetch("./tools.json")).json()).map((t) => ({ ...t, _text: toolText(t) }));
     setStatus("loading model", "busy");
     wllama = new Wllama({ default: new URL("./vendor/wllama/dist/wllama.wasm", location.href).href }, { allowOffline: true, suppressNativeLog: true });
-    await wllama.loadModelFromUrl(MODEL_URL, { n_ctx: 1024, n_batch: 512, progressCallback: ({ loaded, total }) => { setBar(total ? loaded / total : null); setStatus(`downloading ${Math.round(100 * loaded / (total || 1))}%`, "busy"); } });
+    await wllama.loadModelFromUrl(MODEL_URL, { n_ctx: MODEL.n_ctx, n_batch: 512, progressCallback: ({ loaded, total }) => { setBar(total ? loaded / total : null); setStatus(`downloading ${Math.round(100 * loaded / (total || 1))}%`, "busy"); } });
     setBar(1); ready = true; send.disabled = false;
     setStatus(navigator.onLine ? "ready · on device" : "ready · offline", "ok");
     say(`모델 준비 완료 (${MODEL_LABEL}, ${wllama.isMultithread() ? "multi-thread" : "single-thread"}). 무엇을 할까요?`, "sys");
