@@ -464,6 +464,20 @@ gguf_image = image.run_commands(
 
 
 @app.function(image=gguf_image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 30)
+def gguf_smoke(gguf: str = "export_x/songgot-x-q4_k_m.gguf", n: int = 80):
+    """Run one FunctionChat-style prompt through llama.cpp's CLI in the export image (fresh llama.cpp) to prove a GGUF works."""
+    import subprocess, json
+    vol.reload()
+    prompt = open(f"{V}/bench/smoke_prompt.txt", encoding="utf-8").read() if os.path.exists(f"{V}/bench/smoke_prompt.txt") else "<|im_start|>user\n안녕<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+    bins = os.listdir("/opt/llama.cpp/build/bin"); exe = next((b for b in ("llama-completion", "llama-cli", "llama-simple") if b in bins), None)
+    print("[smoke] binaries:", [b for b in bins if b.startswith("llama-")][:12], "| using", exe, flush=True)
+    r = subprocess.run([f"/opt/llama.cpp/build/bin/{exe}", "-m", f"{V}/{gguf}", "-p", prompt, "-n", str(n), "--temp", "0", "-no-cnv", "--simple-io", "-t", "8"], capture_output=True, text=True, timeout=900)
+    out = r.stdout[-1500:]; err = "\n".join(l for l in r.stderr.splitlines() if "error" in l.lower() or "abort" in l.lower() or "unsupported" in l.lower())[-800:]
+    print("[smoke] rc", r.returncode, "\n[smoke] stdout tail:", out, "\n[smoke] errors:", err, flush=True)
+    return {"rc": r.returncode, "tail": out[-400:], "errors": err[-400:]}
+
+
+@app.function(image=gguf_image, volumes={V: vol}, cpu=8, memory=32768, timeout=60 * 30)
 def export_gguf(src: str = "sft/final", dst: str = "export", name: str = "songgot"):
     import subprocess
     d = f"{V}/ckpt/{src}"; out = f"{V}/{dst}"; os.makedirs(out, exist_ok=True)

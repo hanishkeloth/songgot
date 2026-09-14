@@ -12,7 +12,7 @@ const MODELS = {
   songgotx: { url: "https://huggingface.co/palette-lab/songgot-x-0.8b/resolve/main/songgot-x-q4_k_m.gguf", label: "Songgot-X 0.8B · on Qwen3.5 base · 494 MB · 61.8%", short: "Songgot-X 0.8B · on an open base", mb: 494, n_ctx: 2048, format: "qwen35" },
 };
 const isMobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
-let modelKey = new URLSearchParams(location.search).get("m") || (() => { try { return localStorage.getItem("songgot.model"); } catch { return null; } })() || (isMobile ? "songgot" : "songgotx");
+let modelKey = new URLSearchParams(location.search).get("m") || (() => { try { return localStorage.getItem("songgot.model"); } catch { return null; } })() || "songgot";  // Songgot-X stays opt-in until the browser runtime runs the Qwen3.5 architecture end to end (2026-09-14: loads, fails at inference)
 if (!MODELS[modelKey]) modelKey = "songgot";
 const MODEL = MODELS[modelKey];
 const MODEL_URL = new URLSearchParams(location.search).get("model") === "local" ? new URL(`./models/${modelKey === "songgotx" ? "songgot-x-q4_k_m" : "songgot-q8_0"}.gguf`, location.href).href : MODEL.url;
