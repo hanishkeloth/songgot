@@ -189,7 +189,8 @@ written by the build from the run logs; a row reads "training" until its run has
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.8 |
-| Songgot-X 0.8B (line B: Qwen3.5-0.8B base + v8, 200k rows, 1 epoch) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
+| Songgot-X 0.8B v10 (line B: Qwen3.5-0.8B base + v10, 263k rows, 1 epoch; published 2026-09-15) | 0.8B | 74.0 | 68.0 | 65.0 | 66.0 | 64.0 | 67.4 | 93.6 |
+| Songgot-X 0.8B v8 (previous weights: v8, 200k rows, 1 epoch; 2026-09-13) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 77.0 | 76.0 | 71.0 | 73.0 | 69.0 | 73.2 | 97.2 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
 | DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.6 |
@@ -266,15 +267,44 @@ written by the build from the run logs; a row reads "training" until its run has
   published 12-layer model. Two controlled pairs now agree: at this token budget more parameters do not
   raise call accuracy, and the corpus decides. Published as palette-lab/songgot-l with that number.
 - Line B, for scale: Qwen3.5-0.8B post-trained on 200,000 v8 rows for one epoch with its own chat template
-  scores 61.8 percent (name 94.8), 16.6 points above its zero-shot 45.2 and 1.2 below EXAONE-4.0-1.2B; a 2B base on the same rows scores 61.2 and the full 468k rows 58.6, so the data, not the base, sets this line's ceiling. It is
+  scored 61.8 percent (name 94.8), 16.6 points above its zero-shot 45.2 and 1.2 below EXAONE-4.0-1.2B; a 2B base on the same rows scores 61.2 and the full 468k rows 58.6, so the data, not the base, sets this line's ceiling. The
+  targeted v10 set (below) took the same base to 67.4 (name 93.6), 4.4 above EXAONE and 5.8 below Kanana-2. It is
   published as Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it
-  shows what the v8 data is worth to a model that has read trillions of tokens.
+  shows what the data is worth to a model that has read trillions of tokens.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
 
 - The preview checkpoint used to open the demo on 2026-09-10 is an early one (65M tokens,
   24,000 post-training examples) and is labelled as such in the table.
+
+**Copy-consistent subset (line B, 2026-09-14).** We trained the same Qwen3.5-0.8B recipe on the 306,868 v8 rows in
+which every argument value appears verbatim in the query (200,000 sampled, one epoch, booleans typed as JSON).
+Exact match fell to 58.6 call / 88.4 name, from 61.8 / 94.8 on the plain v8 sample. Removing the rows where the gold
+value is a normalisation of the query (07:00 for 아침 7시, ISO dates, canonical city names) removes exactly the
+behaviour the benchmark rewards, and the smaller name set lost tool coverage. The published Songgot-X stayed on the v8
+weights until the v10 round below replaced them.
+
+**Targeted round v10 (line B, 2026-09-15).** Reading the v8 Songgot-X misses against Kanana-2 put the gap in four
+classes: argument values not copied verbatim from the query (56 items), a wrong tool chosen among close siblings (15),
+Korean number words (10) and two-digit years (5). We wrote 31,307 synthetic rows for the copy, from/to role, number-word
+and year cases with our own teacher (Palette-K-Midm) and kept only rows that passed deterministic checks (the value is
+in the query; the number word converts to the number; the two-digit year expands to the stated one), added the 10,861
+human requests of the MASSIVE 1.1 ko-KR train split (CC BY 4.0) mapped onto the massive-agents function declarations,
+and trained the same 0.8B recipe on 263,242 rows: 175,000 sampled from v8, the synthetic and MASSIVE rows at weight 2,
+KoSGD, single-tool rows given 1, 4 or 8 distractors (name-related or random), 30 percent restyled, 5 percent turned
+into negatives, benchmark names and queries excluded by assertion. Exact match rose to 67.4 call (from 61.8) and fell
+to 93.6 name (from 94.8); the standard error is 2.1 points, so the gain is outside noise and the 5.8-point gap to
+Kanana-2 remains. Item by item: 70 fixed, 42 lost, 267 unchanged. Wrong-argument misses fell from 165 to 131 and
+wrong-tool misses from 25 to 19; the two functions that gained most, generate_random_password (+19 items) and
+start_playlist (+15), are the ones whose arguments are copied or counted. The losses say what the data still lacks.
+count_words lost 19 items: the copy rule taught copying, and the model now copies the instruction prefix ("이 문장
+몇 단어인지 세줘: ...") into the text argument where the v8 model took only the payload; the synthetic set has no
+instruction-plus-payload rows. Thirteen items are declined ("no matching tool") although the tool is offered, against
+one before, which is where the name score went. One date in 1989 was written as 2026, because no row in the set carries
+a 19xx year. Each is a gap rather than a wrong row, and each has a deterministic fix; that is the next round. The v10
+weights replaced the v8 weights at palette-lab/songgot-x-0.8b on 2026-09-15 (safetensors and GGUF, headers repaired
+by the exporter); the score JSON is eval/score_q35_08b_v10.json.
 
 ## 6b. Songgot-V, first numbers
 
@@ -331,8 +361,8 @@ when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread:
 to parsed call with the 12-layer weights (755 prompt tokens, 31 generated, 21 tokens per second),
 1.7 s with the 39M weights.
 
-Songgot-X runs in the same app. Measured on 2026-09-14 in Chrome on the same machine, single thread, Q4_K_M
-GGUF (494 MB): 3.5 s per request from prompt to parsed call (764 prompt tokens, 42 generated, 12.2 tokens per
+Songgot-X runs in the same app. Measured on 2026-09-14 with the v8 weights in Chrome on the same machine, single thread, Q4_K_M
+GGUF (the v10 file is 505 MB, same architecture and quantisation): 3.5 s per request from prompt to parsed call (764 prompt tokens, 42 generated, 12.2 tokens per
 second). Two defects had to be removed first, and neither is specific to our weights. The llama.cpp converter
 reads `mtp_num_hidden_layers = 1` from the Qwen3.5 config and declares 25 blocks plus a next-token-prediction
 layer, although the fine-tuned checkpoint holds no such tensors (transformers drops them), so the file loaded

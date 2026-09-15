@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.674,
+ "name_acc": 0.936,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.74,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.68,
+   "name_acc": 0.95
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.65,
+   "name_acc": 0.9
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.66,
+   "name_acc": 0.94
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.64,
+   "name_acc": 0.89
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getMovieDetails\", \"arguments\": {\"title\": \"스타일한 에이스\", \"year\": 2015}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"comedy\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "searchFriendBirthday#19#4_close",
+   "q": "리사 생일 언제야",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"리사\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "searchFriendBirthday#19#8_close",
+   "q": "리사 생일 언제야",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"리사\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "searchFriendBirthday#20#4_close",
+   "q": "데이지 생일 언제지?",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"데이지\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n</tool_call>\n"
+  },
+  {
+   "id": "getWalkInfo#27#4_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"findRestStops\", \"arguments\": {\"origin\": \"경복궁\", \"destination\": \"창덕궁\"}}"
+  },
+  {
+   "id": "getWalkInfo#27#8_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"findNearestAmenity\", \"arguments\": {\"location\": \"경복궁\", \"amenityType\": \"ATM\"}}"
+  }
+ ]
+}
