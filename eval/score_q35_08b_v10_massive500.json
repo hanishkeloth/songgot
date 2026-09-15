@@ -1,0 +1,248 @@
+{
+ "n": 500,
+ "call_acc": 0.624,
+ "name_acc": 0.814,
+ "by_scenario": {
+  "alarm": {
+   "n": 20,
+   "name_acc": 0.8,
+   "call_acc": 0.65
+  },
+  "audio": {
+   "n": 12,
+   "name_acc": 0.833,
+   "call_acc": 0.75
+  },
+  "calendar": {
+   "n": 60,
+   "name_acc": 0.85,
+   "call_acc": 0.55
+  },
+  "cooking": {
+   "n": 12,
+   "name_acc": 0.833,
+   "call_acc": 0.583
+  },
+  "datetime": {
+   "n": 15,
+   "name_acc": 0.867,
+   "call_acc": 0.667
+  },
+  "email": {
+   "n": 57,
+   "name_acc": 0.842,
+   "call_acc": 0.667
+  },
+  "general": {
+   "n": 4,
+   "name_acc": 0.75,
+   "call_acc": 0.25
+  },
+  "iot": {
+   "n": 35,
+   "name_acc": 0.857,
+   "call_acc": 0.771
+  },
+  "lists": {
+   "n": 23,
+   "name_acc": 0.783,
+   "call_acc": 0.652
+  },
+  "music": {
+   "n": 17,
+   "name_acc": 0.765,
+   "call_acc": 0.706
+  },
+  "news": {
+   "n": 31,
+   "name_acc": 0.742,
+   "call_acc": 0.516
+  },
+  "play": {
+   "n": 78,
+   "name_acc": 0.885,
+   "call_acc": 0.59
+  },
+  "qa": {
+   "n": 55,
+   "name_acc": 0.818,
+   "call_acc": 0.782
+  },
+  "recommendation": {
+   "n": 13,
+   "name_acc": 0.385,
+   "call_acc": 0.154
+  },
+  "social": {
+   "n": 22,
+   "name_acc": 0.773,
+   "call_acc": 0.591
+  },
+  "takeaway": {
+   "n": 6,
+   "name_acc": 1.0,
+   "call_acc": 0.5
+  },
+  "transport": {
+   "n": 19,
+   "name_acc": 0.789,
+   "call_acc": 0.632
+  },
+  "weather": {
+   "n": 21,
+   "name_acc": 0.714,
+   "call_acc": 0.571
+  }
+ },
+ "fails_sample": [
+  {
+   "q": "나의 할 일 목록 버려",
+   "gold": {
+    "name": "lists.remove",
+    "arguments": {
+     "list_name": "할 일"
+    }
+   },
+   "out": "{\"name\": \"calendar.set\", \"arguments\": {\"list_name\": \"할 일\"}}"
+  },
+  {
+   "q": "내 고향의 노래 자랑 행사에 대해 알려줘",
+   "gold": {
+    "name": "recommendation.events",
+    "arguments": {
+     "place_name": "고향의",
+     "event_name": "노래 자랑"
+    }
+   },
+   "out": "{\"name\": \"transport.taxi\", \"arguments\": {\"place_name\": \"내 고향의\", \"event_name\": \"노래 자랑 행사에\"}}"
+  },
+  {
+   "q": "언덕나무 누가 불러",
+   "gold": {
+    "name": "music.query",
+    "arguments": {
+     "song_name": "언덕나무"
+    }
+   },
+   "out": "{\"name\": \"takeaway.query\", \"arguments\": {\"business_name\": \"언덕나무\"}}"
+  },
+  {
+   "q": "내가 있는 곳에서 가장 가까운 동물원 어디 있어",
+   "gold": {
+    "name": "recommendation.locations",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"recommendation.locations\", \"arguments\": {\"business_type\": \"동물원\"}}"
+  },
+  {
+   "q": "다음",
+   "gold": {
+    "name": "play.podcasts",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"audio.volume_mute\", \"arguments\": {}}"
+  },
+  {
+   "q": "현주 생일이 사월 십이일 이야",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "person": "현주",
+     "date": "사월 십이일"
+    }
+   },
+   "out": "{\"name\": \"calendar.query\", \"arguments\": {\"person\": \"현주\", \"event_name\": \"생일이\", \"date\": \"사월 십이일\"}}"
+  },
+  {
+   "q": "압력밥솥 에서 갈비 만드는 시간",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "device_type": "압력밥솥",
+     "food_type": "갈비"
+    }
+   },
+   "out": "{\"name\": \"cooking.recipe\", \"arguments\": {\"food_type\": \"갈비\"}}"
+  },
+  {
+   "q": "할로인이 무슨 요일이니",
+   "gold": {
+    "name": "datetime.query",
+    "arguments": {
+     "date": "요일이니"
+    }
+   },
+   "out": "{\"name\": \"qa.definition\", \"arguments\": {\"definition_word\": \"할로인이\"}}"
+  },
+  {
+   "q": "할머니에게 토요일에 들른다고 이메일 보내줘",
+   "gold": {
+    "name": "email.sendemail",
+    "arguments": {
+     "relation": "할머니에게"
+    }
+   },
+   "out": "{\"name\": \"email.sendemail\", \"arguments\": {\"relation\": \"할머니에게\", \"date\": \"토요일에\"}}"
+  },
+  {
+   "q": "내 달력 지워",
+   "gold": {
+    "name": "calendar.remove",
+    "arguments": {
+     "time": "지워"
+    }
+   },
+   "out": "{\"name\": \"calendar.remove\", \"arguments\": {}}"
+  },
+  {
+   "q": "그 사람은 어떤 분야에서 뛰어나",
+   "gold": {
+    "name": "qa.factoid",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"datetime.query\", \"arguments\": {}}"
+  },
+  {
+   "q": "날씨 관련한 아무 기사나 아침 뉴스에서 보여주지 않을래",
+   "gold": {
+    "name": "news.query",
+    "arguments": {
+     "news_topic": "날씨",
+     "media_type": "아침 뉴스에서"
+    }
+   },
+   "out": "{\"name\": \"news.query\", \"arguments\": {\"news_topic\": \"날씨\"}}"
+  },
+  {
+   "q": "내가 있는 곳 현재 기상 상태는 어때",
+   "gold": {
+    "name": "weather.query",
+    "arguments": {
+     "place_name": "내가 있는 곳"
+    }
+   },
+   "out": "{\"name\": \"weather.query\", \"arguments\": {}}"
+  },
+  {
+   "q": "오케이 구글 멍청이가 주유소 주인이라고 트위터 에 올려",
+   "gold": {
+    "name": "social.post",
+    "arguments": {
+     "media_type": "트위터"
+    }
+   },
+   "out": "{\"name\": \"social.post\", \"arguments\": {\"business_name\": \"오케이 구글\", \"media_type\": \"트위터\"}}"
+  },
+  {
+   "q": "인터넷 검색해서 이탈리안 음식 요리에 적합한 유튜브 비디오 보여줘",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "food_type": "이탈리안",
+     "media_type": "유튜브 비디오"
+    }
+   },
+   "out": "{\"name\": \"qa.maths\", \"arguments\": {}}"
+  }
+ ]
+}
