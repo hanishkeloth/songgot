@@ -154,9 +154,8 @@ function followups(name) {
 
 // ---------- chat loop ----------
 async function handle(query) {
-  if (busy) return;  // one completion at a time: a second request on the same context overflows it ("Context size has been exceeded", 2026-09-15)
+  if (!ready || !query.trim() || busy) return;  // one completion at a time: a second request on the same context overflows it ("Context size has been exceeded", 2026-09-15)
   busy = true; document.body.classList.add("busy");
-  if (!ready || !query.trim()) return;
   say(query, "user"); input.value = ""; send.disabled = true; setStatus("thinking", "busy");
   try { const r = await callModel(query); renderCall(r); if (params.get("q")) document.title = "RESULT " + r.text; }
   catch (e) { say("오류: " + (e && e.message ? e.message : e), "sys"); if (params.get("q")) document.title = "ERROR " + e; }
