@@ -18,7 +18,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sft_base_fast import CACHE, TV, V, hf_cache, image as base_image, parse_call, vol  # noqa: E402
 
 image = base_image.add_local_python_source("sft_base_fast")
-app = modal.App("songgot-eval-massive")
+# Kanana-2 carries a pre-5.x rope_scaling block that transformers 5.17 refuses ("'int' object has no attribute 'get'"),
+# so a second deployment of this file with SONGGOT_TRANSFORMERS=4.51.3 SONGGOT_EVAL_APP=songgot-eval-massive-tf4 serves it.
+app = modal.App(os.environ.get("SONGGOT_EVAL_APP", "songgot-eval-massive"))
 
 
 @app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 6, memory=65536)
