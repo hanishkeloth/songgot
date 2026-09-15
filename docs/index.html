@@ -508,6 +508,47 @@ one before, which is where the name score went. One date in 1989 was written as 
 a 19xx year. Each is a gap rather than a wrong row, and each has a deterministic fix; that is the next round. The v10
 weights replaced the v8 weights at palette-lab/songgot-x-0.8b on 2026-09-15 (safetensors and GGUF, headers repaired
 by the exporter); the score JSON is eval/score_q35_08b_v10.json.</p>
+<p><strong>Held-out human utterances (MASSIVE ko-KR test, 2026-09-15).</strong> FunctionChat is 500 items on 25 functions written by one
+team; a second test with other authors and another convention guards against tuning to one benchmark. We took 500
+utterances from the MASSIVE 1.1 ko-KR test split (human-written voice-assistant requests, CC BY 4.0; the dev and test
+splits never entered any training set, and test utterances that also occur in train were removed), gave each its gold
+massive-agents function plus 3 random ones of the 55, and scored exact match on the function name and on the full call
+after whitespace normalisation (MASSIVE's values are spoken spans). Subset bench/massive_ko_test_500.jsonl, scorer
+eval/score_massive.py, predictions from harness/eval_massive.py.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>call</th>
+<th>name only</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Songgot-X 0.8B v10</td>
+<td>62.4</td>
+<td>81.4</td>
+</tr>
+<tr>
+<td>Kanana-2-1.3B-Instruct (Kakao)</td>
+<td>14.4</td>
+<td>83.4</td>
+</tr>
+<tr>
+<td>Qwen3.5-0.8B (base, zero-shot)</td>
+<td>12.4</td>
+<td>63.0</td>
+</tr>
+</tbody>
+</table></div>
+<p>The name column is the fair comparison: Kanana-2 and Songgot-X choose the same function at the same rate (83.4 against
+81.4, inside the 1.7-point standard error), and post-training lifts the base by 18 points. The call column is not a fair
+comparison and we do not present it as one. Songgot-X trained on the MASSIVE train split, so it knows this convention
+(copy the spoken span verbatim, "오전 다섯 시"); Kanana-2 never saw it and fills arguments with placeholders
+("your_list_name", "user's location", "today") or declines. That is the mirror image of FunctionChat, where Kakao's
+authorship gives Kanana the convention. Read together, the two tests say that convention, not Korean understanding,
+decides most of the argument gap between these two models, and that a 0.8B model reaches parity on the function-choice
+part. MASSIVE's ko-KR slot annotation is noisy (spans such as "요일이니" for a date), which caps every row alike.</p>
 <h2>6b. Songgot-V, first numbers</h2>
 <p>Songgot-V pairs the from-scratch language model with an open pretrained vision tower (SigLIP2 base, 512px, Apache
 2.0, trained by Google and stated as such) through a projector trained from random initialisation; the page is cut

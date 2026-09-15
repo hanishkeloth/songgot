@@ -1,0 +1,243 @@
+{
+ "n": 500,
+ "call_acc": 0.144,
+ "name_acc": 0.834,
+ "by_scenario": {
+  "alarm": {
+   "n": 20,
+   "name_acc": 1.0,
+   "call_acc": 0.25
+  },
+  "audio": {
+   "n": 12,
+   "name_acc": 0.833,
+   "call_acc": 0.5
+  },
+  "calendar": {
+   "n": 60,
+   "name_acc": 0.8,
+   "call_acc": 0.083
+  },
+  "cooking": {
+   "n": 12,
+   "name_acc": 0.75,
+   "call_acc": 0.167
+  },
+  "datetime": {
+   "n": 15,
+   "name_acc": 0.933,
+   "call_acc": 0.133
+  },
+  "email": {
+   "n": 57,
+   "name_acc": 0.754,
+   "call_acc": 0.035
+  },
+  "general": {
+   "n": 4,
+   "name_acc": 0.75,
+   "call_acc": 0.0
+  },
+  "iot": {
+   "n": 35,
+   "name_acc": 0.943,
+   "call_acc": 0.057
+  },
+  "lists": {
+   "n": 23,
+   "name_acc": 0.87,
+   "call_acc": 0.087
+  },
+  "music": {
+   "n": 17,
+   "name_acc": 0.647,
+   "call_acc": 0.529
+  },
+  "news": {
+   "n": 31,
+   "name_acc": 0.839,
+   "call_acc": 0.194
+  },
+  "play": {
+   "n": 78,
+   "name_acc": 0.91,
+   "call_acc": 0.218
+  },
+  "qa": {
+   "n": 55,
+   "name_acc": 0.782,
+   "call_acc": 0.164
+  },
+  "recommendation": {
+   "n": 13,
+   "name_acc": 0.923,
+   "call_acc": 0.077
+  },
+  "social": {
+   "n": 22,
+   "name_acc": 0.818,
+   "call_acc": 0.045
+  },
+  "takeaway": {
+   "n": 6,
+   "name_acc": 0.833,
+   "call_acc": 0.0
+  },
+  "transport": {
+   "n": 19,
+   "name_acc": 0.842,
+   "call_acc": 0.105
+  },
+  "weather": {
+   "n": 21,
+   "name_acc": 0.714,
+   "call_acc": 0.048
+  }
+ },
+ "fails_sample": [
+  {
+   "q": "나의 할 일 목록 버려",
+   "gold": {
+    "name": "lists.remove",
+    "arguments": {
+     "list_name": "할 일"
+    }
+   },
+   "out": "{\"name\": \"lists.remove\", \"arguments\": {\"list_name\": \"your_list_name\"}}"
+  },
+  {
+   "q": "내 고향의 노래 자랑 행사에 대해 알려줘",
+   "gold": {
+    "name": "recommendation.events",
+    "arguments": {
+     "place_name": "고향의",
+     "event_name": "노래 자랑"
+    }
+   },
+   "out": "{\"name\": \"recommendation.events\", \"arguments\": {\"place_name\": \"user's hometown\", \"event_name\": \"노래 자랑 행사\"}}"
+  },
+  {
+   "q": "언덕나무 누가 불러",
+   "gold": {
+    "name": "music.query",
+    "arguments": {
+     "song_name": "언덕나무"
+    }
+   },
+   "out": "죄송합니다만, 해당 요청은 음악이나 노래와 관련된 정보(특히 \"언덕나무 누가 불러\")를 제공하는 도구가 존재하지 않습니다.  \n음악 관련 정보나 노래 제목, 아티스트 정보가 필요하시면,  \n- 노래 제목이나 아티스트 이름을 알려주시거나  \n- 특정 곡"
+  },
+  {
+   "q": "정오 에 서울 에서 진호 하고 회의 일정 잡아 줘",
+   "gold": {
+    "name": "calendar.set",
+    "arguments": {
+     "timeofday": "정오",
+     "place_name": "서울",
+     "person": "진호",
+     "event_name": "회의"
+    }
+   },
+   "out": "{\"name\": \"calendar.set\", \"arguments\": {\"date\": \"today\", \"event_name\": \"회의\", \"time\": \"12:00\", \"place_name\": \"서울\"}}"
+  },
+  {
+   "q": "페소 와 엔 사이의 환율은 얼마야",
+   "gold": {
+    "name": "qa.currency",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"qa.currency\", \"arguments\": {\"query\": \"페소 와 엔 사이의 환율\"}}"
+  },
+  {
+   "q": "내가 있는 곳에서 가장 가까운 동물원 어디 있어",
+   "gold": {
+    "name": "recommendation.locations",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"recommendation.locations\", \"arguments\": {\"place_name\": \"users location\"}}"
+  },
+  {
+   "q": "다음",
+   "gold": {
+    "name": "play.podcasts",
+    "arguments": {}
+   },
+   "out": "Hello! How can I assist you today?"
+  },
+  {
+   "q": "현주 생일이 사월 십이일 이야",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "person": "현주",
+     "date": "사월 십이일"
+    }
+   },
+   "out": "알겠습니다! 현주님의 생일이 4월 12일이라는 점을 확인했습니다.  \n추가로 필요한 정보나 도움이 필요하시면 언제든 말씀해 주세요. 😊"
+  },
+  {
+   "q": "김범수 는 얼마나 벌었어",
+   "gold": {
+    "name": "qa.factoid",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"qa.factoid\", \"arguments\": {\"query\": \"김범수 수입\"}}"
+  },
+  {
+   "q": "압력밥솥 에서 갈비 만드는 시간",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "device_type": "압력밥솥",
+     "food_type": "갈비"
+    }
+   },
+   "out": "{\"name\": \"cooking.recipe\", \"arguments\": {\"food_type\": \"갈비\"}}"
+  },
+  {
+   "q": "이 이메일 주소 기록해줘",
+   "gold": {
+    "name": "email.addcontact",
+    "arguments": {}
+   },
+   "out": "죄송합니다만, 해당 요청은 이메일 주소 기록과 관련된 기능이 제공되지 않아 응할 수 없습니다. 다른 용도로 문의해 주세요."
+  },
+  {
+   "q": "할로인이 무슨 요일이니",
+   "gold": {
+    "name": "datetime.query",
+    "arguments": {
+     "date": "요일이니"
+    }
+   },
+   "out": "{\"name\": \"datetime.query\", \"arguments\": {\"place_name\": \"current\"}}"
+  },
+  {
+   "q": "생일 파티 관련해서 리마인더 뭔가 있어",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "event_name": "생일 파티"
+    }
+   },
+   "out": "{\"name\": \"calendar.query\", \"arguments\": {\"event_name\": \"Birthday Party\"}}"
+  },
+  {
+   "q": "먼지 깨끗하게 청소해줘",
+   "gold": {
+    "name": "iot.cleaning",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"iot.cleaning\", \"arguments\": {\"house_place\": \"entire house\"}}"
+  },
+  {
+   "q": "올리 재즈 장르 의 음악 재생해",
+   "gold": {
+    "name": "play.music",
+    "arguments": {
+     "music_genre": "재즈"
+    }
+   },
+   "out": "{\"name\": \"play.music\", \"arguments\": {\"music_genre\": \"jazz\"}}"
+  }
+ ]
+}
