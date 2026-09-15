@@ -554,9 +554,9 @@ calls it can do locally (alarms, timers, notes, calendar files) while handing th
 when online. Measured on 2026-09-10 in Chrome on an Apple M5 Max, single thread: 1.5 s per request from prompt
 to parsed call with the 12-layer weights (755 prompt tokens, 31 generated, 21 tokens per second),
 1.7 s with the 39M weights.</p>
-<p>Songgot-X runs in the same app. Measured on 2026-09-14 with the v8 weights in Chrome on the same machine, single thread, Q4_K_M
-GGUF (the v10 file is 505 MB, same architecture and quantisation): 3.5 s per request from prompt to parsed call (764 prompt tokens, 42 generated, 12.2 tokens per
-second). Two defects had to be removed first, and neither is specific to our weights. The llama.cpp converter
+<p>Songgot-X runs in the same app. Measured on 2026-09-15 with the v10 weights in Chrome on the same machine, single thread, Q4_K_M
+GGUF (505 MB): 2.0 to 2.2 s per request from prompt to parsed call (742 to 764 prompt tokens, 28 to 41 generated, 13 to 21 tokens per
+second; the v8 weights measured 3.5 s at 12.2 tokens per second on 2026-09-14). Two defects had to be removed first, and neither is specific to our weights. The llama.cpp converter
 reads <code>mtp_num_hidden_layers = 1</code> from the Qwen3.5 config and declares 25 blocks plus a next-token-prediction
 layer, although the fine-tuned checkpoint holds no such tensors (transformers drops them), so the file loaded
 nowhere ("tensor blk.24.attn_norm.weight not found"); rewriting the header to the 24 blocks that exist fixes it,
