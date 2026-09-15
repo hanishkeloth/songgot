@@ -189,7 +189,8 @@ written by the build from the run logs; a row reads "training" until its run has
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.8 |
-| Songgot-X 0.8B v10 (line B: Qwen3.5-0.8B base + v10, 263k rows, 1 epoch; published 2026-09-15) | 0.8B | 74.0 | 68.0 | 65.0 | 66.0 | 64.0 | 67.4 | 93.6 |
+| Songgot-X 0.8B (line B: uniform weight average of the v10 and v11 checkpoints; published 2026-09-15) | 0.8B | 79.0 | 75.0 | 73.0 | 74.0 | 69.0 | 74.0 | 96.0 |
+| Qwen3.5-0.8B + v10 (263k rows, 1 epoch; the Songgot-X weights of 2026-09-15 morning) | 0.8B | 74.0 | 68.0 | 65.0 | 66.0 | 64.0 | 67.4 | 93.6 |
 | Qwen3.5-0.8B + v11 (v10 set + payload/19xx-year rows; not published) | 0.8B | 75.0 | 73.0 | 66.0 | 70.0 | 62.0 | 69.2 | 94.4 |
 | Songgot-X 0.8B v8 (previous weights: v8, 200k rows, 1 epoch; 2026-09-13) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 77.0 | 76.0 | 71.0 | 73.0 | 69.0 | 73.2 | 97.2 |
@@ -269,9 +270,10 @@ written by the build from the run logs; a row reads "training" until its run has
   raise call accuracy, and the corpus decides. Published as palette-lab/songgot-l with that number.
 - Line B, for scale: Qwen3.5-0.8B post-trained on 200,000 v8 rows for one epoch with its own chat template
   scored 61.8 percent (name 94.8), 16.6 points above its zero-shot 45.2 and 1.2 below EXAONE-4.0-1.2B; a 2B base on the same rows scores 61.2 and the full 468k rows 58.6, so the data, not the base, sets this line's ceiling. The
-  targeted v10 set (below) took the same base to 67.4 (name 93.6), 4.4 above EXAONE and 5.8 below Kanana-2. It is
-  published as Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it
-  shows what the data is worth to a model that has read trillions of tokens.
+  targeted v10 set (below) took the same base to 67.4 (name 93.6), and a uniform weight average of the v10 and v11
+  checkpoints to 74.0 (name 96.0), level with Kanana-2-1.3B inside the standard error. The average is published as
+  Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it shows what the data is
+  worth to a model that has read trillions of tokens.
 
 - The template-generated Korean data is narrow by construction; a teacher-generated set from
   our own Palette-K-Midm was planned and is queued behind GPU availability.
@@ -340,7 +342,18 @@ as getWeatherForecastForNext7Days), one optional argument invented (shuffle: fal
 서귀포시 to 서귀포시). 54 items fixed, 45 lost. Those swings sit on functions the two runs never targeted, so we read them as
 run-to-run variance from the different 175k sample of the v8 set rather than as an effect of the new rows, and we test
 that reading two ways: a uniform weight average of the v10 and v11 checkpoints (harness/soup_base.py), and the v12 round
-below. The v11 weights are not published; v10 stays the released Songgot-X until a round beats it beyond noise.
+below. The v11 weights are not published on their own.
+
+**Weight soup of v10 and v11 (2026-09-15).** The two checkpoints share the base, the recipe and 175,000 of their rows and
+differ in the sample and the targeted rows, so their weights sit in one basin and can be averaged (uniform, in fp32,
+harness/soup_base.py; no training). The average scores 74.0 call / 96.0 name: 43 items that v10 missed are fixed and 10
+lost, 39 fixed and 15 lost against v11. Every per-function swing between the members closes toward the better member
+(start_playlist 15 and 9 to 19 of 20, informWeather 20 and 16 to 19, get_exchange_rate 20 and 16 to 20, count_words 0
+and 20 to 20), wrong-tool choices fall back to 20 and no item is unparsed. The union of items either member gets right
+is 391; the soup gets 370, so it recovers most of what the two runs knew separately. Against Kanana-2-1.3B (73.2 / 97.2)
+the call score is 0.8 higher and the name score 1.2 lower, both inside the 2.0-point standard error: a tie, stated as
+such. The soup replaced the v10 weights at palette-lab/songgot-x-0.8b on the evening of 2026-09-15; score JSON
+eval/score_soup_q35_08b_v10v11.json.
 
 
 ## 6b. Songgot-V, first numbers
@@ -379,6 +392,12 @@ vision-language model under 1B parameters; we will say "we found none", not "non
 closed product to note: 뉴플로이 (Newploy) shipped an on-device Korean document OCR service on 2026-08-19 without
 weights or benchmark numbers. Kakao's Orchestration Benchmark (ICLR 2026) is a second Korean agentic benchmark on
 which no model under 2B parameters has been scored.
+
+**What line B claims (2026-09-15).** On FunctionChat-Bench SingleCall under our exact-match scorer, Songgot-X
+(0.8B, Apache 2.0) scores 74.0 call / 96.0 name, level with Kanana-2-1.3B-Instruct (73.2 / 97.2) within the standard
+error and the highest score of any openly licensed model we measured; Kanana-2 cannot be redistributed on device under
+its licence and EXAONE-4.0 is research-only. We do not claim to beat Kanana-2: 0.8 points on 500 items is noise, and
+Kakao authored the benchmark. We claim the tie, the licence, and the size.
 
 ## 8. Release
 
