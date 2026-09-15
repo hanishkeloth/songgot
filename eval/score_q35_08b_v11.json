@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.692,
+ "name_acc": 0.944,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.75,
+   "name_acc": 0.99
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.73,
+   "name_acc": 0.97
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.66,
+   "name_acc": 0.92
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.7,
+   "name_acc": 0.95
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.62,
+   "name_acc": 0.89
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#exact",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n</function>\n</tool_call>\nuser\n요즘 어떤 영화가 재밌어?\n</function>\n</tool_call>\n</function>\n</tool_call>\nuser\n요즘 어떤 영화가 재밌어?\n</function>\n</tool_call>\n</"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"스타2\", \"year\": 2023}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"음악\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#11#exact",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#8_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "searchFriendBirthday#20#4_close",
+   "q": "데이지 생일 언제지?",
+   "gt": "{\"name\":\"searchFriendBirthday\",\"arguments\":\"{\\\"friendName\\\":\\\"데이지\\\"}\"}",
+   "out": "{\"name\": \"registerFriendBirthday\", \"arguments\": {\"friendName\": \"데이지\", \"birthday\": \"2026-09-12\"}}"
+  },
+  {
+   "id": "get_movie_details#29#4_close",
+   "q": "2012년에 개봉한 영화 도둑들 정보좀 알려줄래",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"도둑들\\\",\\\"year\\\":2012}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"도둑\", \"year\": 2012}}"
+  },
+  {
+   "id": "get_movie_details#29#8_random",
+   "q": "2012년에 개봉한 영화 도둑들 정보좀 알려줄래",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"도둑들\\\",\\\"year\\\":2012}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"도둑\", \"year\": 2012}}"
+  },
+  {
+   "id": "get_movie_details#29#8_close",
+   "q": "2012년에 개봉한 영화 도둑들 정보좀 알려줄래",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"도둑들\\\",\\\"year\\\":2012}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"도둑\", \"year\": 2012}}"
+  }
+ ]
+}

@@ -188,6 +188,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.8 |
 | Songgot-X 0.8B v10 (line B: Qwen3.5-0.8B base + v10, 263k rows, 1 epoch; published 2026-09-15) | 0.8B | 74.0 | 68.0 | 65.0 | 66.0 | 64.0 | 67.4 | 93.6 |
+| Qwen3.5-0.8B + v11 (v10 set + payload/19xx-year rows; not published) | 0.8B | 75.0 | 73.0 | 66.0 | 70.0 | 62.0 | 69.2 | 94.4 |
 | Songgot-X 0.8B v8 (previous weights: v8, 200k rows, 1 epoch; 2026-09-13) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 77.0 | 76.0 | 71.0 | 73.0 | 69.0 | 73.2 | 97.2 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
@@ -326,6 +327,18 @@ comparison and we do not present it as one. Songgot-X trained on the MASSIVE tra
 authorship gives Kanana the convention. Read together, the two tests say that convention, not Korean understanding,
 decides most of the argument gap between these two models, and that a 0.8B model reaches parity on the function-choice
 part. MASSIVE's ko-KR slot annotation is noisy (spans such as "요일이니" for a date), which caps every row alike.
+
+**Round v11 (2026-09-15, not published).** Two data gaps from the v10 reading, filled with 3,774 teacher rows checked by
+deterministic rules (harness/teacher_synth_v11.py): instruction-plus-payload requests whose text argument must carry the
+payload only, and requests with an explicit 1950-2015 year. MASSIVE at weight 1 and negatives at 2 percent. Result 69.2
+call / 94.4 name, against 67.4 / 93.6 for v10, inside the 2.1-point standard error. The targets moved exactly as intended:
+count_words 0 of 20 to 20 of 20, refusals of an offered tool 13 to 1, the 1989 date kept. The gain was eaten elsewhere:
+wrong-tool choices rose from 19 to 27, almost all close siblings (start_playlist taken as create_playlist, informWeather
+as getWeatherForecastForNext7Days), one optional argument invented (shuffle: false) and one location narrowed (제주도
+서귀포시 to 서귀포시). 54 items fixed, 45 lost. Those swings sit on functions the two runs never targeted, so we read them as
+run-to-run variance from the different 175k sample of the v8 set rather than as an effect of the new rows, and we test
+that reading two ways: a uniform weight average of the v10 and v11 checkpoints (harness/soup_base.py), and the v12 round
+below. The v11 weights are not published; v10 stays the released Songgot-X until a round beats it beyond noise.
 
 
 ## 6b. Songgot-V, first numbers
