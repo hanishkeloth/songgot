@@ -1,0 +1,245 @@
+{
+ "n": 500,
+ "call_acc": 0.124,
+ "name_acc": 0.63,
+ "by_scenario": {
+  "alarm": {
+   "n": 20,
+   "name_acc": 0.65,
+   "call_acc": 0.1
+  },
+  "audio": {
+   "n": 12,
+   "name_acc": 0.417,
+   "call_acc": 0.25
+  },
+  "calendar": {
+   "n": 60,
+   "name_acc": 0.6,
+   "call_acc": 0.017
+  },
+  "cooking": {
+   "n": 12,
+   "name_acc": 0.417,
+   "call_acc": 0.0
+  },
+  "datetime": {
+   "n": 15,
+   "name_acc": 0.867,
+   "call_acc": 0.2
+  },
+  "email": {
+   "n": 57,
+   "name_acc": 0.596,
+   "call_acc": 0.14
+  },
+  "general": {
+   "n": 4,
+   "name_acc": 1.0,
+   "call_acc": 0.0
+  },
+  "iot": {
+   "n": 35,
+   "name_acc": 0.886,
+   "call_acc": 0.114
+  },
+  "lists": {
+   "n": 23,
+   "name_acc": 0.696,
+   "call_acc": 0.217
+  },
+  "music": {
+   "n": 17,
+   "name_acc": 0.647,
+   "call_acc": 0.529
+  },
+  "news": {
+   "n": 31,
+   "name_acc": 0.742,
+   "call_acc": 0.194
+  },
+  "play": {
+   "n": 78,
+   "name_acc": 0.667,
+   "call_acc": 0.141
+  },
+  "qa": {
+   "n": 55,
+   "name_acc": 0.436,
+   "call_acc": 0.127
+  },
+  "recommendation": {
+   "n": 13,
+   "name_acc": 0.615,
+   "call_acc": 0.0
+  },
+  "social": {
+   "n": 22,
+   "name_acc": 0.5,
+   "call_acc": 0.045
+  },
+  "takeaway": {
+   "n": 6,
+   "name_acc": 0.5,
+   "call_acc": 0.0
+  },
+  "transport": {
+   "n": 19,
+   "name_acc": 0.474,
+   "call_acc": 0.053
+  },
+  "weather": {
+   "n": 21,
+   "name_acc": 0.81,
+   "call_acc": 0.048
+  }
+ },
+ "fails_sample": [
+  {
+   "q": "나의 할 일 목록 버려",
+   "gold": {
+    "name": "lists.remove",
+    "arguments": {
+     "list_name": "할 일"
+    }
+   },
+   "out": "{\"name\": \"lists.remove\", \"arguments\": {\"list_name\": \"할 일 목록\"}}"
+  },
+  {
+   "q": "내 고향의 노래 자랑 행사에 대해 알려줘",
+   "gold": {
+    "name": "recommendation.events",
+    "arguments": {
+     "place_name": "고향의",
+     "event_name": "노래 자랑"
+    }
+   },
+   "out": "네, 저는 현재 위치를 알 수 없으므로 정확한 노래 자랑 행사의 위치나 날짜를 알려드릴 수 없습니다.\n\n더 정확한 정보를 얻으려면 다음 정보를 알려주세요:\n1. **행사의 날짜** (예: 2024 년 1 월 1 일)\n2. **행사의 장소** (예: 서"
+  },
+  {
+   "q": "언덕나무 누가 불러",
+   "gold": {
+    "name": "music.query",
+    "arguments": {
+     "song_name": "언덕나무"
+    }
+   },
+   "out": "{\"name\": \"music.query\", \"arguments\": {\"artist_name\": \"언덕나무\"}}"
+  },
+  {
+   "q": "정오 에 서울 에서 진호 하고 회의 일정 잡아 줘",
+   "gold": {
+    "name": "calendar.set",
+    "arguments": {
+     "timeofday": "정오",
+     "place_name": "서울",
+     "person": "진호",
+     "event_name": "회의"
+    }
+   },
+   "out": "{\"name\": \"alarm.set\", \"arguments\": {\"date\": \"2024-01-15\", \"time\": \"10:00\", \"timeofday\": \"10:00\"}}"
+  },
+  {
+   "q": "페소 와 엔 사이의 환율은 얼마야",
+   "gold": {
+    "name": "qa.currency",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"qa.currency\", \"arguments\": {\"query\": \"페소 엔 환율\"}}"
+  },
+  {
+   "q": "내가 있는 곳에서 가장 가까운 동물원 어디 있어",
+   "gold": {
+    "name": "recommendation.locations",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"recommendation.locations\", \"arguments\": {\"place_name\": \"동물원\"}}"
+  },
+  {
+   "q": "다음",
+   "gold": {
+    "name": "play.podcasts",
+    "arguments": {}
+   },
+   "out": "안녕하세요! 무엇을 도와드릴까요?"
+  },
+  {
+   "q": "현주 생일이 사월 십이일 이야",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "person": "현주",
+     "date": "사월 십이일"
+    }
+   },
+   "out": "{\"name\": \"calendar.query\", \"arguments\": {\"date\": \"2024-04-12\"}}"
+  },
+  {
+   "q": "김범수 는 얼마나 벌었어",
+   "gold": {
+    "name": "qa.factoid",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"social.query\", \"arguments\": {\"person\": \"김범수\"}}"
+  },
+  {
+   "q": "압력밥솥 에서 갈비 만드는 시간",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "device_type": "압력밥솥",
+     "food_type": "갈비"
+    }
+   },
+   "out": "압력밥솥에서 갈비 만드는 시간은 일반적으로 **15 분 ~ 20 분** 정도입니다.\n\n일반적으로 다음과 같은 방법으로 갈비를 만들 수 있습니다:\n*   **15 분**: 갈비와 함께 물을 끓여 갈비와 함께 삶아줍니다.\n*   **20 분**: 갈비와 "
+  },
+  {
+   "q": "이 이메일 주소 기록해줘",
+   "gold": {
+    "name": "email.addcontact",
+    "arguments": {}
+   },
+   "out": "이메일 주소 기록해 드릴 수 있습니다.\n\n이제 이메일 주소에 대한 정보를 입력해 주세요.\n\n*   **이메일 주소:**\n*   **이름:**\n*   **회사/명:**\n*   **목록명:** (선택사항)\n\n이 정보를 입력하면 자동으로 해당 이메일 주소에"
+  },
+  {
+   "q": "현관 불 꺼 줘",
+   "gold": {
+    "name": "iot.hue_lightoff",
+    "arguments": {
+     "house_place": "현관"
+    }
+   },
+   "out": "{\"name\": \"iot.hue_lightoff\", \"arguments\": {}}"
+  },
+  {
+   "q": "사암 설명해줘",
+   "gold": {
+    "name": "qa.definition",
+    "arguments": {
+     "definition_word": "사암"
+    }
+   },
+   "out": "사암은 한국에서 가장 유명한 **고양이**의 이름입니다.\n\n*   **성명**: 사암\n*   **성격**: 사암은 매우 예민하고 민감한 성격으로, 특히 고양이에게 매우 친숙합니다.\n*   **특징**: 사암은 고양이의 가장 친숙한 이름으로, 다른 고양"
+  },
+  {
+   "q": "할로인이 무슨 요일이니",
+   "gold": {
+    "name": "datetime.query",
+    "arguments": {
+     "date": "요일이니"
+    }
+   },
+   "out": "현재 날짜는 2024 년 1 월 15 일입니다.\n\n할로인이 무슨 요일이니?\n\n*   **월요일**\n*   **화요일**\n*   **목요일**\n*   **금요일**\n*   **토요일**\n\n이제부터는 다음 주에 할로인이 무슨 요일이니?"
+  },
+  {
+   "q": "생일 파티 관련해서 리마인더 뭔가 있어",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "event_name": "생일 파티"
+    }
+   },
+   "out": "{\"name\": \"calendar.query\", \"arguments\": {\"date\": \"2024-01-15\", \"event_name\": \"생일 파티\"}}"
+  }
+ ]
+}
