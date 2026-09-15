@@ -15,6 +15,7 @@ const MODELS = {
 // cannot allocate that and wllama fails with "Invalid typed array length". 64 keeps it at 64 MB; measured 19.8 tok/s single-thread in Chrome at 32.
 const params0 = new URLSearchParams(location.search);  // ?u=<gguf url> and ?ctx=<n> exist for testing other GGUFs in this runtime
 const isMobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
+let busy = false;
 let modelKey = new URLSearchParams(location.search).get("m") || (() => { try { return localStorage.getItem("songgot.model"); } catch { return null; } })() || "songgot";  // Songgot-X stays opt-in until the browser runtime runs the Qwen3.5 architecture end to end (2026-09-14: loads, fails at inference)
 if (!MODELS[modelKey]) modelKey = "songgot";
 const MODEL = MODELS[modelKey];
@@ -153,11 +154,13 @@ function followups(name) {
 
 // ---------- chat loop ----------
 async function handle(query) {
+  if (busy) return;  // one completion at a time: a second request on the same context overflows it ("Context size has been exceeded", 2026-09-15)
+  busy = true; document.body.classList.add("busy");
   if (!ready || !query.trim()) return;
   say(query, "user"); input.value = ""; send.disabled = true; setStatus("thinking", "busy");
   try { const r = await callModel(query); renderCall(r); if (params.get("q")) document.title = "RESULT " + r.text; }
   catch (e) { say("오류: " + (e && e.message ? e.message : e), "sys"); if (params.get("q")) document.title = "ERROR " + e; }
-  setStatus(navigator.onLine ? "ready · on device" : "ready · offline", "ok"); send.disabled = false; input.focus();
+  setStatus(navigator.onLine ? "ready · on device" : "ready · offline", "ok"); send.disabled = false; input.focus(); busy = false; document.body.classList.remove("busy");
 }
 $("form").addEventListener("submit", (e) => { e.preventDefault(); handle(input.value); });
 ["내일 아침 7시에 알람 맞춰줘", "부산 날씨 어때?", "강남역까지 대중교통으로 안내해 줘", "10분 타이머", "엄마한테 늦는다고 문자 보내줘", "빗소리 틀어줘"].forEach((s) => { const c = el("button", "chip", s); c.type = "button"; c.onclick = () => handle(s); chips.appendChild(c); });

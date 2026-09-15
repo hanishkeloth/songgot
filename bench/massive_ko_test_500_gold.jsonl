@@ -1,0 +1,500 @@
+{"id": "massive-ko-10755", "query": "나의 할 일 목록 버려", "call": {"name": "lists.remove", "arguments": {"list_name": "할 일"}}, "scenario": "lists"}
+{"id": "massive-ko-11598", "query": "내 고향의 노래 자랑 행사에 대해 알려줘", "call": {"name": "recommendation.events", "arguments": {"place_name": "고향의", "event_name": "노래 자랑"}}, "scenario": "recommendation"}
+{"id": "massive-ko-1176", "query": "언덕나무 누가 불러", "call": {"name": "music.query", "arguments": {"song_name": "언덕나무"}}, "scenario": "music"}
+{"id": "massive-ko-7596", "query": "정오 에 서울 에서 진호 하고 회의 일정 잡아 줘", "call": {"name": "calendar.set", "arguments": {"timeofday": "정오", "place_name": "서울", "person": "진호", "event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-14304", "query": "페소 와 엔 사이의 환율은 얼마야", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13630", "query": "내가 있는 곳에서 가장 가까운 동물원 어디 있어", "call": {"name": "recommendation.locations", "arguments": {}}, "scenario": "recommendation"}
+{"id": "massive-ko-11261", "query": "다음", "call": {"name": "play.podcasts", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-8767", "query": "현주 생일이 사월 십이일 이야", "call": {"name": "calendar.query", "arguments": {"person": "현주", "date": "사월 십이일"}}, "scenario": "calendar"}
+{"id": "massive-ko-13283", "query": "김범수 는 얼마나 벌었어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-10072", "query": "압력밥솥 에서 갈비 만드는 시간", "call": {"name": "cooking.recipe", "arguments": {"device_type": "압력밥솥", "food_type": "갈비"}}, "scenario": "cooking"}
+{"id": "massive-ko-16158", "query": "이 이메일 주소 기록해줘", "call": {"name": "email.addcontact", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-6073", "query": "현관 불 꺼 줘", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "현관"}}, "scenario": "iot"}
+{"id": "massive-ko-14116", "query": "사암 설명해줘", "call": {"name": "qa.definition", "arguments": {"definition_word": "사암"}}, "scenario": "qa"}
+{"id": "massive-ko-3995", "query": "할로인이 무슨 요일이니", "call": {"name": "datetime.query", "arguments": {"date": "요일이니"}}, "scenario": "datetime"}
+{"id": "massive-ko-8150", "query": "생일 파티 관련해서 리마인더 뭔가 있어", "call": {"name": "calendar.query", "arguments": {"event_name": "생일 파티"}}, "scenario": "calendar"}
+{"id": "massive-ko-4013", "query": "먼지 깨끗하게 청소해줘", "call": {"name": "iot.cleaning", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-2770", "query": "올리 재즈 장르 의 음악 재생해", "call": {"name": "play.music", "arguments": {"music_genre": "재즈"}}, "scenario": "play"}
+{"id": "massive-ko-16944", "query": "할머니에게 토요일에 들른다고 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"relation": "할머니에게"}}, "scenario": "email"}
+{"id": "massive-ko-7295", "query": "내 달력 지워", "call": {"name": "calendar.remove", "arguments": {"time": "지워"}}, "scenario": "calendar"}
+{"id": "massive-ko-14891", "query": "그 사람은 어떤 분야에서 뛰어나", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-16603", "query": "삼십 분 전에 엄마로부터 온 이메일의 내용이 뭐지", "call": {"name": "email.query", "arguments": {"time": "삼십 분", "relation": "엄마로부터"}}, "scenario": "email"}
+{"id": "massive-ko-4177", "query": "전 세계 정치 최신 정치 헤드라인 말해줘", "call": {"name": "news.query", "arguments": {"place_name": "전 세계", "news_topic": "정치"}}, "scenario": "news"}
+{"id": "massive-ko-8949", "query": "리마인더", "call": {"name": "calendar.remove", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-2887", "query": "날씨 관련한 아무 기사나 아침 뉴스에서 보여주지 않을래", "call": {"name": "news.query", "arguments": {"news_topic": "날씨", "media_type": "아침 뉴스에서"}}, "scenario": "news"}
+{"id": "massive-ko-2178", "query": "내가 있는 곳 현재 기상 상태는 어때", "call": {"name": "weather.query", "arguments": {"place_name": "내가 있는 곳"}}, "scenario": "weather"}
+{"id": "massive-ko-9408", "query": "라디오 재생 시작", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-13102", "query": "일 더하기 일은 얼마야", "call": {"name": "qa.maths", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-15634", "query": "오케이 구글 멍청이가 주유소 주인이라고 트위터 에 올려", "call": {"name": "social.post", "arguments": {"media_type": "트위터"}}, "scenario": "social"}
+{"id": "massive-ko-2957", "query": "오전 열 시 알람이 있나", "call": {"name": "alarm.query", "arguments": {"time": "오전 열 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-9977", "query": "인터넷 검색해서 이탈리안 음식 요리에 적합한 유튜브 비디오 보여줘", "call": {"name": "cooking.recipe", "arguments": {"food_type": "이탈리안", "media_type": "유튜브 비디오"}}, "scenario": "cooking"}
+{"id": "massive-ko-11922", "query": "지금 연 지역 식당 찾아줘", "call": {"name": "recommendation.locations", "arguments": {"business_type": "식당"}}, "scenario": "recommendation"}
+{"id": "massive-ko-9095", "query": "지호랑 오늘밤 저녁 삭제해", "call": {"name": "calendar.remove", "arguments": {"event_name": "지호랑 오늘밤 저녁"}}, "scenario": "calendar"}
+{"id": "massive-ko-16780", "query": "juanpedro 골뱅이 gmail 쩜 com으로 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"email_address": "juanpedro 골뱅이 gmail 쩜 com으로"}}, "scenario": "email"}
+{"id": "massive-ko-5640", "query": "날짜 표시", "call": {"name": "datetime.query", "arguments": {}}, "scenario": "datetime"}
+{"id": "massive-ko-15454", "query": "내 가방 잃어버린 점에 대해 화가 났다고 대한항공 에 트윗 해", "call": {"name": "social.post", "arguments": {"business_name": "대한항공", "media_type": "트윗 해"}}, "scenario": "social"}
+{"id": "massive-ko-13288", "query": "빈번 이라는 단어의 정의가 뭐야", "call": {"name": "qa.definition", "arguments": {"definition_word": "빈번"}}, "scenario": "qa"}
+{"id": "massive-ko-12240", "query": "다섯시 에 집 으로 갈 때 교통 상황이 어때", "call": {"name": "transport.query", "arguments": {"time": "다섯시", "place_name": "집"}}, "scenario": "transport"}
+{"id": "massive-ko-14567", "query": "지구 에서 가장 큰 활화산 어디야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-7654", "query": "사월 이십일 오빠의 생일 이렇게 표시해", "call": {"name": "calendar.set", "arguments": {"date": "사월 이십일", "relation": "오빠의", "event_name": "생일"}}, "scenario": "calendar"}
+{"id": "massive-ko-1807", "query": "노래 제목", "call": {"name": "music.query", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-15345", "query": "트위터 인기 글 뭐야", "call": {"name": "social.query", "arguments": {"media_type": "트위터"}}, "scenario": "social"}
+{"id": "massive-ko-391", "query": "나의 재생 목록 에서 무작위의 노래 재생", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-2704", "query": "헤비메탈 좀 들어보자 오케이", "call": {"name": "play.music", "arguments": {"music_genre": "헤비메탈"}}, "scenario": "play"}
+{"id": "massive-ko-11085", "query": "쇼핑 목록에서 우유 빼줘", "call": {"name": "lists.remove", "arguments": {"list_name": "쇼핑"}}, "scenario": "lists"}
+{"id": "massive-ko-47", "query": "호주 몇 시야", "call": {"name": "datetime.query", "arguments": {"place_name": "호주"}}, "scenario": "datetime"}
+{"id": "massive-ko-16799", "query": "정오 이후에 이메일 받은 게 있니", "call": {"name": "email.query", "arguments": {"timeofday": "정오"}}, "scenario": "email"}
+{"id": "massive-ko-13819", "query": "오늘 다우지수에 무슨 일 있었어", "call": {"name": "qa.stock", "arguments": {"date": "오늘"}}, "scenario": "qa"}
+{"id": "massive-ko-9528", "query": "m. b. c. 켜서 스피커 에서 나오도록 틀어줘", "call": {"name": "play.radio", "arguments": {"radio_name": "m. b. c.", "device_type": "스피커"}}, "scenario": "play"}
+{"id": "massive-ko-7140", "query": "점심 미팅 한 시간 전에 알려줄 리마인더 설정", "call": {"name": "calendar.set", "arguments": {"event_name": "점심 미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-9305", "query": "클래식 f. m. 맞쳐줘", "call": {"name": "play.radio", "arguments": {"radio_name": "클래식 f. m."}}, "scenario": "play"}
+{"id": "massive-ko-1811", "query": "플레이리스트 켜서 음악 틀어줘", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-5297", "query": "인기 많은 s. b. s. 뉴스 알려줘", "call": {"name": "news.query", "arguments": {"media_type": "s. b. s."}}, "scenario": "news"}
+{"id": "massive-ko-15796", "query": "진우에게 이메일 보내", "call": {"name": "email.sendemail", "arguments": {"person": "진우에게"}}, "scenario": "email"}
+{"id": "massive-ko-6151", "query": "오늘의 날씨 알려줘", "call": {"name": "weather.query", "arguments": {"date": "오늘의"}}, "scenario": "weather"}
+{"id": "massive-ko-7000", "query": "새 이벤트", "call": {"name": "calendar.set", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-4086", "query": "좋은 가사", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-15213", "query": "지금 화제는 뭐야", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-12343", "query": "화요일 청량리 역 의 무궁화 호 기차 시간 확인해줘", "call": {"name": "transport.query", "arguments": {"date": "화요일", "place_name": "청량리 역", "transport_name": "무궁화 호", "transport_type": "기차"}}, "scenario": "transport"}
+{"id": "massive-ko-2611", "query": "현재 날씨 예보", "call": {"name": "weather.query", "arguments": {}}, "scenario": "weather"}
+{"id": "massive-ko-2334", "query": "내일 아침 여섯 시 에 알람 추가해줘", "call": {"name": "alarm.set", "arguments": {"date": "내일", "timeofday": "아침", "time": "여섯 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-9182", "query": "공항에서 부모님 모시고 오는 일정 취소해줘", "call": {"name": "calendar.remove", "arguments": {"place_name": "공항에서", "event_name": "부모님 모시고 오는"}}, "scenario": "calendar"}
+{"id": "massive-ko-14179", "query": "내 현재 위치에서 캐나다 까지 얼마나 멀어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13706", "query": "회전자 설명해줘", "call": {"name": "qa.definition", "arguments": {"definition_word": "회전자"}}, "scenario": "qa"}
+{"id": "massive-ko-3167", "query": "내 침실 조명들 꺼", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "침실"}}, "scenario": "iot"}
+{"id": "massive-ko-8694", "query": "그 이벤트는 재혁 하고 지현 포함할거야", "call": {"name": "calendar.set", "arguments": {"person": "지현"}}, "scenario": "calendar"}
+{"id": "massive-ko-15402", "query": "제품이 형편 없다고 트윗 해", "call": {"name": "social.post", "arguments": {"media_type": "트윗 해"}}, "scenario": "social"}
+{"id": "massive-ko-8426", "query": "어제 하고 오늘 아침 사이 이벤트 있는 거 말해 줘", "call": {"name": "calendar.query", "arguments": {"date": "어제", "timeofday": "아침"}}, "scenario": "calendar"}
+{"id": "massive-ko-3576", "query": "중앙일보 최근 뉴스가 뭐야", "call": {"name": "news.query", "arguments": {"media_type": "중앙일보"}}, "scenario": "news"}
+{"id": "massive-ko-15318", "query": "생일 축하 해줘서 모두 고맙다고 전하고 싶어", "call": {"name": "social.post", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-9520", "query": "라디오 방송 출연한 마지막 의사 켜줘", "call": {"name": "play.radio", "arguments": {"media_type": "라디오 방송"}}, "scenario": "play"}
+{"id": "massive-ko-15177", "query": "트위터 에 이 포스팅 리트윗 해줘", "call": {"name": "social.post", "arguments": {"media_type": "트위터"}}, "scenario": "social"}
+{"id": "massive-ko-5614", "query": "지금 라디오 에 뭐 나와", "call": {"name": "music.query", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-16624", "query": "내 서비스 문제 관련해 s. k. 텔레콤 한테 이메일 보내고 싶어", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-15311", "query": "페이스북에 뭐 새로운 게 있나", "call": {"name": "social.query", "arguments": {"media_type": "페이스북에"}}, "scenario": "social"}
+{"id": "massive-ko-16263", "query": "봉수한테서 새 이메일 받은 거 있니", "call": {"name": "email.query", "arguments": {"person": "봉수한테서"}}, "scenario": "email"}
+{"id": "massive-ko-8343", "query": "수요일 이야", "call": {"name": "datetime.query", "arguments": {"date": "수요일"}}, "scenario": "datetime"}
+{"id": "massive-ko-12263", "query": "경기도", "call": {"name": "transport.query", "arguments": {"place_name": "경기도"}}, "scenario": "transport"}
+{"id": "massive-ko-2638", "query": "김정은에 관한 뉴스 보여줘", "call": {"name": "news.query", "arguments": {"news_topic": "김정은에"}}, "scenario": "news"}
+{"id": "massive-ko-16446", "query": "철수로부터 온 최근 이메일들 확인해", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-10753", "query": "이마트 목록에 내가 뭐 적었어", "call": {"name": "lists.query", "arguments": {"list_name": "이마트 목록에"}}, "scenario": "lists"}
+{"id": "massive-ko-9110", "query": "삼월 이십오일 샤갈 전시회 해당 날짜에 표시해 줘", "call": {"name": "calendar.set", "arguments": {"date": "삼월 이십오일", "event_name": "샤갈 전시회"}}, "scenario": "calendar"}
+{"id": "massive-ko-15994", "query": "준호한테 이메일 보내서 회의 시간 언제가 좋은지 물어봐", "call": {"name": "email.sendemail", "arguments": {"person": "준호한테", "event_name": "회의"}}, "scenario": "email"}
+{"id": "massive-ko-7087", "query": "내 달력에서 내일 미팅 취소해줘", "call": {"name": "calendar.remove", "arguments": {"date": "내일", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-8410", "query": "월요일 내 저녁 식사 일정 지워", "call": {"name": "calendar.remove", "arguments": {"date": "월요일", "meal_type": "저녁 식사"}}, "scenario": "calendar"}
+{"id": "massive-ko-5127", "query": "무료 급식소의 재정에 대한 진실", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-5261", "query": "이거 양희은 노래 야", "call": {"name": "music.query", "arguments": {"artist_name": "양희은"}}, "scenario": "music"}
+{"id": "massive-ko-5198", "query": "이거 노래 별 다섯 개 매겨줘", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-969", "query": "특정 주제에 관한 뉴스 기사", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-7628", "query": "도서관 가면 새 도서관 카드 받기 리마인드해 줘", "call": {"name": "calendar.set", "arguments": {"place_name": "도서관", "event_name": "새 도서관 카드 받기"}}, "scenario": "calendar"}
+{"id": "massive-ko-13255", "query": "안중근 에 관한 정보 부탁해", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2057", "query": "그 노래를 내가 좋아하는 목록에 넣어", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-2578", "query": "현관 불 꺼 줘", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "현관"}}, "scenario": "iot"}
+{"id": "massive-ko-3714", "query": "나의 재생 목록 아래부터 틀어", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-4232", "query": "아이즈원 의 환상동화 재생", "call": {"name": "play.music", "arguments": {"artist_name": "아이즈원", "song_name": "환상동화"}}, "scenario": "play"}
+{"id": "massive-ko-1123", "query": "다음으로 아이유 내 손을 잡아 재생", "call": {"name": "play.music", "arguments": {"artist_name": "아이유", "song_name": "내 손을 잡아"}}, "scenario": "play"}
+{"id": "massive-ko-2330", "query": "지금 런던 현지 시간 보여줘", "call": {"name": "datetime.query", "arguments": {"place_name": "런던"}}, "scenario": "datetime"}
+{"id": "massive-ko-15181", "query": "나한테 새로운 친구 요청이 있어", "call": {"name": "social.query", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-10855", "query": "나의 목록 확인 좀 해 줘", "call": {"name": "lists.query", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-14648", "query": "요리법 부탁해", "call": {"name": "cooking.recipe", "arguments": {}}, "scenario": "cooking"}
+{"id": "massive-ko-8005", "query": "이십일 월요일 에 우리 주말 여행 에 관해 진호 와 대화 를 해야 해", "call": {"name": "calendar.set", "arguments": {"date": "이십일 월요일", "event_name": "대화", "person": "진호"}}, "scenario": "calendar"}
+{"id": "massive-ko-14591", "query": "television circuit 뜻이 뭐야", "call": {"name": "qa.definition", "arguments": {"definition_word": "television circuit"}}, "scenario": "qa"}
+{"id": "massive-ko-6937", "query": "정오에 사장님과 점심 리마인더 세팅해", "call": {"name": "calendar.set", "arguments": {"timeofday": "정오에", "event_name": "사장님과 점심"}}, "scenario": "calendar"}
+{"id": "massive-ko-6015", "query": "불 밝기 줄여줘", "call": {"name": "iot.hue_lightdim", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-16297", "query": "지후한테 고맙다고 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"person": "지후한테"}}, "scenario": "email"}
+{"id": "massive-ko-11546", "query": "지난 주 의 모든 왓섭 공포라디오 틀어줘", "call": {"name": "play.podcasts", "arguments": {"podcast_name": "왓섭 공포라디오"}}, "scenario": "play"}
+{"id": "massive-ko-16061", "query": "지난 십 분 안에 받은 이메일이 있나", "call": {"name": "email.query", "arguments": {"time": "지난 십 분"}}, "scenario": "email"}
+{"id": "massive-ko-8004", "query": "주현이가 우리의 이혼에 대해 대화하고 싶어해 가능한한 빨리 미팅 잡아줘", "call": {"name": "calendar.set", "arguments": {"person": "주현이가", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-12419", "query": "가로수길 로 가는 가장 빠른 경로", "call": {"name": "transport.query", "arguments": {"place_name": "가로수길"}}, "scenario": "transport"}
+{"id": "massive-ko-13780", "query": "양세찬 은 결혼 했어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-10053", "query": "피자 어떻게 만들어", "call": {"name": "cooking.recipe", "arguments": {"food_type": "피자"}}, "scenario": "cooking"}
+{"id": "massive-ko-2373", "query": "노래 정보", "call": {"name": "music.query", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-9275", "query": "라디오에서 f.m. 구십일 점 구 만 재생", "call": {"name": "play.radio", "arguments": {"radio_name": "f.m. 구십일 점 구"}}, "scenario": "play"}
+{"id": "massive-ko-3364", "query": "똑 똑", "call": {"name": "general.joke", "arguments": {}}, "scenario": "general"}
+{"id": "massive-ko-13639", "query": "디즈니의 지난 주 주식 상승률이 어떻게 돼", "call": {"name": "qa.stock", "arguments": {"business_name": "디즈니의"}}, "scenario": "qa"}
+{"id": "massive-ko-16245", "query": "지수 골뱅이 네이버 닷컴으로 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"email_address": "지수 골뱅이 네이버 닷컴으로"}}, "scenario": "email"}
+{"id": "massive-ko-9569", "query": "오케이 구글 백칠 점 칠 재생해", "call": {"name": "play.radio", "arguments": {"radio_name": "백칠 점 칠"}}, "scenario": "play"}
+{"id": "massive-ko-5286", "query": "이민 관련 k. b. s. 뉴스 보여 줘", "call": {"name": "news.query", "arguments": {"news_topic": "이민", "media_type": "k. b. s."}}, "scenario": "news"}
+{"id": "massive-ko-7113", "query": "이번 주말에 시내에 일정 있어", "call": {"name": "calendar.query", "arguments": {"date": "이번 주말에"}}, "scenario": "calendar"}
+{"id": "massive-ko-426", "query": "콘센트 일번 켜 줘", "call": {"name": "iot.wemo_on", "arguments": {"device_type": "콘센트 일번"}}, "scenario": "iot"}
+{"id": "massive-ko-7918", "query": "일정 이벤트 보내 김영호 초대해", "call": {"name": "calendar.set", "arguments": {"person": "김영호"}}, "scenario": "calendar"}
+{"id": "massive-ko-3407", "query": "이번 주 에 비나 눈 소식이 있니", "call": {"name": "weather.query", "arguments": {"date": "이번 주", "weather_descriptor": "비나 눈"}}, "scenario": "weather"}
+{"id": "massive-ko-6116", "query": "이번 주 날씨 정보", "call": {"name": "weather.query", "arguments": {"date": "이번 주"}}, "scenario": "weather"}
+{"id": "massive-ko-10366", "query": "빠른 속도 로 바둑 두자", "call": {"name": "play.game", "arguments": {"game_name": "바둑"}}, "scenario": "play"}
+{"id": "massive-ko-4833", "query": "데이타 지워줘", "call": {"name": "audio.volume_mute", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-16851", "query": "알림 이메일 보내", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-11720", "query": "수영", "call": {"name": "recommendation.events", "arguments": {"event_name": "수영"}}, "scenario": "recommendation"}
+{"id": "massive-ko-1804", "query": "조명 더 부탁해", "call": {"name": "iot.hue_lightup", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-17052", "query": "낸디 검색해", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-4173", "query": "진공 청소기 켜서 사용해", "call": {"name": "iot.cleaning", "arguments": {"device_type": "진공 청소기"}}, "scenario": "iot"}
+{"id": "massive-ko-6077", "query": "오늘 최신 세계 소식 듣고 싶어", "call": {"name": "news.query", "arguments": {"date": "오늘", "place_name": "세계"}}, "scenario": "news"}
+{"id": "massive-ko-1377", "query": "아들 방 불 꺼 줘", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "아들 방"}}, "scenario": "iot"}
+{"id": "massive-ko-15966", "query": "그게 가장 중요하다면 답장해줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-14928", "query": "루피 에서 디르함 으로의 환율에 관해 알고 싶어", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2198", "query": "천구백팔십이년 십이월 사일 은 무슨 요일이지", "call": {"name": "datetime.query", "arguments": {"date": "천구백팔십이년 십이월 사일"}}, "scenario": "datetime"}
+{"id": "massive-ko-782", "query": "제니 의 솔로 틀어줘", "call": {"name": "play.music", "arguments": {"artist_name": "제니", "song_name": "솔로"}}, "scenario": "play"}
+{"id": "massive-ko-3568", "query": "내 커피 머신 설정", "call": {"name": "iot.coffee", "arguments": {"device_type": "커피 머신"}}, "scenario": "iot"}
+{"id": "massive-ko-5245", "query": "환경 뉴스 알림 설정해줘", "call": {"name": "news.query", "arguments": {"news_topic": "환경"}}, "scenario": "news"}
+{"id": "massive-ko-15998", "query": "이름한테서 온 이메일 확인해줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-3460", "query": "조용한 시간", "call": {"name": "audio.volume_mute", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-16701", "query": "나 현주의 이메일에 답장하고 싶어", "call": {"name": "email.sendemail", "arguments": {"person": "현주의"}}, "scenario": "email"}
+{"id": "massive-ko-2615", "query": "다음주 수요일 에 재킷 입어야 할까", "call": {"name": "weather.query", "arguments": {"date": "수요일", "weather_descriptor": "재킷"}}, "scenario": "weather"}
+{"id": "massive-ko-10346", "query": "게임 시작하고 나랑 놀자", "call": {"name": "play.game", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-3398", "query": "오후 다섯 시 로 내 알람 설정해주세요", "call": {"name": "alarm.set", "arguments": {"time": "오후 다섯 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-1076", "query": "락 메탈 재상 하지마", "call": {"name": "music.dislikeness", "arguments": {"music_genre": "락 메탈"}}, "scenario": "music"}
+{"id": "massive-ko-588", "query": "오늘 새로운 소식은 뭐가 있니", "call": {"name": "news.query", "arguments": {"date": "오늘"}}, "scenario": "news"}
+{"id": "massive-ko-5365", "query": "알람 오전 여섯 시 로 설정해줘", "call": {"name": "alarm.set", "arguments": {"time": "오전 여섯 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-5149", "query": "커피 머신 켜짐으로 설정해", "call": {"name": "iot.coffee", "arguments": {"device_type": "커피 머신"}}, "scenario": "iot"}
+{"id": "massive-ko-3562", "query": "드라마 재생", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-13383", "query": "얼마나 많은 나라들이 사형 제도를 시행해", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-5886", "query": "인기 있는 주제", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-1784", "query": "다이닝 룸 꺼", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "다이닝 룸"}}, "scenario": "iot"}
+{"id": "massive-ko-651", "query": "방 조명 꺼 줘", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "방"}}, "scenario": "iot"}
+{"id": "massive-ko-15231", "query": "인스타그램 에 내 여행 사진 게시물", "call": {"name": "social.post", "arguments": {"media_type": "인스타그램"}}, "scenario": "social"}
+{"id": "massive-ko-11705", "query": "삼청동에 있는 그림 전시회 보여줘", "call": {"name": "recommendation.events", "arguments": {"place_name": "삼청동에", "event_name": "그림 전시회"}}, "scenario": "recommendation"}
+{"id": "massive-ko-2975", "query": "조명 색깔 빨간색 으로 바꿔줘", "call": {"name": "iot.hue_lightchange", "arguments": {"color_type": "빨간색"}}, "scenario": "iot"}
+{"id": "massive-ko-7613", "query": "앞으로 행사 뭐 있어", "call": {"name": "calendar.query", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-2085", "query": "알렉사 바흐 와 슈베르트 빼고 아무 클래식 이나 듣고 싶어", "call": {"name": "play.music", "arguments": {"artist_name": "슈베르트", "music_genre": "클래식"}}, "scenario": "play"}
+{"id": "massive-ko-6118", "query": "텍사스 댈러스 는 지금 몇 시야", "call": {"name": "datetime.query", "arguments": {"place_name": "텍사스 댈러스"}}, "scenario": "datetime"}
+{"id": "massive-ko-2156", "query": "지금 몇 시인지 알고 싶어", "call": {"name": "datetime.query", "arguments": {}}, "scenario": "datetime"}
+{"id": "massive-ko-8681", "query": "누구 생일 있어", "call": {"name": "calendar.query", "arguments": {"event_name": "생일"}}, "scenario": "calendar"}
+{"id": "massive-ko-9931", "query": "올리 계란 은 얼마나 오래 삶나", "call": {"name": "cooking.recipe", "arguments": {"food_type": "계란", "cooking_type": "삶나"}}, "scenario": "cooking"}
+{"id": "massive-ko-11987", "query": "내 근처 영화관 찾아줘", "call": {"name": "recommendation.movies", "arguments": {}}, "scenario": "recommendation"}
+{"id": "massive-ko-5027", "query": "언제가 다음 금요일 십삼일 이지", "call": {"name": "datetime.query", "arguments": {"date": "금요일 십삼일"}}, "scenario": "datetime"}
+{"id": "massive-ko-16399", "query": "나 새로 받은 이메일 있어", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-14074", "query": "일 달러 는 몇 인도 루피 와 같아", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-12951", "query": "세상 에서 가장 높은 건물이 뭐야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-1144", "query": "랩 좀 들려줘", "call": {"name": "play.music", "arguments": {"music_genre": "랩"}}, "scenario": "play"}
+{"id": "massive-ko-2959", "query": "로봇 청소기 초기화 시켜줘", "call": {"name": "iot.cleaning", "arguments": {"device_type": "로봇 청소기"}}, "scenario": "iot"}
+{"id": "massive-ko-16781", "query": "이 이메일 주소를 내 연락처에 저장하고 이메일 보내", "call": {"name": "email.addcontact", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-5525", "query": "한 시간 동안 음소거해", "call": {"name": "audio.volume_mute", "arguments": {"time": "한 시간"}}, "scenario": "audio"}
+{"id": "massive-ko-16733", "query": "네이버로 부터 최근 이메일들 보여줘", "call": {"name": "email.query", "arguments": {"business_name": "네이버로"}}, "scenario": "email"}
+{"id": "massive-ko-10077", "query": "오늘 밤 저녁 식사 요리법 찾아줘", "call": {"name": "cooking.recipe", "arguments": {}}, "scenario": "cooking"}
+{"id": "massive-ko-13043", "query": "동네 빵집에서 고구마파이를 먹고 싶다", "call": {"name": "lists.createoradd", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-15845", "query": "그게 어떻게 우리에게 와", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-4799", "query": "위모 플러그 소켓 켜줘", "call": {"name": "iot.wemo_on", "arguments": {"device_type": "위모 플러그 소켓"}}, "scenario": "iot"}
+{"id": "massive-ko-5615", "query": "네가 연주하는 곡 제목을 알려줘", "call": {"name": "music.query", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-1692", "query": "부드러운 재즈 좀 찾아줄래", "call": {"name": "play.music", "arguments": {"music_genre": "부드러운 재즈"}}, "scenario": "play"}
+{"id": "massive-ko-4443", "query": "세 시 에 커피 머신 시작", "call": {"name": "iot.coffee", "arguments": {"time": "세 시", "device_type": "커피 머신"}}, "scenario": "iot"}
+{"id": "massive-ko-4550", "query": "나는 이영지 음악 좋아해", "call": {"name": "music.likeness", "arguments": {"artist_name": "이영지"}}, "scenario": "music"}
+{"id": "massive-ko-9726", "query": "오디오북 정지", "call": {"name": "play.audiobook", "arguments": {"media_type": "오디오북", "player_setting": "정지"}}, "scenario": "play"}
+{"id": "massive-ko-14791", "query": "의자의 구성은 뭐야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-17108", "query": "가장 최근 이메일 보여줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-3408", "query": "이번 주말 에 날씨 좋을까", "call": {"name": "weather.query", "arguments": {"date": "이번 주말", "weather_descriptor": "좋을까"}}, "scenario": "weather"}
+{"id": "massive-ko-12233", "query": "구글 서울시 가는 기차 표", "call": {"name": "transport.ticket", "arguments": {"place_name": "서울시", "transport_type": "기차"}}, "scenario": "transport"}
+{"id": "massive-ko-4928", "query": "나의 사운드트랙 틀어", "call": {"name": "play.music", "arguments": {"playlist_name": "나의 사운드트랙"}}, "scenario": "play"}
+{"id": "massive-ko-379", "query": "음악 저장하고 싶은데 그렇게 해줄래", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-13099", "query": "영국 의 현 총리가 누구였지", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-11343", "query": "오징어게임 다음 편 으로 넘어가", "call": {"name": "play.podcasts", "arguments": {"podcast_name": "오징어게임", "podcast_descriptor": "다음 편"}}, "scenario": "play"}
+{"id": "massive-ko-15839", "query": "주제", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-14214", "query": "같은 걸로 여행 길 찾아봐", "call": {"name": "transport.query", "arguments": {}}, "scenario": "transport"}
+{"id": "massive-ko-8975", "query": "오늘 잡혀있는 미팅 뭐 있어", "call": {"name": "calendar.query", "arguments": {"date": "오늘", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-10049", "query": "해물파전 어떻게 만드는지 말해줘", "call": {"name": "cooking.recipe", "arguments": {"food_type": "해물파전"}}, "scenario": "cooking"}
+{"id": "massive-ko-10815", "query": "쇼핑 목록 에 치약 추가해", "call": {"name": "lists.createoradd", "arguments": {"list_name": "쇼핑"}}, "scenario": "lists"}
+{"id": "massive-ko-7316", "query": "약속 있어", "call": {"name": "calendar.query", "arguments": {"event_name": "약속"}}, "scenario": "calendar"}
+{"id": "massive-ko-4305", "query": "십센치 의 노래 서랍 틀어줘", "call": {"name": "play.music", "arguments": {"artist_name": "십센치", "song_name": "서랍"}}, "scenario": "play"}
+{"id": "massive-ko-15652", "query": "고객 서비스 에 컴플레인 하는 것 좀 도와줘", "call": {"name": "social.post", "arguments": {"business_name": "고객 서비스"}}, "scenario": "social"}
+{"id": "massive-ko-334", "query": "강릉 날씨 알고 싶은데", "call": {"name": "weather.query", "arguments": {"place_name": "강릉"}}, "scenario": "weather"}
+{"id": "massive-ko-12675", "query": "교통량이 적어", "call": {"name": "transport.traffic", "arguments": {}}, "scenario": "transport"}
+{"id": "massive-ko-2311", "query": "알렉사 조명 칠로 낮춰줘", "call": {"name": "iot.hue_lightdim", "arguments": {"change_amount": "칠로"}}, "scenario": "iot"}
+{"id": "massive-ko-9591", "query": "구십팔 점 칠 f. m. 에서 굿모닝 팝스 프로그램 재생", "call": {"name": "play.radio", "arguments": {"radio_name": "구십팔 점 칠 f. m."}}, "scenario": "play"}
+{"id": "massive-ko-1400", "query": "난 주로 집중하고 있어", "call": {"name": "weather.query", "arguments": {}}, "scenario": "weather"}
+{"id": "massive-ko-16384", "query": "나에게 온 새 이메일 있어", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-8126", "query": "내 캘린더에 미팅 이벤트 일정 잡아", "call": {"name": "calendar.set", "arguments": {"event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-3838", "query": "소리 끄기", "call": {"name": "audio.volume_mute", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-7039", "query": "다음 화요일 오전 열한시 수진 하고 미팅 설정해", "call": {"name": "calendar.set", "arguments": {"date": "화요일", "time": "오전 열한시", "person": "수진", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-13494", "query": "동기 부여 의 정의 알려줘", "call": {"name": "qa.definition", "arguments": {"definition_word": "동기 부여"}}, "scenario": "qa"}
+{"id": "massive-ko-9961", "query": "감자 구이 하기 가장 좋은 오븐 온도는 뭐야", "call": {"name": "cooking.recipe", "arguments": {"cooking_type": "구이"}}, "scenario": "cooking"}
+{"id": "massive-ko-8345", "query": "미팅 언제 있을 건지 알려줘", "call": {"name": "calendar.set", "arguments": {"event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-10081", "query": "미트볼 어떻게 요리하는지 말해줘", "call": {"name": "cooking.recipe", "arguments": {"food_type": "미트볼"}}, "scenario": "cooking"}
+{"id": "massive-ko-3774", "query": "스마트 플러그 비활성화", "call": {"name": "iot.wemo_off", "arguments": {"device_type": "스마트 플러그"}}, "scenario": "iot"}
+{"id": "massive-ko-17090", "query": "연락처 열어줄래", "call": {"name": "email.querycontact", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-10808", "query": "리스트에 있는 마지막 아이템 삭제해줘", "call": {"name": "lists.remove", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-11451", "query": "최신 일당백 팟캐스트 듣고 싶어", "call": {"name": "play.podcasts", "arguments": {"podcast_name": "일당백"}}, "scenario": "play"}
+{"id": "massive-ko-2336", "query": "국수 한 팩 포장으로 해줘", "call": {"name": "takeaway.order", "arguments": {"food_type": "국수", "order_type": "포장으로"}}, "scenario": "takeaway"}
+{"id": "massive-ko-59", "query": "오전 일곱시에 알람 취소해줘", "call": {"name": "alarm.remove", "arguments": {"time": "일곱시에"}}, "scenario": "alarm"}
+{"id": "massive-ko-5324", "query": "헤이 집 배달 있나요", "call": {"name": "takeaway.query", "arguments": {"order_type": "배달"}}, "scenario": "takeaway"}
+{"id": "massive-ko-9561", "query": "라디오에서 극동방송 틀어줘", "call": {"name": "play.radio", "arguments": {"radio_name": "극동방송"}}, "scenario": "play"}
+{"id": "massive-ko-4487", "query": "목요일 에 비가 오나", "call": {"name": "weather.query", "arguments": {"date": "목요일", "weather_descriptor": "비가 오나"}}, "scenario": "weather"}
+{"id": "massive-ko-7014", "query": "오늘의 이벤트들 일정 보여줘", "call": {"name": "calendar.query", "arguments": {"date": "오늘의"}}, "scenario": "calendar"}
+{"id": "massive-ko-6178", "query": "자켓 입어야 할까", "call": {"name": "weather.query", "arguments": {"weather_descriptor": "자켓"}}, "scenario": "weather"}
+{"id": "massive-ko-12354", "query": "기차 시간 좀 줘 봐", "call": {"name": "transport.query", "arguments": {"transport_type": "기차"}}, "scenario": "transport"}
+{"id": "massive-ko-10568", "query": "올드 뮤직 목록 삭제해줘", "call": {"name": "lists.remove", "arguments": {"list_name": "올드 뮤직"}}, "scenario": "lists"}
+{"id": "massive-ko-15815", "query": "준희 회사 번호 뭐야", "call": {"name": "email.querycontact", "arguments": {"person": "준희", "personal_info": "회사 번호"}}, "scenario": "email"}
+{"id": "massive-ko-16048", "query": "최근 이메일 보여줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-940", "query": "내 아침 알람 켜", "call": {"name": "alarm.set", "arguments": {"timeofday": "아침"}}, "scenario": "alarm"}
+{"id": "massive-ko-11172", "query": "가능한 모든 목록 알려줘", "call": {"name": "lists.query", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-16924", "query": "새 메일 있는지 내 지메일 확인 부탁해", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-11525", "query": "다음 팟캐스트 가 있는지 보고 싶어", "call": {"name": "play.podcasts", "arguments": {"podcast_descriptor": "다음 팟캐스트"}}, "scenario": "play"}
+{"id": "massive-ko-1423", "query": "문재인 대통령에 관해 말해줘", "call": {"name": "news.query", "arguments": {"news_topic": "문재인"}}, "scenario": "news"}
+{"id": "massive-ko-4672", "query": "이 밴드는 최고야", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-12281", "query": "서울 에서 천안 가는 기차 표 한 장 예매해줘", "call": {"name": "transport.ticket", "arguments": {"place_name": "천안", "transport_type": "기차"}}, "scenario": "transport"}
+{"id": "massive-ko-1832", "query": "콜드플레이 앨범 틀어", "call": {"name": "play.music", "arguments": {"playlist_name": "콜드플레이"}}, "scenario": "play"}
+{"id": "massive-ko-7598", "query": "다음 가능한 미팅 날에 현웅 하고 테러에 대한 논의 미팅 설정해 줘", "call": {"name": "calendar.set", "arguments": {"date": "다음 가능한", "event_name": "테러에 대한 논의", "person": "현웅"}}, "scenario": "calendar"}
+{"id": "massive-ko-4436", "query": "어떤 재킷 입어야 할까", "call": {"name": "weather.query", "arguments": {"weather_descriptor": "재킷"}}, "scenario": "weather"}
+{"id": "massive-ko-12294", "query": "예술의 전당 가는 기차 시간표 보여줘", "call": {"name": "transport.query", "arguments": {"place_name": "예술의 전당", "transport_type": "기차"}}, "scenario": "transport"}
+{"id": "massive-ko-14746", "query": "카자흐스탄 의 수도는 어디야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13681", "query": "조승우 는 연극 몇 편에 나왔어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-15661", "query": "국방부의 트위터에 마지막으로 게시글 올려", "call": {"name": "social.post", "arguments": {"business_name": "국방부의", "media_type": "트위터에"}}, "scenario": "social"}
+{"id": "massive-ko-0", "query": "이번 주 오전 다섯 시 에 깨워줘", "call": {"name": "alarm.set", "arguments": {"date": "이번 주", "time": "오전 다섯 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-1124", "query": "아이유의 내 손을 잡아 다음에 재생할 수 있도록 준비해", "call": {"name": "play.music", "arguments": {"artist_name": "아이유의", "song_name": "내 손을 잡아"}}, "scenario": "play"}
+{"id": "massive-ko-13854", "query": "서지원 은 언제 죽었어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-9321", "query": "라디오 지금 켜줘", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-8985", "query": "재현 생일 캘린더에서 삭제", "call": {"name": "calendar.remove", "arguments": {"event_name": "재현 생일"}}, "scenario": "calendar"}
+{"id": "massive-ko-12932", "query": "올리 봉은사로 가는 방향 알려줘", "call": {"name": "transport.query", "arguments": {"place_name": "봉은사로"}}, "scenario": "transport"}
+{"id": "massive-ko-1510", "query": "내가 일 끝나고 집에 올 때까지 무소음 모드로 해", "call": {"name": "audio.volume_mute", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-11458", "query": "팟캐스트 다음 편 으로 넘어가", "call": {"name": "play.podcasts", "arguments": {"podcast_descriptor": "다음 편", "player_setting": "넘어가"}}, "scenario": "play"}
+{"id": "massive-ko-5229", "query": "내가 음악 좋아해", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-15337", "query": "페이스북 에 이 영상 올려줘", "call": {"name": "social.post", "arguments": {"media_type": "페이스북"}}, "scenario": "social"}
+{"id": "massive-ko-2396", "query": "msg워너비 노래 틀어줘", "call": {"name": "play.music", "arguments": {"artist_name": "msg워너비"}}, "scenario": "play"}
+{"id": "massive-ko-3717", "query": "내 구십년대 랩 히트곡 들려주세요", "call": {"name": "play.music", "arguments": {"music_genre": "구십년대 랩"}}, "scenario": "play"}
+{"id": "massive-ko-399", "query": "첫 번째 알람 제거해", "call": {"name": "alarm.remove", "arguments": {}}, "scenario": "alarm"}
+{"id": "massive-ko-11166", "query": "google keep 열기", "call": {"name": "lists.query", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-11505", "query": "내 마지막 팟캐스트 다시 재생", "call": {"name": "play.podcasts", "arguments": {"player_setting": "다시 재생"}}, "scenario": "play"}
+{"id": "massive-ko-17042", "query": "준 골뱅이 지메일 닷 컴 으로 이메일 하나 써", "call": {"name": "email.sendemail", "arguments": {"email_address": "준 골뱅이 지메일 닷 컴"}}, "scenario": "email"}
+{"id": "massive-ko-100", "query": "한 주간 예보", "call": {"name": "weather.query", "arguments": {"time": "주간"}}, "scenario": "weather"}
+{"id": "massive-ko-5974", "query": "나 정오 에 약 먹으라고 알람 설정했나", "call": {"name": "alarm.query", "arguments": {"timeofday": "정오", "event_name": "약 먹으라고"}}, "scenario": "alarm"}
+{"id": "massive-ko-393", "query": "내 플레이리스트 에서 레트로 노래 재생해줘", "call": {"name": "play.music", "arguments": {"music_genre": "레트로"}}, "scenario": "play"}
+{"id": "massive-ko-80", "query": "전등 밝기 더 높게 설정해줘", "call": {"name": "iot.hue_lightup", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-14763", "query": "유로 대비 달러 가치는 얼마야", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2850", "query": "미스터피자에 포장할 수 있는 곳이 있나요", "call": {"name": "takeaway.query", "arguments": {"business_name": "미스터피자에"}}, "scenario": "takeaway"}
+{"id": "massive-ko-5292", "query": "알람 정해", "call": {"name": "alarm.set", "arguments": {}}, "scenario": "alarm"}
+{"id": "massive-ko-3441", "query": "이십이일 은 수요일이야", "call": {"name": "datetime.query", "arguments": {"date": "이십이일"}}, "scenario": "datetime"}
+{"id": "massive-ko-5501", "query": "모든 조명 켜주세요", "call": {"name": "iot.hue_lightup", "arguments": {"device_type": "모든 조명"}}, "scenario": "iot"}
+{"id": "massive-ko-8741", "query": "오후 두 시로 알람 맞춰", "call": {"name": "alarm.set", "arguments": {"time": "오후 두 시로"}}, "scenario": "alarm"}
+{"id": "massive-ko-8110", "query": "내 달력에 감독 추가해", "call": {"name": "calendar.set", "arguments": {"event_name": "감독"}}, "scenario": "calendar"}
+{"id": "massive-ko-5074", "query": "그 주 날씨 어땠지", "call": {"name": "weather.query", "arguments": {"time": "주"}}, "scenario": "weather"}
+{"id": "massive-ko-2927", "query": "오스틴 은 지금 몇 시야", "call": {"name": "datetime.query", "arguments": {"place_name": "오스틴"}}, "scenario": "datetime"}
+{"id": "massive-ko-13206", "query": "지역", "call": {"name": "qa.definition", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-10996", "query": "내 연락처 목록 에 영호 추가해", "call": {"name": "lists.createoradd", "arguments": {"list_name": "연락처 목록", "person": "영호"}}, "scenario": "lists"}
+{"id": "massive-ko-2351", "query": "올리야 집 컬러 밝은 거에서 어두운 색으로 바꿔", "call": {"name": "iot.hue_lightchange", "arguments": {"house_place": "집", "color_type": "어두운"}}, "scenario": "iot"}
+{"id": "massive-ko-608", "query": "음소거 해제 이후", "call": {"name": "audio.volume_up", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-7993", "query": "내 달력에서 모든 이벤트 지워줘", "call": {"name": "calendar.remove", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-12473", "query": "집에서 여기까지 어떻게 와", "call": {"name": "transport.query", "arguments": {"place_name": "집에서"}}, "scenario": "transport"}
+{"id": "massive-ko-3387", "query": "여기 빨간색 으로 만들어 줘", "call": {"name": "iot.hue_lightchange", "arguments": {"color_type": "빨간색"}}, "scenario": "iot"}
+{"id": "massive-ko-7549", "query": "세 시 정각 회의 설정해", "call": {"name": "calendar.set", "arguments": {"time": "세 시 정각", "event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-3812", "query": "십오 분 동안 멈춰", "call": {"name": "audio.volume_mute", "arguments": {"time": "십오 분"}}, "scenario": "audio"}
+{"id": "massive-ko-14549", "query": "이효리 콘서트 스케줄 목록 만들어줘", "call": {"name": "lists.createoradd", "arguments": {"person": "이효리"}}, "scenario": "lists"}
+{"id": "massive-ko-9871", "query": "나의 즐겨찾기 책 틀어줘", "call": {"name": "play.audiobook", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-3349", "query": "자동차 어딨어", "call": {"name": "audio.volume_up", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-4319", "query": "나는 내일 열 시 에 일어나야 해", "call": {"name": "alarm.set", "arguments": {"date": "내일", "time": "열 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-8073", "query": "수요일 오전 열한시 에 영업 회의 일정 잡아", "call": {"name": "calendar.set", "arguments": {"date": "수요일", "time": "오전 열한시", "event_name": "영업 회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-494", "query": "재미 있는 농담 뭐 있어", "call": {"name": "general.joke", "arguments": {"joke_type": "재미 있는"}}, "scenario": "general"}
+{"id": "massive-ko-1264", "query": "내 알람 이 내일 아침 으로 설정되어 있어", "call": {"name": "alarm.query", "arguments": {"date": "내일", "timeofday": "아침"}}, "scenario": "alarm"}
+{"id": "massive-ko-1180", "query": "문재인 대통령 관련 오늘의 중앙 기사 찾아줘", "call": {"name": "news.query", "arguments": {"news_topic": "문재인", "date": "오늘의", "media_type": "중앙"}}, "scenario": "news"}
+{"id": "massive-ko-5678", "query": "팔월 십오일 은 무슨 요일이야", "call": {"name": "datetime.query", "arguments": {"date": "팔월 십오일"}}, "scenario": "datetime"}
+{"id": "massive-ko-7609", "query": "화요일 회의 리마인더 삭제해", "call": {"name": "calendar.remove", "arguments": {"date": "화요일", "event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-15593", "query": "유플러스에 불만 트윗 해", "call": {"name": "social.post", "arguments": {"business_name": "유플러스에", "media_type": "트윗"}}, "scenario": "social"}
+{"id": "massive-ko-9054", "query": "화요일 윤희 일정 리마인더", "call": {"name": "calendar.set", "arguments": {"date": "화요일", "event_name": "윤희"}}, "scenario": "calendar"}
+{"id": "massive-ko-10285", "query": "클래시 오브 클랜 실행해줘", "call": {"name": "play.game", "arguments": {"game_name": "클래시 오브 클랜"}}, "scenario": "play"}
+{"id": "massive-ko-1256", "query": "당신이 아는 가장 웃긴 농담을 말해주세요", "call": {"name": "general.joke", "arguments": {"joke_type": "가장 웃긴"}}, "scenario": "general"}
+{"id": "massive-ko-15906", "query": "민호에게 고맙다고 회신해", "call": {"name": "email.sendemail", "arguments": {"person": "민호에게"}}, "scenario": "email"}
+{"id": "massive-ko-12707", "query": "네비게이션 검색", "call": {"name": "transport.query", "arguments": {}}, "scenario": "transport"}
+{"id": "massive-ko-11954", "query": "내 주변 어디에 극장 있어", "call": {"name": "recommendation.locations", "arguments": {"business_type": "극장"}}, "scenario": "recommendation"}
+{"id": "massive-ko-10403", "query": "게임들 열어", "call": {"name": "play.game", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-15092", "query": "삼성 t.v. 에 관한 설명 찾아줘", "call": {"name": "qa.definition", "arguments": {"definition_word": "삼성 t.v."}}, "scenario": "qa"}
+{"id": "massive-ko-4992", "query": "소케트 꺼", "call": {"name": "iot.wemo_off", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-5727", "query": "현관 불 밝게 해 줘", "call": {"name": "iot.hue_lightup", "arguments": {"house_place": "현관"}}, "scenario": "iot"}
+{"id": "massive-ko-10501", "query": "내 잡화 목록 에 브로콜리 추가해", "call": {"name": "lists.createoradd", "arguments": {"list_name": "잡화"}}, "scenario": "lists"}
+{"id": "massive-ko-16873", "query": "나래 생일 이니 이메일 보내", "call": {"name": "email.sendemail", "arguments": {"person": "나래", "event_name": "생일"}}, "scenario": "email"}
+{"id": "massive-ko-261", "query": "잘 안 들려", "call": {"name": "audio.volume_up", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-3982", "query": "아이튠즈 보관함 에서 첫 번째 노래 선택해주세요", "call": {"name": "play.music", "arguments": {"playlist_name": "아이튠즈 보관함"}}, "scenario": "play"}
+{"id": "massive-ko-4248", "query": "집 조명들 파랗게", "call": {"name": "iot.hue_lightchange", "arguments": {"color_type": "파랗게"}}, "scenario": "iot"}
+{"id": "massive-ko-7919", "query": "준호와 현주 가 참석자인 새 미팅 추가", "call": {"name": "calendar.set", "arguments": {"person": "준호와 현주", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-9541", "query": "라디오에서 달콤한 노래 틀어줘", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-9629", "query": "라디오 듣는거 도와줄래", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-10292", "query": "나랑 게임 하자", "call": {"name": "play.game", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-2708", "query": "올리 나 춤추고 싶어 로큰롤 좀 틀어줘", "call": {"name": "play.music", "arguments": {"music_genre": "로큰롤"}}, "scenario": "play"}
+{"id": "massive-ko-9637", "query": "쿨 f. m. 에서 내 플레이리스트 시작", "call": {"name": "play.radio", "arguments": {"radio_name": "쿨 f. m."}}, "scenario": "play"}
+{"id": "massive-ko-1063", "query": "스포츠 소식 시간별로 알림 해줘", "call": {"name": "news.query", "arguments": {"news_topic": "스포츠"}}, "scenario": "news"}
+{"id": "massive-ko-1205", "query": "오후 세 시 알람 비활성화", "call": {"name": "alarm.remove", "arguments": {"time": "오후 세 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-7892", "query": "오늘 다음 일정 삭제해", "call": {"name": "calendar.remove", "arguments": {"date": "오늘"}}, "scenario": "calendar"}
+{"id": "massive-ko-4614", "query": "내일 기온 사십도보다 높을까", "call": {"name": "weather.query", "arguments": {"date": "내일", "weather_descriptor": "기온 사십도보다 높을까"}}, "scenario": "weather"}
+{"id": "massive-ko-16713", "query": "이메일을 확인해서 새 이메일이 있으면 알려줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-8390", "query": "내 회의 대해서 알려줘", "call": {"name": "calendar.set", "arguments": {"event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-10107", "query": "야채 볶음밥 요리법 필요해", "call": {"name": "cooking.recipe", "arguments": {"food_type": "야채 볶음밥"}}, "scenario": "cooking"}
+{"id": "massive-ko-10960", "query": "목록에서 저것 삭제해줘", "call": {"name": "lists.remove", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-15847", "query": "크레딧 어떻게 얻어", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-3700", "query": "조명들 퍼센트", "call": {"name": "iot.hue_lightchange", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-8466", "query": "수요일 오전 아홉시 회의 있는 거 다시 알려줘", "call": {"name": "calendar.set", "arguments": {"date": "수요일", "time": "오전 아홉시", "event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-3337", "query": "삼만 삼천 칠 백 칠십 사 번지의 날씨 리포트", "call": {"name": "weather.query", "arguments": {}}, "scenario": "weather"}
+{"id": "massive-ko-13330", "query": "향유고래의 크기는 얼마야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-7025", "query": "달력에서 새해 삭제해", "call": {"name": "calendar.remove", "arguments": {"event_name": "새해"}}, "scenario": "calendar"}
+{"id": "massive-ko-1454", "query": "알람 꺼", "call": {"name": "alarm.remove", "arguments": {}}, "scenario": "alarm"}
+{"id": "massive-ko-8904", "query": "최근의 이벤트들 정보", "call": {"name": "calendar.query", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-5016", "query": "주식시장의 상승과 하락에 관련된 뉴스 말해줘", "call": {"name": "news.query", "arguments": {"news_topic": "주식시장의 상승과 하락에"}}, "scenario": "news"}
+{"id": "massive-ko-14608", "query": "천우희 가 작업 중인 새 영화가 뭐야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2113", "query": "내 고향의 현 이벤트들 알려줘", "call": {"name": "recommendation.events", "arguments": {"place_name": "고향의"}}, "scenario": "recommendation"}
+{"id": "massive-ko-8762", "query": "오늘 오후 늦게 내 스케줄 말해줘", "call": {"name": "calendar.query", "arguments": {"timeofday": "오늘 오후"}}, "scenario": "calendar"}
+{"id": "massive-ko-11186", "query": "내 의류 목록 있어", "call": {"name": "lists.query", "arguments": {"list_name": "의류"}}, "scenario": "lists"}
+{"id": "massive-ko-9362", "query": "라디오 채널", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-8651", "query": "내 달력에서 일정 알려줘", "call": {"name": "calendar.set", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-11453", "query": "k. b. s. 팟캐스트 시작", "call": {"name": "play.podcasts", "arguments": {"podcast_name": "k. b. s."}}, "scenario": "play"}
+{"id": "massive-ko-3162", "query": "내가 설정한 내 알람들 보여줘", "call": {"name": "alarm.query", "arguments": {}}, "scenario": "alarm"}
+{"id": "massive-ko-2906", "query": "밝기 구십 퍼센트", "call": {"name": "iot.hue_lightchange", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-13460", "query": "십팔과 삼십일의 곱이 뭔지 말해줘", "call": {"name": "qa.maths", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13172", "query": "이 곱하기 이 계산", "call": {"name": "qa.maths", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-9619", "query": "차 라디오 에서 프레리 홈 컴패니언 틀어줘", "call": {"name": "play.radio", "arguments": {"device_type": "차 라디오"}}, "scenario": "play"}
+{"id": "massive-ko-9767", "query": "오디오북 인생은 소설이다 재생", "call": {"name": "play.audiobook", "arguments": {"media_type": "오디오북", "audiobook_name": "인생은 소설이다"}}, "scenario": "play"}
+{"id": "massive-ko-16467", "query": "내 연락처 철수로부터 새 이메일을 받은 게 있니", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-16402", "query": "오늘 형돈이 계획 이메일 보내", "call": {"name": "email.sendemail", "arguments": {"person": "형돈이"}}, "scenario": "email"}
+{"id": "massive-ko-16430", "query": "엄마 아빠 한테 안부 이메일 보내주세요", "call": {"name": "email.sendemail", "arguments": {"relation": "엄마 아빠"}}, "scenario": "email"}
+{"id": "massive-ko-13908", "query": "기절초풍 의 뜻이 뭔지 말해줄 수 있어", "call": {"name": "qa.definition", "arguments": {"definition_word": "기절초풍"}}, "scenario": "qa"}
+{"id": "massive-ko-11744", "query": "올리 이번 주말 개봉하는 멜로 영화 뭐가 있나", "call": {"name": "recommendation.movies", "arguments": {"time": "주말", "movie_type": "멜로"}}, "scenario": "recommendation"}
+{"id": "massive-ko-1108", "query": "내가 원하는 건 컨츄리 음악 듣는 거야", "call": {"name": "play.music", "arguments": {"music_genre": "컨츄리"}}, "scenario": "play"}
+{"id": "massive-ko-8731", "query": "내가 사월 칠일 참석해야 하는 페이스북 이벤트 리마인더 알람 반복해서 설정해줘", "call": {"name": "alarm.set", "arguments": {"date": "사월 칠일"}}, "scenario": "alarm"}
+{"id": "massive-ko-9568", "query": "아이유 라이브 콘서트 시리즈 틀어", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-4361", "query": "좋은 소리 좀 들려줘", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-4692", "query": "헤이즈 노래 재생해줘", "call": {"name": "play.music", "arguments": {"artist_name": "헤이즈"}}, "scenario": "play"}
+{"id": "massive-ko-15565", "query": "내가 다시는 아시아나 이용 안하겠다고 그들에게 알려줄래", "call": {"name": "social.post", "arguments": {"business_name": "아시아나"}}, "scenario": "social"}
+{"id": "massive-ko-2517", "query": "로봇 청소기 어떻게 시작 해", "call": {"name": "iot.cleaning", "arguments": {"device_type": "로봇 청소기"}}, "scenario": "iot"}
+{"id": "massive-ko-1913", "query": "오전 다섯 시 에 깨워줘", "call": {"name": "alarm.set", "arguments": {"time": "오전 다섯 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-2432", "query": "내 주문 어때", "call": {"name": "takeaway.query", "arguments": {}}, "scenario": "takeaway"}
+{"id": "massive-ko-5488", "query": "배달 피자 주문해", "call": {"name": "takeaway.order", "arguments": {"order_type": "배달", "food_type": "피자"}}, "scenario": "takeaway"}
+{"id": "massive-ko-6129", "query": "세계 뉴스 계속 보고 해줘", "call": {"name": "news.query", "arguments": {"place_name": "세계"}}, "scenario": "news"}
+{"id": "massive-ko-16318", "query": "이메일 답장 보내줘", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-17023", "query": "엄마한테 이메일 보내서 날씨 어떤지 물어봐줘", "call": {"name": "email.sendemail", "arguments": {"relation": "엄마한테"}}, "scenario": "email"}
+{"id": "massive-ko-220", "query": "내 록 목록 의 음악 재생", "call": {"name": "play.music", "arguments": {"playlist_name": "록 목록"}}, "scenario": "play"}
+{"id": "massive-ko-2859", "query": "이 도시 는 지금 몇 시야", "call": {"name": "datetime.query", "arguments": {"place_name": "이 도시"}}, "scenario": "datetime"}
+{"id": "massive-ko-10940", "query": "쇼핑 목록 새거 하나 만들어줘", "call": {"name": "lists.createoradd", "arguments": {"list_name": "쇼핑"}}, "scenario": "lists"}
+{"id": "massive-ko-14505", "query": "러시아 의 현재 총리는 누구야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-8404", "query": "이 이벶트에 대해 더 알고 싶어", "call": {"name": "calendar.query", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-12367", "query": "사천 가는 가장 좋은 길은 뭐야", "call": {"name": "transport.query", "arguments": {"place_name": "사천"}}, "scenario": "transport"}
+{"id": "massive-ko-13690", "query": "의자는 무슨 색이야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-6050", "query": "나중에 선크림 필요할까", "call": {"name": "weather.query", "arguments": {"weather_descriptor": "선크림"}}, "scenario": "weather"}
+{"id": "massive-ko-11643", "query": "곧 어떤 행사 있어", "call": {"name": "recommendation.events", "arguments": {"time": "곧"}}, "scenario": "recommendation"}
+{"id": "massive-ko-2400", "query": "이 노래 정말 듣기 좋지 않아", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-10317", "query": "오목 두자", "call": {"name": "play.game", "arguments": {"game_name": "오목"}}, "scenario": "play"}
+{"id": "massive-ko-6109", "query": "곡 에 관한 스토어 의견", "call": {"name": "music.likeness", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-7660", "query": "오늘 오후 세시 약속 모두 취소하고 그 세부내용 알려줘", "call": {"name": "calendar.remove", "arguments": {"date": "오늘", "time": "오후 세시", "event_name": "약속"}}, "scenario": "calendar"}
+{"id": "massive-ko-15276", "query": "내가 좋은 날씨 를 즐기고 있다고 페이스북 에 새로 상태 게시해 줘", "call": {"name": "social.post", "arguments": {"media_type": "페이스북"}}, "scenario": "social"}
+{"id": "massive-ko-11861", "query": "가장 인기 있는 영화가 뭐야", "call": {"name": "recommendation.movies", "arguments": {}}, "scenario": "recommendation"}
+{"id": "massive-ko-5321", "query": "날씨 보여줘", "call": {"name": "weather.query", "arguments": {}}, "scenario": "weather"}
+{"id": "massive-ko-16275", "query": "새 이메일에 대한 폴링 시작해줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-15686", "query": "안녕 내가 누군가한테서 산 물건이 고장났어", "call": {"name": "social.post", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-16501", "query": "내 친구 은수에게 어떻게 지내냐고 메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"relation": "친구", "person": "은수에게"}}, "scenario": "email"}
+{"id": "massive-ko-804", "query": "시리야 스피커 음소거해줘", "call": {"name": "audio.volume_mute", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-14684", "query": "러시아 총리는 누구야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-12442", "query": "경부고속도로 에 교통 상황 은 어때", "call": {"name": "transport.traffic", "arguments": {"place_name": "경부고속도로"}}, "scenario": "transport"}
+{"id": "massive-ko-5573", "query": "주방 밝기 적절하게 설정 해주세요", "call": {"name": "iot.hue_lightup", "arguments": {"house_place": "주방"}}, "scenario": "iot"}
+{"id": "massive-ko-15785", "query": "내 메일함에 새로운 이메일이 있나", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-13900", "query": "인생 의 정의", "call": {"name": "qa.definition", "arguments": {"definition_word": "인생"}}, "scenario": "qa"}
+{"id": "massive-ko-11067", "query": "잡화 목록에 오렌지 추가해", "call": {"name": "lists.createoradd", "arguments": {"list_name": "잡화"}}, "scenario": "lists"}
+{"id": "massive-ko-15706", "query": "철수에세 트윗 남겨", "call": {"name": "social.post", "arguments": {"media_type": "트윗"}}, "scenario": "social"}
+{"id": "massive-ko-5707", "query": "내가 좋아하는 노래들 듣기", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-17054", "query": "내 연락처 에서 명호 새 이메일 추가", "call": {"name": "email.addcontact", "arguments": {"person": "명호"}}, "scenario": "email"}
+{"id": "massive-ko-6025", "query": "오늘 오후 에 선크림 필요할까", "call": {"name": "weather.query", "arguments": {"timeofday": "오늘 오후", "weather_descriptor": "선크림"}}, "scenario": "weather"}
+{"id": "massive-ko-16519", "query": "나 내 연락처에 새로운 이메일을 추가해야 해", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-3037", "query": "일 면 신문 기사 알려줘", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-5475", "query": "나 오전 여섯시 에 깨워줘야 해", "call": {"name": "alarm.set", "arguments": {"time": "오전 여섯시"}}, "scenario": "alarm"}
+{"id": "massive-ko-12693", "query": "내가 평소 회사 가는 길 교통 상황 어때", "call": {"name": "transport.traffic", "arguments": {}}, "scenario": "transport"}
+{"id": "massive-ko-10563", "query": "목록 작성해줄래", "call": {"name": "lists.createoradd", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-10132", "query": "스테이크 를 미디움으로 하려면 얼마나 오래 요리해야 해", "call": {"name": "cooking.recipe", "arguments": {"food_type": "스테이크"}}, "scenario": "cooking"}
+{"id": "massive-ko-4249", "query": "집의 모든 조명 파랗게 만들 수 있어", "call": {"name": "iot.hue_lightchange", "arguments": {"house_place": "집의", "color_type": "파랗게"}}, "scenario": "iot"}
+{"id": "massive-ko-3039", "query": "새로운 뉴스 뭐야", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-13685", "query": "달러 환율이 상승했어", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-4212", "query": "오늘 저녁 에 잔디를 깎을 수 있으려나", "call": {"name": "weather.query", "arguments": {"timeofday": "오늘 저녁", "weather_descriptor": "잔디를 깎을"}}, "scenario": "weather"}
+{"id": "massive-ko-11272", "query": "다음 것 재생", "call": {"name": "play.podcasts", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-11644", "query": "천안에 있는 행사 보여줘", "call": {"name": "recommendation.events", "arguments": {"place_name": "천안에"}}, "scenario": "recommendation"}
+{"id": "massive-ko-14555", "query": "이 회사 주식의 상승과 하락을 알려줘", "call": {"name": "qa.stock", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13867", "query": "독도 는 어디야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-9225", "query": "라디오 켜줄 수 있어", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-13934", "query": "전반적인 주식 상황 어때", "call": {"name": "qa.stock", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-13966", "query": "엔화 의 가치는 얼마야", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-5577", "query": "저녁에 너무 바람이 많이 불면 엄청 두꺼운 자켓 입어야 해", "call": {"name": "weather.query", "arguments": {"timeofday": "저녁에", "weather_descriptor": "너무 바람이 많이 불면 엄청 두꺼운 자켓"}}, "scenario": "weather"}
+{"id": "massive-ko-16518", "query": "김민정 새로운 이메일 추가해", "call": {"name": "email.sendemail", "arguments": {"person": "김민정"}}, "scenario": "email"}
+{"id": "massive-ko-281", "query": "미국 달러에서 원화로의 환율 뭐야", "call": {"name": "news.query", "arguments": {"news_topic": "미국 달러에서 원화로의 환율"}}, "scenario": "news"}
+{"id": "massive-ko-9680", "query": "내가 최근에 듣다가 멈췄던 곳부터 해리포터 다시 시작", "call": {"name": "play.audiobook", "arguments": {"audiobook_name": "해리포터", "player_setting": "다시 시작"}}, "scenario": "play"}
+{"id": "massive-ko-9124", "query": "다음 주 내 업무 달력 이벤트 보여줘", "call": {"name": "calendar.set", "arguments": {"date": "다음 주", "event_name": "업무"}}, "scenario": "calendar"}
+{"id": "massive-ko-9212", "query": "누가 라디오 틀어", "call": {"name": "play.radio", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-1061", "query": "최신 스포츠 뉴스 알려줘", "call": {"name": "news.query", "arguments": {"news_topic": "스포츠"}}, "scenario": "news"}
+{"id": "massive-ko-14658", "query": "유로 와 달러 의 환율이 얼마야", "call": {"name": "qa.currency", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-14925", "query": "이마트 주식 가격 올랐어 내렸어", "call": {"name": "qa.stock", "arguments": {"business_name": "이마트"}}, "scenario": "qa"}
+{"id": "massive-ko-7557", "query": "달력에 지역에 대한 리마인더 만들어줘", "call": {"name": "calendar.set", "arguments": {}}, "scenario": "calendar"}
+{"id": "massive-ko-4362", "query": "클리블랜드 는 몇 시야", "call": {"name": "datetime.query", "arguments": {"place_name": "클리블랜드"}}, "scenario": "datetime"}
+{"id": "massive-ko-10577", "query": "나의 모든 목록들 줘봐", "call": {"name": "lists.query", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-8496", "query": "내일 아침 내 회의 관해서 말해줘", "call": {"name": "calendar.query", "arguments": {"date": "내일", "timeofday": "아침", "event_name": "회의"}}, "scenario": "calendar"}
+{"id": "massive-ko-16273", "query": "서희의 연락처 알려줘", "call": {"name": "email.querycontact", "arguments": {"person": "서희의", "personal_info": "연락처"}}, "scenario": "email"}
+{"id": "massive-ko-1940", "query": "노래 제목 플레이 해", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-15249", "query": "내가 올린 내 사진 누가 좋아해", "call": {"name": "social.query", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-14444", "query": "정우성 의 첫 번째 영화는 뭐야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-16669", "query": "민수로부터 이메일 받았니", "call": {"name": "email.query", "arguments": {"person": "민수로부터"}}, "scenario": "email"}
+{"id": "massive-ko-15794", "query": "태희 어디 살아", "call": {"name": "email.querycontact", "arguments": {"person": "태희", "personal_info": "살아"}}, "scenario": "email"}
+{"id": "massive-ko-6500", "query": "소셜 미디어", "call": {"name": "social.query", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-15841", "query": "민호에게 보낼 이메일 작성해줘", "call": {"name": "email.sendemail", "arguments": {"person": "민호에게"}}, "scenario": "email"}
+{"id": "massive-ko-15656", "query": "네이버쇼핑에 아직도 배송을 기다리고 있다고 트윗 해", "call": {"name": "social.post", "arguments": {"business_name": "네이버쇼핑에", "media_type": "트윗 해"}}, "scenario": "social"}
+{"id": "massive-ko-8672", "query": "블핑 콘서트 어디서 해", "call": {"name": "calendar.query", "arguments": {"event_name": "블핑 콘서트"}}, "scenario": "calendar"}
+{"id": "massive-ko-407", "query": "다음 한 시간 동안 록 음악 틀어줄 수 있어", "call": {"name": "play.music", "arguments": {"music_genre": "록"}}, "scenario": "play"}
+{"id": "massive-ko-15200", "query": "페이스북 최신 업데이트해 줘", "call": {"name": "social.query", "arguments": {"media_type": "페이스북"}}, "scenario": "social"}
+{"id": "massive-ko-9438", "query": "라디오 에서 랩 노래 틀어줄 수 있어", "call": {"name": "play.radio", "arguments": {"music_genre": "랩"}}, "scenario": "play"}
+{"id": "massive-ko-4496", "query": "오늘 여성동아가 게시한 건 뭐야", "call": {"name": "news.query", "arguments": {"date": "오늘", "media_type": "여성동아가"}}, "scenario": "news"}
+{"id": "massive-ko-4217", "query": "엄청 재밌는 농담 듣고싶어", "call": {"name": "general.joke", "arguments": {"joke_type": "엄청 재밌는"}}, "scenario": "general"}
+{"id": "massive-ko-12779", "query": "가장 가까운 카카오택시 예약해줘", "call": {"name": "transport.taxi", "arguments": {"transport_agency": "카카오택시"}}, "scenario": "transport"}
+{"id": "massive-ko-10353", "query": "쿠키런 킹덤 꺼내", "call": {"name": "play.game", "arguments": {"game_name": "쿠키런 킹덤"}}, "scenario": "play"}
+{"id": "massive-ko-14117", "query": "피라미드 는 어디 있어", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-10674", "query": "현재 목록 버려", "call": {"name": "lists.remove", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-14038", "query": "몰도바의 위치는 어디야", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-997", "query": "거실의 조명 꺼", "call": {"name": "iot.hue_lightoff", "arguments": {"house_place": "거실의"}}, "scenario": "iot"}
+{"id": "massive-ko-2605", "query": "내 가 선호하는 음악 지금 재생", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-14475", "query": "주가 상세 정보", "call": {"name": "qa.stock", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2255", "query": "원할머니보쌈 에서 포장할 수 있나요", "call": {"name": "takeaway.order", "arguments": {"business_name": "원할머니보쌈", "order_type": "포장할"}}, "scenario": "takeaway"}
+{"id": "massive-ko-11733", "query": "새로운 경찰조직 영화가 있어", "call": {"name": "recommendation.movies", "arguments": {"movie_name": "경찰조직"}}, "scenario": "recommendation"}
+{"id": "massive-ko-5688", "query": "뉴스 헤드라인 말해 줄래", "call": {"name": "news.query", "arguments": {}}, "scenario": "news"}
+{"id": "massive-ko-8394", "query": "매일 정오 약 먹으라고 설정", "call": {"name": "calendar.set", "arguments": {"general_frequency": "매일", "timeofday": "정오"}}, "scenario": "calendar"}
+{"id": "massive-ko-11514", "query": "올리야 모든 팟캐스트 에서 회신 들을 수 있나", "call": {"name": "play.podcasts", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-13516", "query": "고래는 왜 커", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-17136", "query": "새로 온 이메일을 읽어 줘", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-6901", "query": "내일 오전 열시 미팅 알려줘", "call": {"name": "calendar.set", "arguments": {"date": "내일", "time": "오전 열시", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-540", "query": "아이유 가 부른 노래 틀어", "call": {"name": "play.music", "arguments": {"artist_name": "아이유"}}, "scenario": "play"}
+{"id": "massive-ko-15933", "query": "내가 받은 새 이메일들 뭐야", "call": {"name": "email.query", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-5062", "query": "팔십년대 의 노래들 들려주세요", "call": {"name": "play.music", "arguments": {"music_genre": "팔십년대"}}, "scenario": "play"}
+{"id": "massive-ko-15765", "query": "민수의 이메일에 답장해", "call": {"name": "email.sendemail", "arguments": {"person": "민수의"}}, "scenario": "email"}
+{"id": "massive-ko-14154", "query": "아프리카 정보", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-7502", "query": "오후 네시에 진수와의 미팅 주제는 뭐야", "call": {"name": "calendar.query", "arguments": {"time": "오후 네시에", "person": "진수와의"}}, "scenario": "calendar"}
+{"id": "massive-ko-16535", "query": "지후한테 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"person": "지후한테"}}, "scenario": "email"}
+{"id": "massive-ko-1904", "query": "경기 주요장면 보여줘", "call": {"name": "news.query", "arguments": {"news_topic": "경기 주요장면 보여줘"}}, "scenario": "news"}
+{"id": "massive-ko-16956", "query": "새로운 연락처로 이메일 보내", "call": {"name": "email.sendemail", "arguments": {}}, "scenario": "email"}
+{"id": "massive-ko-7686", "query": "축제 달력에 준호 하고 민수 포함해 줘", "call": {"name": "calendar.set", "arguments": {"event_name": "축제", "person": "민수"}}, "scenario": "calendar"}
+{"id": "massive-ko-8765", "query": "달력에 오늘 아홉시에 김밥천국에서 저녁식사라고 적어줘", "call": {"name": "calendar.set", "arguments": {"date": "오늘", "time": "아홉시에", "place_name": "김밥천국에서", "meal_type": "저녁식사라고"}}, "scenario": "calendar"}
+{"id": "massive-ko-11322", "query": "오늘의 최고 팟캐스트들은 뭐야", "call": {"name": "play.podcasts", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-10718", "query": "목록에서 이거 삭제해줄 수 있어", "call": {"name": "lists.remove", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-10699", "query": "목록에서 아이템들 알려줘", "call": {"name": "lists.query", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-16992", "query": "김영희가 내게 메일 보냈니", "call": {"name": "email.query", "arguments": {"person": "김영희가"}}, "scenario": "email"}
+{"id": "massive-ko-4606", "query": "오늘의 주식 관련 정보 찾아줘", "call": {"name": "news.query", "arguments": {"date": "오늘의"}}, "scenario": "news"}
+{"id": "massive-ko-3624", "query": "y. t. n. 뉴스", "call": {"name": "news.query", "arguments": {"media_type": "y. t. n."}}, "scenario": "news"}
+{"id": "massive-ko-7004", "query": "캘린더에 매년 이 날짜 리마인더 추가해", "call": {"name": "calendar.set", "arguments": {"general_frequency": "매년"}}, "scenario": "calendar"}
+{"id": "massive-ko-8302", "query": "다음 주 월요일 미팅 삭제해", "call": {"name": "calendar.remove", "arguments": {"date": "다음 주 월요일", "event_name": "미팅"}}, "scenario": "calendar"}
+{"id": "massive-ko-9554", "query": "kbs f.m. 백일점일에서 발라드 음악 틀어줘", "call": {"name": "play.radio", "arguments": {"radio_name": "kbs f.m. 백일점일에서", "music_genre": "발라드", "media_type": "음악"}}, "scenario": "play"}
+{"id": "massive-ko-1640", "query": "올리 소리 키워", "call": {"name": "audio.volume_up", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-1071", "query": "복도 조명 밝게 해", "call": {"name": "iot.hue_lightup", "arguments": {"house_place": "복도"}}, "scenario": "iot"}
+{"id": "massive-ko-13473", "query": "미국이 언제 자유를 얻었지", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-14592", "query": "스마트폰 회로 설명해줘", "call": {"name": "qa.definition", "arguments": {"definition_word": "스마트폰 회로"}}, "scenario": "qa"}
+{"id": "massive-ko-4040", "query": "내가 듣는 노래 중에 가장 많이 듣는 거 틀어", "call": {"name": "play.music", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-13766", "query": "이 곱하기 이는", "call": {"name": "qa.maths", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-2354", "query": "그 음악 종류가 뭐야", "call": {"name": "music.query", "arguments": {}}, "scenario": "music"}
+{"id": "massive-ko-4253", "query": "동부 표준 시로 지금 몇 시니", "call": {"name": "datetime.query", "arguments": {"time_zone": "동부 표준"}}, "scenario": "datetime"}
+{"id": "massive-ko-9964", "query": "식품 가공 관련 지식", "call": {"name": "cooking.recipe", "arguments": {}}, "scenario": "cooking"}
+{"id": "massive-ko-11376", "query": "팟캐스트 듣고 싶어", "call": {"name": "play.podcasts", "arguments": {}}, "scenario": "play"}
+{"id": "massive-ko-1048", "query": "스피커 볼륨 작게 해", "call": {"name": "audio.volume_down", "arguments": {}}, "scenario": "audio"}
+{"id": "massive-ko-12905", "query": "오전 아홉 시 에 다음 택시 예약해", "call": {"name": "transport.taxi", "arguments": {"time": "오전 아홉 시", "transport_type": "택시"}}, "scenario": "transport"}
+{"id": "massive-ko-10772", "query": "오늘 치과 예약 삭제해 줘", "call": {"name": "calendar.remove", "arguments": {"date": "오늘", "event_name": "치과 예약"}}, "scenario": "calendar"}
+{"id": "massive-ko-12710", "query": "택시 불러 줘", "call": {"name": "transport.taxi", "arguments": {"transport_type": "택시"}}, "scenario": "transport"}
+{"id": "massive-ko-1425", "query": "프랑스 관련해 듣게 되면 나한테 말해줘", "call": {"name": "news.query", "arguments": {"news_topic": "프랑스"}}, "scenario": "news"}
+{"id": "massive-ko-16376", "query": "알렉사 엄마 한테 이메일 하나 보내 줘", "call": {"name": "email.sendemail", "arguments": {"relation": "엄마"}}, "scenario": "email"}
+{"id": "massive-ko-13074", "query": "박명수 가 왜 안 웃기지", "call": {"name": "qa.factoid", "arguments": {}}, "scenario": "qa"}
+{"id": "massive-ko-14406", "query": "엔씨소프트 주가 상세 정보 부탁해", "call": {"name": "qa.stock", "arguments": {"business_name": "엔씨소프트"}}, "scenario": "qa"}
+{"id": "massive-ko-533", "query": "오전 아홉 시 알람 맞춰줘", "call": {"name": "alarm.set", "arguments": {"time": "오전 아홉 시"}}, "scenario": "alarm"}
+{"id": "massive-ko-962", "query": "불 밝기 높여줘", "call": {"name": "iot.hue_lightup", "arguments": {}}, "scenario": "iot"}
+{"id": "massive-ko-3775", "query": "지금 스마트 소켓 꺼 줘", "call": {"name": "iot.wemo_off", "arguments": {"device_type": "스마트 소켓"}}, "scenario": "iot"}
+{"id": "massive-ko-9269", "query": "f. m. 팔십구 점 일 로 맞춰", "call": {"name": "play.radio", "arguments": {"radio_name": "f. m. 팔십구 점 일"}}, "scenario": "play"}
+{"id": "massive-ko-3060", "query": "조인스 무슨 뉴스 있어", "call": {"name": "news.query", "arguments": {"media_type": "조인스"}}, "scenario": "news"}
+{"id": "massive-ko-9856", "query": "삼국지 책 틀어줘", "call": {"name": "play.audiobook", "arguments": {"audiobook_name": "삼국지"}}, "scenario": "play"}
+{"id": "massive-ko-5370", "query": "가장 최근 윤석열 논란 뭐야", "call": {"name": "news.query", "arguments": {"news_topic": "윤석열 논란"}}, "scenario": "news"}
+{"id": "massive-ko-10696", "query": "대체", "call": {"name": "lists.remove", "arguments": {}}, "scenario": "lists"}
+{"id": "massive-ko-13734", "query": "한국조선해양 주식 어떻게 될까", "call": {"name": "qa.stock", "arguments": {"business_name": "한국조선해양"}}, "scenario": "qa"}
+{"id": "massive-ko-3207", "query": "임영웅 의 사랑은 늘 도망가 스트리밍", "call": {"name": "play.music", "arguments": {"artist_name": "임영웅", "song_name": "사랑은 늘 도망가"}}, "scenario": "play"}
+{"id": "massive-ko-1760", "query": "테러 관련 최근 뉴스", "call": {"name": "news.query", "arguments": {"news_topic": "테러"}}, "scenario": "news"}
+{"id": "massive-ko-16314", "query": "은정에게 이메일 보내줘", "call": {"name": "email.sendemail", "arguments": {"person": "은정에게"}}, "scenario": "email"}
+{"id": "massive-ko-9630", "query": "e. b. s. f. m. 틀어줘", "call": {"name": "play.radio", "arguments": {"radio_name": "e. b. s. f. m."}}, "scenario": "play"}
+{"id": "massive-ko-15321", "query": "내 상태에 누가 커멘트 남겼어", "call": {"name": "social.query", "arguments": {}}, "scenario": "social"}
+{"id": "massive-ko-8553", "query": "내 캘린더에서 지민이와 오전 아홉시 미팅 추가해", "call": {"name": "calendar.set", "arguments": {"person": "지민이와", "time": "오전 아홉시", "event_name": "미팅"}}, "scenario": "calendar"}
