@@ -12,6 +12,7 @@ are tagged cond v11_<mode> and assembled with harness/assemble_sft_v10.py --synt
 
     modal deploy harness/teacher_synth_v11.py
     .venv/bin/python harness/spawn.py songgot-teacher-v11 synth_targeted_v11 dst=sft/synth_v11.jsonl per_mode=8000
+    .venv/bin/python harness/spawn.py songgot-teacher-v11 synth_targeted_v11 dst=sft/synth_v11_payload2.jsonl per_mode=16000 seed=12 modes=payload
 """
 import json
 import os
@@ -105,7 +106,7 @@ def pick_tools(tools, mode, n, rng):
 
 
 @app.function(image=image, gpu="H100:2", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 6, memory=65536)
-def synth_targeted_v11(tools: str = "sft/synth_tools_v9_all.json", dst: str = "sft/synth_v11.jsonl", per_mode: int = 8000, model_id: str = "palette-lab/palette-k-midm", seed: int = 11):
+def synth_targeted_v11(tools: str = "sft/synth_tools_v9_all.json", dst: str = "sft/synth_v11.jsonl", per_mode: int = 8000, model_id: str = "palette-lab/palette-k-midm", seed: int = 11, modes: str = "payload,year_hist"):
     from vllm import LLM, SamplingParams
     from transformers import AutoTokenizer
     vol.reload()
@@ -128,7 +129,7 @@ def synth_targeted_v11(tools: str = "sft/synth_tools_v9_all.json", dst: str = "s
     log = open(f"{V}/teacher.log", "a")
     say = lambda m: (print(m, flush=True), log.write(time.strftime("%F %T ") + m + "\n"), log.flush())
     kept = []
-    for mode in ("payload", "year_hist"):
+    for mode in [m.strip() for m in modes.split(",") if m.strip()]:
         chosen = pick_tools(pool, mode, per_mode // 3 + 1, rng)
         if len(chosen) * 3 < per_mode:  # few eligible tools: ask each tool more than once with different styles
             reps = per_mode // max(1, len(chosen) * 3) + 1
