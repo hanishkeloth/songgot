@@ -248,7 +248,9 @@ def synth_targeted_v12(tools: str = "sft/synth_tools_v9_all.json", dst: str = "s
         # error being corrected). omit/narrow/direct: full agreement, the boundary of the value is the point.
         for c, o in zip(cands, vouts):
             v = first_json(o.outputs[0].text, "dict")
-            if v and (v.get("name") == c["call"]["name"] if mode in ("descfmt", "verbatimdt") else agree(v, c["call"])):
+            # direct: the message is a free rewrite, so two independent rewrites rarely agree word for word (first pass kept
+            # 17 of 6,003); the rule already enforces "rewritten, no instruction verb", so the verifier checks the tool only.
+            if v and (v.get("name") == c["call"]["name"] if mode in ("descfmt", "verbatimdt", "direct") else agree(v, c["call"])):
                 kept.append({"lang": "ko", "query": c["query"], "tools": [c["tool"]], "call": c["call"], "cond": f"v12_{mode}"}); n_ok += 1
         say(f"[v12] mode {mode}: {n_ok} agreed and kept (total {len(kept)})")
         os.makedirs(os.path.dirname(f"{V}/{dst}"), exist_ok=True)
