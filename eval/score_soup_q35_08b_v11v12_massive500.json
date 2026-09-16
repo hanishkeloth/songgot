@@ -1,0 +1,254 @@
+{
+ "n": 500,
+ "call_acc": 0.686,
+ "name_acc": 0.914,
+ "by_scenario": {
+  "alarm": {
+   "n": 20,
+   "name_acc": 0.9,
+   "call_acc": 0.75
+  },
+  "audio": {
+   "n": 12,
+   "name_acc": 0.667,
+   "call_acc": 0.583
+  },
+  "calendar": {
+   "n": 60,
+   "name_acc": 0.933,
+   "call_acc": 0.6
+  },
+  "cooking": {
+   "n": 12,
+   "name_acc": 0.917,
+   "call_acc": 0.417
+  },
+  "datetime": {
+   "n": 15,
+   "name_acc": 0.933,
+   "call_acc": 0.667
+  },
+  "email": {
+   "n": 57,
+   "name_acc": 0.877,
+   "call_acc": 0.632
+  },
+  "general": {
+   "n": 4,
+   "name_acc": 1.0,
+   "call_acc": 0.5
+  },
+  "iot": {
+   "n": 35,
+   "name_acc": 0.971,
+   "call_acc": 0.857
+  },
+  "lists": {
+   "n": 23,
+   "name_acc": 0.913,
+   "call_acc": 0.783
+  },
+  "music": {
+   "n": 17,
+   "name_acc": 1.0,
+   "call_acc": 0.941
+  },
+  "news": {
+   "n": 31,
+   "name_acc": 0.903,
+   "call_acc": 0.581
+  },
+  "play": {
+   "n": 78,
+   "name_acc": 0.974,
+   "call_acc": 0.679
+  },
+  "qa": {
+   "n": 55,
+   "name_acc": 0.982,
+   "call_acc": 0.927
+  },
+  "recommendation": {
+   "n": 13,
+   "name_acc": 0.846,
+   "call_acc": 0.462
+  },
+  "social": {
+   "n": 22,
+   "name_acc": 0.909,
+   "call_acc": 0.682
+  },
+  "takeaway": {
+   "n": 6,
+   "name_acc": 0.833,
+   "call_acc": 0.333
+  },
+  "transport": {
+   "n": 19,
+   "name_acc": 0.737,
+   "call_acc": 0.632
+  },
+  "weather": {
+   "n": 21,
+   "name_acc": 0.762,
+   "call_acc": 0.524
+  }
+ },
+ "fails_sample": [
+  {
+   "q": "내 고향의 노래 자랑 행사에 대해 알려줘",
+   "gold": {
+    "name": "recommendation.events",
+    "arguments": {
+     "place_name": "고향의",
+     "event_name": "노래 자랑"
+    }
+   },
+   "out": "{\"name\": \"recommendation.events\", \"arguments\": {\"place_name\": \"고향의\", \"event_name\": \"노래 자랑 행사에\"}}"
+  },
+  {
+   "q": "언덕나무 누가 불러",
+   "gold": {
+    "name": "music.query",
+    "arguments": {
+     "song_name": "언덕나무"
+    }
+   },
+   "out": "{\"name\": \"music.query\", \"arguments\": {\"artist_name\": \"언덕\"}}"
+  },
+  {
+   "q": "정오 에 서울 에서 진호 하고 회의 일정 잡아 줘",
+   "gold": {
+    "name": "calendar.set",
+    "arguments": {
+     "timeofday": "정오",
+     "place_name": "서울",
+     "person": "진호",
+     "event_name": "회의"
+    }
+   },
+   "out": "{\"name\": \"calendar.set\", \"arguments\": {\"time\": \"정오\", \"place_name\": \"서울\", \"person\": \"진호\", \"event_name\": \"회의\"}}"
+  },
+  {
+   "q": "내가 있는 곳에서 가장 가까운 동물원 어디 있어",
+   "gold": {
+    "name": "recommendation.locations",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"recommendation.locations\", \"arguments\": {\"business_type\": \"동물원\"}}"
+  },
+  {
+   "q": "다음",
+   "gold": {
+    "name": "play.podcasts",
+    "arguments": {}
+   },
+   "out": "{\"name\": \"lists.createoradd\", \"arguments\": {}}"
+  },
+  {
+   "q": "현주 생일이 사월 십이일 이야",
+   "gold": {
+    "name": "calendar.query",
+    "arguments": {
+     "person": "현주",
+     "date": "사월 십이일"
+    }
+   },
+   "out": "{\"name\": \"calendar.query\", \"arguments\": {\"person\": \"현주\", \"event_name\": \"생일이 사월 십이일\"}}"
+  },
+  {
+   "q": "압력밥솥 에서 갈비 만드는 시간",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "device_type": "압력밥솥",
+     "food_type": "갈비"
+    }
+   },
+   "out": "{\"name\": \"cooking.recipe\", \"arguments\": {\"food_type\": \"갈비\"}}"
+  },
+  {
+   "q": "할로인이 무슨 요일이니",
+   "gold": {
+    "name": "datetime.query",
+    "arguments": {
+     "date": "요일이니"
+    }
+   },
+   "out": "{\"name\": \"qa.definition\", \"arguments\": {\"definition_word\": \"할로인이\"}}"
+  },
+  {
+   "q": "할머니에게 토요일에 들른다고 이메일 보내줘",
+   "gold": {
+    "name": "email.sendemail",
+    "arguments": {
+     "relation": "할머니에게"
+    }
+   },
+   "out": "{\"name\": \"email.sendemail\", \"arguments\": {\"relation\": \"할머니에게\", \"date\": \"토요일에\"}}"
+  },
+  {
+   "q": "내 달력 지워",
+   "gold": {
+    "name": "calendar.remove",
+    "arguments": {
+     "time": "지워"
+    }
+   },
+   "out": "{\"name\": \"calendar.remove\", \"arguments\": {}}"
+  },
+  {
+   "q": "날씨 관련한 아무 기사나 아침 뉴스에서 보여주지 않을래",
+   "gold": {
+    "name": "news.query",
+    "arguments": {
+     "news_topic": "날씨",
+     "media_type": "아침 뉴스에서"
+    }
+   },
+   "out": "{\"name\": \"news.query\", \"arguments\": {\"news_topic\": \"날씨\"}}"
+  },
+  {
+   "q": "내가 있는 곳 현재 기상 상태는 어때",
+   "gold": {
+    "name": "weather.query",
+    "arguments": {
+     "place_name": "내가 있는 곳"
+    }
+   },
+   "out": "{\"name\": \"weather.query\", \"arguments\": {}}"
+  },
+  {
+   "q": "인터넷 검색해서 이탈리안 음식 요리에 적합한 유튜브 비디오 보여줘",
+   "gold": {
+    "name": "cooking.recipe",
+    "arguments": {
+     "food_type": "이탈리안",
+     "media_type": "유튜브 비디오"
+    }
+   },
+   "out": "{\"name\": \"cooking.recipe\", \"arguments\": {\"food_type\": \"이탈리안\"}}"
+  },
+  {
+   "q": "지호랑 오늘밤 저녁 삭제해",
+   "gold": {
+    "name": "calendar.remove",
+    "arguments": {
+     "event_name": "지호랑 오늘밤 저녁"
+    }
+   },
+   "out": "{\"name\": \"calendar.remove\", \"arguments\": {\"person\": \"지호랑\", \"timeofday\": \"오늘밤\", \"meal_type\": \"저녁\"}}"
+  },
+  {
+   "q": "내 가방 잃어버린 점에 대해 화가 났다고 대한항공 에 트윗 해",
+   "gold": {
+    "name": "social.post",
+    "arguments": {
+     "business_name": "대한항공",
+     "media_type": "트윗 해"
+    }
+   },
+   "out": "{\"name\": \"social.post\", \"arguments\": {\"business_name\": \"대한항공\", \"media_type\": \"트윗\"}}"
+  }
+ ]
+}
