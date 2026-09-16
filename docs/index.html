@@ -8,11 +8,11 @@
 <meta property="og:type" content="article"><meta property="og:title" content="Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device"><meta property="og:description" content="Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.">
 <meta property="og:url" content="https://hanishkeloth.github.io/songgot/"><meta property="og:image" content="https://hanishkeloth.github.io/songgot/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="ko_KR"><meta property="og:site_name" content="Songgot">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device"><meta name="twitter:description" content="Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0."><meta name="twitter:image" content="https://hanishkeloth.github.io/songgot/og.png">
-<meta name="citation_title" content="Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device"><meta name="citation_author" content="Keloth, Hanish"><meta name="citation_publication_date" content="2026/09/15"><meta name="citation_online_date" content="2026/09/15"><meta name="citation_publisher" content="Palette"><meta name="citation_language" content="en"><meta name="citation_abstract_html_url" content="https://hanishkeloth.github.io/songgot/"><meta name="citation_public_url" content="https://hanishkeloth.github.io/songgot/"><meta name="citation_fulltext_html_url" content="https://hanishkeloth.github.io/songgot/">
+<meta name="citation_title" content="Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device"><meta name="citation_author" content="Keloth, Hanish"><meta name="citation_publication_date" content="2026/09/16"><meta name="citation_online_date" content="2026/09/16"><meta name="citation_publisher" content="Palette"><meta name="citation_language" content="en"><meta name="citation_abstract_html_url" content="https://hanishkeloth.github.io/songgot/"><meta name="citation_public_url" content="https://hanishkeloth.github.io/songgot/"><meta name="citation_fulltext_html_url" content="https://hanishkeloth.github.io/songgot/">
 <link rel="alternate" type="text/markdown" href="https://hanishkeloth.github.io/songgot/paper.md" title="Paper as Markdown">
 <link rel="alternate" type="application/pdf" href="https://hanishkeloth.github.io/songgot/songgot.pdf" title="Paper as PDF"><meta name="citation_pdf_url" content="https://hanishkeloth.github.io/songgot/songgot.pdf">
 <link rel="alternate" type="text/plain" href="https://hanishkeloth.github.io/songgot/llms.txt" title="llms.txt">
-<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ScholarlyArticle", "headline": "Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device", "name": "Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device", "description": "Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.", "author": {"@type": "Person", "name": "Hanish Keloth", "jobTitle": "CTO", "url": "https://github.com/hanishkeloth", "sameAs": ["https://www.linkedin.com/in/hanishkeloth/", "https://huggingface.co/palette-lab"], "affiliation": {"@type": "Organization", "name": "Palette", "url": "https://www.pltt.xyz"}}, "publisher": {"@type": "Organization", "name": "Palette"}, "datePublished": "2026-09-15", "dateModified": "2026-09-15", "inLanguage": ["en", "ko"], "url": "https://hanishkeloth.github.io/songgot/", "mainEntityOfPage": "https://hanishkeloth.github.io/songgot/", "license": "https://www.apache.org/licenses/LICENSE-2.0", "keywords": ["Korean", "tool calling", "function calling", "tiny language model", "on-device", "small language model", "Needle 2", "FunctionChat-Bench", "agentic AI", "SentencePiece tokenizer"], "isBasedOn": ["https://huggingface.co/Cactus-Compute/needle2", "https://github.com/kakao/FunctionChat-Bench"], "citation": ["Cactus Compute, Needle 2 (2026)", "Kakao, FunctionChat-Bench (2024)"]}, {"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Songgot", "codeRepository": "https://github.com/hanishkeloth/songgot", "programmingLanguage": "Python", "license": "https://www.apache.org/licenses/LICENSE-2.0", "author": {"@type": "Person", "name": "Hanish Keloth"}, "runtimePlatform": "PyTorch, MLX, llama.cpp"}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Songgot?", "acceptedAnswer": {"@type": "Answer", "text": "Songgot (송곳, Korean for awl) is a Korean-first tiny agentic language model for tool calling and structured extraction on the device, trained from scratch by Hanish Keloth at Palette and released under Apache 2.0."}}, {"@type": "Question", "name": "How big is it?", "acceptedAnswer": {"@type": "Answer", "text": "The Mac-trained Songgot-nano has 39M parameters (8 layers, hidden 512, GQA); the GPU-trained Songgot has about 50M parameters (12 layers). Both use a 32k Korean-first SentencePiece tokenizer and export to GGUF for llama.cpp."}}, {"@type": "Question", "name": "How is it different from Needle 2?", "acceptedAnswer": {"@type": "Answer", "text": "Needle 2 (Cactus Compute, July 2026) is English only: its 8k tokenizer spends 3.47 tokens per Hangul syllable against Songgot's 0.90, and in our FunctionChat-Bench run it answered no Korean item. Songgot is built for Korean first and evaluated on a Korean benchmark."}}, {"@type": "Question", "name": "What data was used?", "acceptedAnswer": {"@type": "Answer", "text": "fineweb-edu sample-10BT (ODC-By), Korean Wikipedia 20231101.ko (CC BY-SA 3.0), glaive-function-calling-v2 (Apache 2.0) and template-generated Korean tool calls released with the code. No AI-Hub data and no closed-model outputs."}}, {"@type": "Question", "name": "How is it evaluated?", "acceptedAnswer": {"@type": "Answer", "text": "On Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions) with a deterministic exact-match scorer on function name and arguments, so anyone can reproduce the numbers offline. Comparators run under identical prompts: Qwen3-0.6B, FunctionGemma-270M and Needle 2."}}, {"@type": "Question", "name": "Where are the weights and code?", "acceptedAnswer": {"@type": "Answer", "text": "Weights and tokenizer at https://huggingface.co/palette-lab/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/Hanish/songgot."}}]}]</script>
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ScholarlyArticle", "headline": "Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device", "name": "Songgot (송곳): a Korean-first tiny agentic model for tool calling on the device", "description": "Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.", "author": {"@type": "Person", "name": "Hanish Keloth", "jobTitle": "CTO", "url": "https://github.com/hanishkeloth", "sameAs": ["https://www.linkedin.com/in/hanishkeloth/", "https://huggingface.co/palette-lab"], "affiliation": {"@type": "Organization", "name": "Palette", "url": "https://www.pltt.xyz"}}, "publisher": {"@type": "Organization", "name": "Palette"}, "datePublished": "2026-09-16", "dateModified": "2026-09-16", "inLanguage": ["en", "ko"], "url": "https://hanishkeloth.github.io/songgot/", "mainEntityOfPage": "https://hanishkeloth.github.io/songgot/", "license": "https://www.apache.org/licenses/LICENSE-2.0", "keywords": ["Korean", "tool calling", "function calling", "tiny language model", "on-device", "small language model", "Needle 2", "FunctionChat-Bench", "agentic AI", "SentencePiece tokenizer"], "isBasedOn": ["https://huggingface.co/Cactus-Compute/needle2", "https://github.com/kakao/FunctionChat-Bench"], "citation": ["Cactus Compute, Needle 2 (2026)", "Kakao, FunctionChat-Bench (2024)"]}, {"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Songgot", "codeRepository": "https://github.com/hanishkeloth/songgot", "programmingLanguage": "Python", "license": "https://www.apache.org/licenses/LICENSE-2.0", "author": {"@type": "Person", "name": "Hanish Keloth"}, "runtimePlatform": "PyTorch, MLX, llama.cpp"}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Songgot?", "acceptedAnswer": {"@type": "Answer", "text": "Songgot (송곳, Korean for awl) is a Korean-first tiny agentic language model for tool calling and structured extraction on the device, trained from scratch by Hanish Keloth at Palette and released under Apache 2.0."}}, {"@type": "Question", "name": "How big is it?", "acceptedAnswer": {"@type": "Answer", "text": "The Mac-trained Songgot-nano has 39M parameters (8 layers, hidden 512, GQA); the GPU-trained Songgot has about 50M parameters (12 layers). Both use a 32k Korean-first SentencePiece tokenizer and export to GGUF for llama.cpp."}}, {"@type": "Question", "name": "How is it different from Needle 2?", "acceptedAnswer": {"@type": "Answer", "text": "Needle 2 (Cactus Compute, July 2026) is English only: its 8k tokenizer spends 3.47 tokens per Hangul syllable against Songgot's 0.90, and in our FunctionChat-Bench run it answered no Korean item. Songgot is built for Korean first and evaluated on a Korean benchmark."}}, {"@type": "Question", "name": "What data was used?", "acceptedAnswer": {"@type": "Answer", "text": "fineweb-edu sample-10BT (ODC-By), Korean Wikipedia 20231101.ko (CC BY-SA 3.0), glaive-function-calling-v2 (Apache 2.0) and template-generated Korean tool calls released with the code. No AI-Hub data and no closed-model outputs."}}, {"@type": "Question", "name": "How is it evaluated?", "acceptedAnswer": {"@type": "Answer", "text": "On Kakao FunctionChat-Bench SingleCall (500 Korean items, 5 tool conditions) with a deterministic exact-match scorer on function name and arguments, so anyone can reproduce the numbers offline. Comparators run under identical prompts: Qwen3-0.6B, FunctionGemma-270M and Needle 2."}}, {"@type": "Question", "name": "Where are the weights and code?", "acceptedAnswer": {"@type": "Answer", "text": "Weights and tokenizer at https://huggingface.co/palette-lab/songgot; code, data generators, scorer and paper at https://github.com/hanishkeloth/songgot; a CPU demo at https://huggingface.co/spaces/Hanish/songgot."}}]}]</script>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e0f11;--panel:#16181c;--line:#262a30;--ink:#f2f0ea;--ink2:#b8b4aa;--ink3:#7f7b72;--accent:#d8ff3d}
@@ -33,7 +33,7 @@ figure.fig{margin:18px 0 26px;max-width:860px;border:1px solid var(--line);borde
 section.faq{max-width:96ch;padding:10px clamp(20px,6vw,90px) 60px}section.faq h2{font-size:24px}details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;color:var(--ink)}details p{color:var(--ink2);margin:8px 0 0}
 footer{padding:24px clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px}footer a{color:var(--ink2)}
 </style></head><body>
-<header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · 2026-09-15</div>
+<header><div class="logo">songgot · 송곳</div><div class="meta">paper · palette · 2026-09-16</div>
 <h1 class="title">A Korean-first tiny agentic model,<br><span>for tool calling on the device.</span></h1>
 <p class="lede">Songgot is a from-scratch tiny language model (tens of millions of parameters) for Korean tool calling and structured extraction on phones and small devices, with a Korean-first 32k tokenizer, licence-clean data, and reproducible exact-match evaluation on Kakao FunctionChat-Bench. Weights, code and paper under Apache 2.0.</p>
 <div class="links"><a class="primary" href="https://huggingface.co/palette-lab/songgot">Weights on Hugging Face</a><a href="https://github.com/hanishkeloth/songgot">Code on GitHub</a><a href="https://huggingface.co/spaces/Hanish/songgot">Live demo</a><a href="app/">Pocket app (offline, in the browser)</a><a href="songgot.pdf">Paper as PDF</a><a href="paper.md">Paper as Markdown</a></div></header>
@@ -330,7 +330,40 @@ written by the build from the run logs; a row reads "training" until its run has
 <td>73.8</td>
 </tr>
 <tr>
-<td>Songgot-X 0.8B (line B: uniform weight average of the v10 and v11 checkpoints; published 2026-09-15)</td>
+<td>Songgot-X 0.8B (line B: uniform weight average of the v10, v11 and v12 checkpoints; published 2026-09-16)</td>
+<td>0.8B</td>
+<td>80.0</td>
+<td>81.0</td>
+<td>77.0</td>
+<td>77.0</td>
+<td>76.0</td>
+<td>78.2</td>
+<td>97.0</td>
+</tr>
+<tr>
+<td>Qwen3.5-0.8B, average of v11 and v12 (not published)</td>
+<td>0.8B</td>
+<td>83.0</td>
+<td>80.0</td>
+<td>75.0</td>
+<td>78.0</td>
+<td>74.0</td>
+<td>78.0</td>
+<td>96.2</td>
+</tr>
+<tr>
+<td>Qwen3.5-0.8B + v12 (follow-the-description rows; member, not published)</td>
+<td>0.8B</td>
+<td>83.0</td>
+<td>81.0</td>
+<td>73.0</td>
+<td>75.0</td>
+<td>64.0</td>
+<td>75.2</td>
+<td>93.2</td>
+</tr>
+<tr>
+<td>Qwen3.5-0.8B, average of v10 and v11 (the Songgot-X weights of 2026-09-15 evening)</td>
 <td>0.8B</td>
 <td>79.0</td>
 <td>75.0</td>
@@ -491,8 +524,8 @@ written by the build from the run logs; a row reads "training" until its run has
 <li>
 <p>Line B, for scale: Qwen3.5-0.8B post-trained on 200,000 v8 rows for one epoch with its own chat template
   scored 61.8 percent (name 94.8), 16.6 points above its zero-shot 45.2 and 1.2 below EXAONE-4.0-1.2B; a 2B base on the same rows scores 61.2 and the full 468k rows 58.6, so the data, not the base, sets this line's ceiling. The
-  targeted v10 set (below) took the same base to 67.4 (name 93.6), and a uniform weight average of the v10 and v11
-  checkpoints to 74.0 (name 96.0), level with Kanana-2-1.3B inside the standard error. The average is published as
+  targeted v10 set (below) took the same base to 67.4 (name 93.6), and a uniform weight average of the v10, v11 and v12
+  checkpoints to 78.2 (name 97.0), 5.0 points above Kanana-2-1.3B on call and level on name. The average is published as
   Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it shows what the data is
   worth to a model that has read trillions of tokens.</p>
 </li>
@@ -600,6 +633,31 @@ is 391; the soup gets 370, so it recovers most of what the two runs knew separat
 the call score is 0.8 higher and the name score 1.2 lower, both inside the 2.0-point standard error: a tie, stated as
 such. The soup replaced the v10 weights at palette-lab/songgot-x-0.8b on the evening of 2026-09-15; score JSON
 eval/score_soup_q35_08b_v10v11.json.</p>
+<p><strong>Round v12, follow the parameter description (2026-09-16).</strong> The misses left after v11 were conventions the schema itself
+states: AddAlarm.time says "사용자의 표현 그대로 추출" and the model normalised spacing; CreateEvent.start_datetime gives no
+format and the model wrote ISO, because our v10 year rows had taught ISO regardless of the description; memo is optional and
+the model filled it; QueryCalendar.query says "일정의 이름" and the model kept "이번달"; send_message wants the message as
+the recipient reads it and the model copied reported speech. Five teacher modes with deterministic rules
+(harness/teacher_synth_v12.py, 3,309 rows kept): a format hint injected into the stored schema and obeyed; a datetime
+parameter without a hint copied verbatim (every token of the value in the request, so range ends may repeat the date);
+optional parameters omitted; a value narrowed to the named thing; a message rewritten into direct speech (verified on
+tool choice only, since two free rewrites never agree word for word; the first pass kept 17 of 6,003 under full
+agreement, the second 1,400). The v10 year rows were re-labelled with a "(YYYY-MM-DD)" hint so ISO is tied to a stated
+format. Trained alone on the same recipe (266,547 rows, seed 12): 75.2 call / 93.2 name, the first single checkpoint above
+Kanana-2 on call. The targeted classes moved (send_message 0 to 15 of 20, QueryCalendar 11 to 20, addMemo 12 to 15) but
+CreateEvent stayed at 0 because the model still fills the optional memo with the time span, AddAlarm only 5 to 7
+("3시간 뒤" still loses 뒤), and wrong-tool choices among close siblings rose to 34 (convert_currency taken as
+convert_eur_to_jpy, informDday as search_contact), which is what the RL stage is for.</p>
+<p><strong>Three-way soup, the published weights (2026-09-16).</strong> The uniform average of v10, v11 and v12 scores 78.2 call / 97.0
+name and is even across conditions (80 / 81 / 77 / 77 / 76). It gets 391 items right against 366 for Kanana-2: 61 that
+Kanana misses, 36 the other way, 330 both. Wrong-tool choices fall to 15 (Kanana 10), argument misses to 94 (Kanana 120).
+Per function the two models have different strengths: Songgot-X wins generate_random_password (15 of 20 against 0),
+start_playlist (20 against 0), convert_currency (12 against 3) and getCurrentTimeForLocation (20 against 15); Kanana wins
+AddAlarm (15 against 5, the verbatim time expression), QueryCalendar (20 against 16), informDday (18 against 14) and
+update_contact (13 against 10). The average of v11 and v12 alone scores 78.0 / 96.2 and the earlier v10 and v11 average
+74.0 / 96.0; each added member closes more of the union of what the members know. Standard error at 78 percent on 500
+items is 1.9 points, so 5.0 points above Kanana-2 on call is about 2.6 standard errors and outside the 4-point band we
+set for ties in section 5; the name scores (97.0 against 97.2) are a tie. Score JSON eval/score_soup_q35_08b_v10v11v12.json.</p>
 <h2>6b. Songgot-V, first numbers</h2>
 <p>Songgot-V pairs the from-scratch language model with an open pretrained vision tower (SigLIP2 base, 512px, Apache
 2.0, trained by Google and stated as such) through a projector trained from random initialisation; the page is cut
@@ -632,11 +690,13 @@ vision-language model under 1B parameters; we will say "we found none", not "non
 closed product to note: 뉴플로이 (Newploy) shipped an on-device Korean document OCR service on 2026-08-19 without
 weights or benchmark numbers. Kakao's Orchestration Benchmark (ICLR 2026) is a second Korean agentic benchmark on
 which no model under 2B parameters has been scored.</p>
-<p><strong>What line B claims (2026-09-15).</strong> On FunctionChat-Bench SingleCall under our exact-match scorer, Songgot-X
-(0.8B, Apache 2.0) scores 74.0 call / 96.0 name, level with Kanana-2-1.3B-Instruct (73.2 / 97.2) within the standard
-error and the highest score of any openly licensed model we measured; Kanana-2 cannot be redistributed on device under
-its licence and EXAONE-4.0 is research-only. We do not claim to beat Kanana-2: 0.8 points on 500 items is noise, and
-Kakao authored the benchmark. We claim the tie, the licence, and the size.</p>
+<p><strong>What line B claims (2026-09-16).</strong> On FunctionChat-Bench SingleCall under our exact-match scorer, Songgot-X
+(0.8B, Apache 2.0) scores 78.2 call / 97.0 name: 5.0 points above Kanana-2-1.3B-Instruct (73.2 / 97.2) on call, about
+2.6 standard errors and outside the 4-point band this paper treats as a tie, and level on name. It is the highest score
+of any model we measured on this benchmark, and the highest openly licensed one by a wider margin; Kanana-2 cannot be
+redistributed on device under its licence and EXAONE-4.0 is research-only. Qualifiers that travel with the claim: one
+benchmark, 500 items, our exact-match scorer rather than the official GPT-4 judge, Kakao authored the benchmark, and the
+date. On the held-out human test (section 6) the function-choice column, the fair one, favours Songgot-X as well.</p>
 <h2>8. Release</h2>
 <p>Weights and tokenizer: hf.co/palette-lab/songgot-12l (and songgot, songgot-m). Synthetic data: hf.co/datasets/palette-lab/songgot-tools-ko. Code, data generators, scorer, paper:
 github.com/hanishkeloth/songgot. Licence Apache 2.0. Korean Wikipedia attribution and CC BY-SA

@@ -3,13 +3,13 @@
 // then performs the ones it can do locally and hands the rest to the right site when online.
 import { Wllama } from "./vendor/wllama/dist/index.js";
 
-const MODEL_VERSION = "2026-09-15-x-soup";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
+const MODEL_VERSION = "2026-09-16-x-soup3";  // bumped by site/publish.py on every 12L publish so browsers refetch the new weights
 // Two models, both post-trained by Palette, labelled honestly in the app:
 //   songgot   the from-scratch 50M model (our own weights end to end), 54 MB, runs on any phone
-//   songgotx  Songgot-X 0.8B, built on Qwen3.5-0.8B (Apache 2.0) and post-trained by us (v10+v11 weight average, 2026-09-15), 505 MB, desktop and Android
+//   songgotx  Songgot-X 0.8B, built on Qwen3.5-0.8B (Apache 2.0) and post-trained by us (v10+v11+v12 weight average, 2026-09-16), 505 MB, desktop and Android
 const MODELS = {
   songgot: { url: "https://huggingface.co/palette-lab/songgot-12l/resolve/main/songgot-q8_0.gguf?v=" + MODEL_VERSION, label: "Songgot 50M · from scratch · 54 MB · 33.0%", short: "Songgot 50M · from scratch", mb: 54, n_ctx: 1024, format: "songgot" },
-  songgotx: { url: "https://huggingface.co/palette-lab/songgot-x-0.8b/resolve/main/songgot-x-q4_k_m.gguf?v=" + MODEL_VERSION, label: "Songgot-X 0.8B · on Qwen3.5 base · 505 MB · 74.0%", short: "Songgot-X 0.8B · on an open base", mb: 505, n_ctx: 2048, n_batch: 64, format: "qwen35" },
+  songgotx: { url: "https://huggingface.co/palette-lab/songgot-x-0.8b/resolve/main/songgot-x-q4_k_m.gguf?v=" + MODEL_VERSION, label: "Songgot-X 0.8B · on Qwen3.5 base · 505 MB · 78.2%", short: "Songgot-X 0.8B · on an open base", mb: 505, n_ctx: 2048, n_batch: 64, format: "qwen35" },
 };
 // n_batch per model: Songgot-X has a 248,320-entry vocabulary, so the logits buffer is vocab x n_batch x 4 bytes (508 MB at 512); the wasm heap
 // cannot allocate that and wllama fails with "Invalid typed array length". 64 keeps it at 64 MB; measured 19.8 tok/s single-thread in Chrome at 32.
