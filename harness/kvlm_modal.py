@@ -58,8 +58,7 @@ def pick_letter(s: str):
     return m.group(1) if m else None
 
 
-@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
-def run(model: str = "Qwen/Qwen3.5-0.8B", tag: str = "qwen35_08b", limit: int = 1000, benches: str = "kmmbench,kseed,kmmstar,kdtcbench", max_new: int = 8):
+def _run(model: str = "Qwen/Qwen3.5-0.8B", tag: str = "qwen35_08b", limit: int = 1000, benches: str = "kmmbench,kseed,kmmstar,kdtcbench", max_new: int = 8):
     import torch
     from transformers import AutoModelForImageTextToText, AutoProcessor
     vol.reload(); os.makedirs(f"{V}/kvlm", exist_ok=True)
@@ -101,6 +100,17 @@ def run(model: str = "Qwen/Qwen3.5-0.8B", tag: str = "qwen35_08b", limit: int = 
     json.dump(res, open(f"{V}/kvlm/{tag}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1); vol.commit()
     say(f"[kvlm] {tag} DONE " + " ".join(f"{b} {v['acc']:.3f}" for b, v in res["bench"].items()))
     return {b: v["acc"] for b, v in res["bench"].items()}
+
+
+@app.function(image=image, gpu="H100", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 3, memory=65536)
+def run(model: str = "Qwen/Qwen3.5-0.8B", tag: str = "qwen35_08b", limit: int = 1000, benches: str = "kmmbench,kseed,kmmstar,kdtcbench", max_new: int = 8):
+    return _run(model, tag, limit, benches, max_new)
+
+
+@app.function(image=image, gpu="H200", volumes={V: vol, CACHE: hf_cache}, timeout=60 * 60 * 4, memory=131072)
+def run_h200(model: str = "Qwen/Qwen3.5-0.8B", tag: str = "qwen35_08b", limit: int = 1000, benches: str = "kmmbench,kseed,kmmstar,kdtcbench", max_new: int = 8):
+    """Same protocol on a 141 GB card for models that do not fit one H100 in bf16 (Ornith-1.5-35B-A3B is ~70 GB)."""
+    return _run(model, tag, limit, benches, max_new)
 
 
 @app.local_entrypoint()
