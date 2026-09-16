@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.814,
+ "name_acc": 0.954,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.87,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.82,
+   "name_acc": 0.98
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.79,
+   "name_acc": 0.93
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.83,
+   "name_acc": 0.96
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.76,
+   "name_acc": 0.9
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"comedy\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getMovieDetails\", \"arguments\": {\"title\": \"어떤 영화가 재밌어?\", \"year\": 2026}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#7#4_close",
+   "q": "이번주에 찍을 로또번호좀 골라줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"informLottoNumberByDate\", \"arguments\": {\"date\": \"이번주\"}}"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "informWeather#11#8_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "getWalkInfo#27#8_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"getRoundTripFlightInfo\", \"arguments\": {\"origin\": \"경복궁\", \"destination\": \"창덕궁\", \"departure_date\": \"2026-09-12\", \"return_date\": \"2026-09-12\"}}"
+  },
+  {
+   "id": "get_movie_details#30#8_random",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"gift_search_product\", \"arguments\": {\"query\": \"7번방 선물\"}}"
+  }
+ ]
+}

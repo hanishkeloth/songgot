@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.82,
+ "name_acc": 0.964,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.86,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.84,
+   "name_acc": 0.99
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.8,
+   "name_acc": 0.95
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.83,
+   "name_acc": 0.96
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.77,
+   "name_acc": 0.92
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"스타2\", \"year\": 2026}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"comedy\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "getWalkInfo#27#8_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"findRestStops\", \"arguments\": {\"origin\": \"경복궁\", \"destination\": \"창덕궁\"}}"
+  },
+  {
+   "id": "get_movie_details#30#8_random",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "{\"name\": \"gift_search_product\", \"arguments\": {\"query\": \"7번방 선물\"}}"
+  },
+  {
+   "id": "get_movie_details#32#exact",
+   "q": "로맨틱홀리데이(2006) 여기엔 누가 나왔어?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"로맨틱홀리데이\\\",\\\"year\\\":2006}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"로맨틱홀리데이(2006)\"}}"
+  },
+  {
+   "id": "get_movie_details#32#4_random",
+   "q": "로맨틱홀리데이(2006) 여기엔 누가 나왔어?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"로맨틱홀리데이\\\",\\\"year\\\":2006}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"로맨틱홀리데이(2006)\"}}"
+  },
+  {
+   "id": "get_movie_details#32#4_close",
+   "q": "로맨틱홀리데이(2006) 여기엔 누가 나왔어?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"로맨틱홀리데이\\\",\\\"year\\\":2006}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"로맨틱홀리데이(2006)\"}}"
+  }
+ ]
+}
