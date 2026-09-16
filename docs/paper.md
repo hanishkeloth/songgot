@@ -390,6 +390,20 @@ update_contact (13 against 10). The average of v11 and v12 alone scores 78.0 / 9
 items is 1.9 points, so 5.0 points above Kanana-2 on call is about 2.6 standard errors and outside the 4-point band we
 set for ties in section 5; the name scores (97.0 against 97.2) are a tie. Score JSON eval/score_soup_q35_08b_v10v11v12.json.
 
+**GRPO on line B, two rounds, no change (2026-09-16).** We ported the similarity-reward GRPO stage of section 4 to the base
+model's chat template (harness/rl_base.py: reward -1 for no call, 0 for the wrong tool, else mean per-key similarity with
+extra and missing keys counted against; KL 0.02 to the frozen soup; lr 1e-6). Round 1 sampled 16 prompts x 8 completions per
+step from 24,000 v8 rows that none of the three members had seen; the soup already answers 85.8 percent of them, and at
+temperature 0.8 the eight samples of a prompt were identical, so most steps had no group with reward variance and the
+benchmark did not move (78.4 / 97.0 after 300 steps). Round 2 kept only the 3,501 of 24,000 prompts the soup gets wrong under
+greedy decoding (2,119 wrong tool, mostly close-sibling conditions; 1,381 wrong argument) and sampled 8 x 16 at temperature
+1.0. Now every step had signal and the mean reward on those prompts rose from 0.38 to about 0.8 across 300 steps, but the
+benchmark still did not move: 78.2 / 96.8, one item gained and one lost against the soup. What the policy learnt on its
+own hard prompts did not transfer to Kakao's items, and we did not raise the learning rate or lower the KL weight to force
+it, since the from-scratch runs (section 4) had already shown that this reward mainly re-teaches what supervised data
+teaches more cheaply. The two RL checkpoints are not published; every gain in this section came from targeted data and
+weight averaging.
+
 
 ## 6b. Songgot-V, first numbers
 
