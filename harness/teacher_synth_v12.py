@@ -74,7 +74,7 @@ def props_of(tool):
 
 def required_of(tool):
     r = (tool.get("parameters") or {}).get("required")
-    return set(r) if isinstance(r, list) else set()  # some teacher schemas write "required": true
+    return {x for x in r if isinstance(x, str)} if isinstance(r, list) else set()  # some schemas write "required": true or list objects
 
 
 def dt_params(tool):
