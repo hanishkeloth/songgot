@@ -722,8 +722,9 @@ from 5 to 20 of 20 and argument misses from 94 to 73, but wrong-tool choices ris
 pattern of every targeted round so far. The average with the soup keeps the argument gains and most of the tool choice:
 82.2 call / 96.4 name, 411 items right (27 gained and 7 lost against the soup), 18 wrong tools and 71 argument misses.
 Against Kanana-2 it is 74 items to 29 with 337 shared; Kanana-2 still leads on informDday (18 to 12), update_contact (13 to
-10), addMemo (20 to 17) and add_task (17 to 15). A second continuation on the memo rows scored 81.4 / 95.4 alone and 82.0 /
-96.4 averaged three ways, no better, so it is not used. On the held-out MASSIVE subset the published average scores 72.0
+10), addMemo (20 to 17) and add_task (17 to 15). A second continuation on the memo rows scored 81.4 / 95.4 alone, 82.0 / 96.4 averaged three ways, and 82.8 / 96.8
+averaged with the soup alone, three items above the published weights and inside the standard error; we keep the
+published weights rather than churn the release for noise, and note the candidate here. On the held-out MASSIVE subset the published average scores 72.0
 call / 94.0 name (three-way soup 70.4 / 94.0; predictions for this row came from the batched left-padded decoder, which
 agrees with the single-prompt path up to bf16 batching noise). Score JSON eval/score_soup_s3_c13.json.</p>
 <h2>6b. Songgot-V, first numbers</h2>
