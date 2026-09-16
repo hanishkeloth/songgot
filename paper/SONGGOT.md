@@ -320,15 +320,17 @@ eval/score_massive.py, predictions from harness/eval_massive.py.
 
 | model | call | name only |
 |---|---|---|
-| Songgot-X 0.8B (v10+v11 weight average, published) | 71.6 | 92.6 |
+| Songgot-X 0.8B (v10+v11+v12 weight average, published) | 70.4 | 94.0 |
+| v11+v12 average (not published) | 68.6 | 91.4 |
+| v10+v11 average (the 2026-09-15 evening weights) | 71.6 | 92.6 |
 | Qwen3.5-0.8B + v10 (member) | 62.4 | 81.4 |
 | Kanana-2-1.3B-Instruct (Kakao) | 14.4 | 83.4 |
 | Qwen3.5-0.8B (base, zero-shot) | 12.4 | 63.0 |
 
 The name column is the fair comparison: the v10 member and Kanana-2 choose the same function at the same rate (81.4
-against 83.4, inside the 1.7-point standard error), post-training lifts the base by 18 points, and the published weight
-average reaches 92.6, 9 points above Kanana-2 on human requests it never saw, which says the average generalises rather
-than fits the benchmark. The call column is not a fair
+against 83.4, inside the 1.7-point standard error), post-training lifts the base by 18 points, and the published three-way
+average reaches 94.0, 11 points above Kanana-2 on human requests it never saw, which says the average generalises rather
+than fits the benchmark; its call score (70.4) sits with the other averages inside noise. The call column is not a fair
 comparison and we do not present it as one. Songgot-X trained on the MASSIVE train split, so it knows this convention
 (copy the spoken span verbatim, "오전 다섯 시"); Kanana-2 never saw it and fills arguments with placeholders
 ("your_list_name", "user's location", "today") or declines. That is the mirror image of FunctionChat, where Kakao's
