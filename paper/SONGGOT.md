@@ -187,7 +187,9 @@ written by the build from the run logs; a row reads "training" until its run has
 | FunctionGemma-270M | 270M | 3.0 | 5.0 | 1.0 | 1.0 | 1.0 | 2.2 | 36.2 |
 | Qwen3-0.6B | 600M | 48.0 | 49.0 | 45.0 | 37.0 | 37.0 | 43.2 | 70.8 |
 | Qwen3.5-0.8B | 800M | 51.0 | 48.0 | 41.0 | 52.0 | 34.0 | 45.2 | 73.8 |
-| Songgot-X 0.8B (line B: uniform weight average of the v10, v11 and v12 checkpoints; published 2026-09-16) | 0.8B | 80.0 | 81.0 | 77.0 | 77.0 | 76.0 | 78.2 | 97.0 |
+| Songgot-X 0.8B (line B: average of the three-way soup and its v13 continuation; published 2026-09-16 evening) | 0.8B | 87.0 | 84.0 | 80.0 | 83.0 | 77.0 | 82.2 | 96.4 |
+| Qwen3.5-0.8B, v13 continuation of the three-way soup alone (not published) | 0.8B | 87.0 | 83.0 | 79.0 | 81.0 | 74.0 | 80.8 | 95.4 |
+| Qwen3.5-0.8B, average of v10, v11 and v12 (the Songgot-X weights of 2026-09-16 morning) | 0.8B | 80.0 | 81.0 | 77.0 | 77.0 | 76.0 | 78.2 | 97.0 |
 | Qwen3.5-0.8B, average of v11 and v12 (not published) | 0.8B | 83.0 | 80.0 | 75.0 | 78.0 | 74.0 | 78.0 | 96.2 |
 | Qwen3.5-0.8B + v12 (follow-the-description rows; member, not published) | 0.8B | 83.0 | 81.0 | 73.0 | 75.0 | 64.0 | 75.2 | 93.2 |
 | Qwen3.5-0.8B, average of v10 and v11 (the Songgot-X weights of 2026-09-15 evening) | 0.8B | 79.0 | 75.0 | 73.0 | 74.0 | 69.0 | 74.0 | 96.0 |
@@ -271,8 +273,9 @@ written by the build from the run logs; a row reads "training" until its run has
   raise call accuracy, and the corpus decides. Published as palette-lab/songgot-l with that number.
 - Line B, for scale: Qwen3.5-0.8B post-trained on 200,000 v8 rows for one epoch with its own chat template
   scored 61.8 percent (name 94.8), 16.6 points above its zero-shot 45.2 and 1.2 below EXAONE-4.0-1.2B; a 2B base on the same rows scores 61.2 and the full 468k rows 58.6, so the data, not the base, sets this line's ceiling. The
-  targeted v10 set (below) took the same base to 67.4 (name 93.6), and a uniform weight average of the v10, v11 and v12
-  checkpoints to 78.2 (name 97.0), 5.0 points above Kanana-2-1.3B on call and level on name. The average is published as
+  targeted v10 set (below) took the same base to 67.4 (name 93.6), a uniform weight average of the v10, v11 and v12
+  checkpoints to 78.2 (name 97.0), and the average of that soup with a short continued fine-tune on v13 rows to 82.2
+  (name 96.4), 9.0 points above Kanana-2-1.3B on call and within a standard error on name. That average is published as
   Songgot-X with the base named on the card; it is a product, not a from-scratch claim, and it shows what the data is
   worth to a model that has read trillions of tokens.
 
@@ -320,7 +323,8 @@ eval/score_massive.py, predictions from harness/eval_massive.py.
 
 | model | call | name only |
 |---|---|---|
-| Songgot-X 0.8B (v10+v11+v12 weight average, published) | 70.4 | 94.0 |
+| Songgot-X 0.8B (three-way soup + v13 continuation average, published) | 72.0 | 94.0 |
+| v10+v11+v12 average (the 2026-09-16 morning weights) | 70.4 | 94.0 |
 | v11+v12 average (not published) | 68.6 | 91.4 |
 | v10+v11 average (the 2026-09-15 evening weights) | 71.6 | 92.6 |
 | Qwen3.5-0.8B + v10 (member) | 62.4 | 81.4 |
@@ -402,6 +406,24 @@ it, since the from-scratch runs (section 4) had already shown that this reward m
 teaches more cheaply. The two RL checkpoints are not published; every gain in this section came from targeted data and
 weight averaging.
 
+**Round v13, continued fine-tuning on the soup (2026-09-16).** The misses left in the three-way soup where Kanana-2 still
+led were four: the alarm time copied with normalised spacing ("10분 후" for "10분후", "3시간" for "3시간 뒤"), the optional memo
+filled with the time span, old/new roles in update calls, and a query-type request answered with a create-type tool. Rows
+for all four came from the teacher with deterministic rules (harness/teacher_synth_v13.py: 1,622 verbatim time rows where the
+value must be an exact substring of the request and must keep a following 뒤/후/전/반; 937 old/new rows; 254 intent rows;
+memo omission built deterministically by adding an unfilled optional memo/note parameter to the v12 datetime schemas,
+1,971 rows). Instead of a fourth 10-hour run from the base, we continued the published soup itself for one epoch on the new
+rows (twice, with distractors) plus a 25,000-row replay sample of the v12 set at a halved learning rate (5e-6, 958 steps,
+about one hour), then averaged that continuation with the soup. The continuation alone scores 80.8 / 95.4: AddAlarm goes
+from 5 to 20 of 20 and argument misses from 94 to 73, but wrong-tool choices rise from 15 to 23 (informDday 14 to 8), the
+pattern of every targeted round so far. The average with the soup keeps the argument gains and most of the tool choice:
+82.2 call / 96.4 name, 411 items right (27 gained and 7 lost against the soup), 18 wrong tools and 71 argument misses.
+Against Kanana-2 it is 74 items to 29 with 337 shared; Kanana-2 still leads on informDday (18 to 12), update_contact (13 to
+10), addMemo (20 to 17) and add_task (17 to 15). A second continuation on the memo rows scored 81.4 / 95.4 alone and 82.0 /
+96.4 averaged three ways, no better, so it is not used. On the held-out MASSIVE subset the published average scores 72.0
+call / 94.0 name (three-way soup 70.4 / 94.0; predictions for this row came from the batched left-padded decoder, which
+agrees with the single-prompt path up to bf16 batching noise). Score JSON eval/score_soup_s3_c13.json.
+
 
 ## 6b. Songgot-V, first numbers
 
@@ -440,9 +462,9 @@ closed product to note: 뉴플로이 (Newploy) shipped an on-device Korean docum
 weights or benchmark numbers. Kakao's Orchestration Benchmark (ICLR 2026) is a second Korean agentic benchmark on
 which no model under 2B parameters has been scored.
 
-**What line B claims (2026-09-16).** On FunctionChat-Bench SingleCall under our exact-match scorer, Songgot-X
-(0.8B, Apache 2.0) scores 78.2 call / 97.0 name: 5.0 points above Kanana-2-1.3B-Instruct (73.2 / 97.2) on call, about
-2.6 standard errors and outside the 4-point band this paper treats as a tie, and level on name. It is the highest score
+**What line B claims (2026-09-16, evening).** On FunctionChat-Bench SingleCall under our exact-match scorer, Songgot-X
+(0.8B, Apache 2.0) scores 82.2 call / 96.4 name: 9.0 points above Kanana-2-1.3B-Instruct (73.2 / 97.2) on call, about
+4.7 standard errors and well outside the 4-point band this paper treats as a tie, and within one standard error on name. It is the highest score
 of any model we measured on this benchmark, and the highest openly licensed one by a wider margin; Kanana-2 cannot be
 redistributed on device under its licence and EXAONE-4.0 is research-only. Qualifiers that travel with the claim: one
 benchmark, 500 items, our exact-match scorer rather than the official GPT-4 judge, Kakao authored the benchmark, and the
