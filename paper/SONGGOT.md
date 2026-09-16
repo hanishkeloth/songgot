@@ -203,6 +203,25 @@ written by the build from the run logs; a row reads "training" until its run has
 
 ![Figure 2. Call accuracy by tool condition on FunctionChat-Bench SingleCall](fig2_bench.png)
 
+Table 2b. KV cache that grows with context, bytes per token at fp16, computed from each model's
+published configuration (layers that keep a per-token cache x KV heads x head dimension x 2 for K
+and V x 2 bytes). Gated DeltaNet layers keep a fixed state instead (18.9 MB for Qwen3.5-0.8B) and
+are not counted; Kanana-2's 24 sliding-window layers stop growing at 1,024 tokens (about 100 MB).
+Rows whose configuration was not read are omitted. Study: docs/KV_CACHE_DEEPSEEK_V41_STUDY.md.
+
+The published on-device build was also scored as users run it: Songgot-X Q4_K_M GGUF through llama.cpp gives 80.2
+call / 94.4 name with an f16 KV cache, 81.0 / 94.4 with q8_0 and 80.8 / 94.2 with q4_0 (same items, prompts and
+parser as the bf16 row's 82.2 / 96.4; standard error about 1.9). The weight quantization costs about two points; the
+KV cache type costs nothing measurable at these prompt lengths.
+
+| model | layers with a growing cache | KV heads x dim | bytes per token |
+|---|---|---|---|
+| Songgot-X 0.8B (Qwen3.5-0.8B) | 6 of 24 | 2 x 256 | 12,288 |
+| Qwen3-0.6B | 28 of 28 | 8 x 128 | 114,688 |
+| Kanana-2-1.3B-Instruct | 8 of 32 full attention, 24 sliding | 8 x 128 | 32,768 |
+| EXAONE-4.0-1.2B | 30 of 30 | 8 x 64 | 61,440 |
+| DeepSeek-V4.1-Flash, for scale (global cache, FP4, one shared K=V head) | 4 of 40 | 1 x 512 | 890 |
+
 ## 6. Honest reading
 
 - Songgot-nano, 320M pretraining tokens and one post-training epoch on the v3 set, scores 0.0 on

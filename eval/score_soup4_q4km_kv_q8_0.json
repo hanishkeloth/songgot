@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.81,
+ "name_acc": 0.944,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.86,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.8,
+   "name_acc": 0.94
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.79,
+   "name_acc": 0.93
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.81,
+   "name_acc": 0.94
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.79,
+   "name_acc": 0.91
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_random",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"영화\"}}"
+  },
+  {
+   "id": "informWeather#11#4_close",
+   "q": "제주도 서귀포시의 현재 날씨 상태를 알려주세요",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"제주도 서귀포시\\\"}\"}",
+   "out": "{\"name\": \"informWeather\", \"arguments\": {\"location\": \"서귀포시\"}}"
+  },
+  {
+   "id": "getWalkInfo#27#8_close",
+   "q": "경복궁이랑 창덕궁 얼마나 떨어져있어?",
+   "gt": "{\"name\":\"getWalkInfo\",\"arguments\":\"{\\\"origin\\\":\\\"경복궁\\\",\\\"destination\\\":\\\"창덕궁\\\"}\"}",
+   "out": "{\"name\": \"findRestStops\", \"arguments\": {\"origin\": \"경복궁\", \"destination\": \"창덕궁\"}}"
+  },
+  {
+   "id": "get_movie_details#30#4_random",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  },
+  {
+   "id": "get_movie_details#30#4_close",
+   "q": "7번방의 선물은 무슨 내용이야?",
+   "gt": "{\"name\":\"get_movie_details\",\"arguments\":\"{\\\"title\\\":\\\"7번방의 선물\\\"}\"}",
+   "out": "이 요청에 맞는 도구가 없어요."
+  }
+ ]
+}
