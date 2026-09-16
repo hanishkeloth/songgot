@@ -1,0 +1,69 @@
+{
+ "model": "ornith-ai/Ornith-1.5-35B-A3B",
+ "tag": "ornith15_35b_a3b",
+ "limit": 1000,
+ "date": "2026-09-16",
+ "scoring": "next-token likelihood over the option letters",
+ "bench": {
+  "kmmbench": {
+   "n": 1000,
+   "acc": 0.875,
+   "no_letter": 0,
+   "sec": 374,
+   "by_category": {
+    "identity_reasoning": 1.0,
+    "physical_property_reasoning": 0.813,
+    "function_reasoning": 0.937,
+    "object_localization": 0.815,
+    "structuralized_imagetext_understanding": 0.84,
+    "attribute_recognition": 0.946,
+    "future_prediction": 0.475,
+    "spatial_relationship": 0.923,
+    "image_scene": 0.94,
+    "image_quality": 0.736,
+    "action_recognition": 0.909,
+    "attribute_comparison": 0.886,
+    "image_topic": 0.944,
+    "nature_relation": 0.929,
+    "physical_relation": 0.792,
+    "social_relation": 0.93,
+    "celebrity_recognition": 0.97,
+    "image_style": 0.925,
+    "ocr": 0.846,
+    "image_emotion": 0.84
+   }
+  },
+  "kseed": {
+   "n": 1000,
+   "acc": 0.785,
+   "no_letter": 0,
+   "sec": 608,
+   "by_category": {
+    "": 0.785
+   }
+  },
+  "kmmstar": {
+   "n": 1000,
+   "acc": 0.681,
+   "no_letter": 0,
+   "sec": 388,
+   "by_category": {
+    "coarse perception": 0.716,
+    "fine-grained perception": 0.672,
+    "instance reasoning": 0.708,
+    "logical reasoning": 0.628
+   }
+  },
+  "kdtcbench": {
+   "n": 240,
+   "acc": 0.8916666666666667,
+   "no_letter": 0,
+   "sec": 114,
+   "by_category": {
+    "document": 0.963,
+    "table": 0.887,
+    "chart": 0.825
+   }
+  }
+ }
+}
