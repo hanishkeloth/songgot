@@ -1,0 +1,106 @@
+{
+ "n": 500,
+ "call_acc": 0.752,
+ "name_acc": 0.932,
+ "by_condition": {
+  "exact": {
+   "n": 100,
+   "call_acc": 0.83,
+   "name_acc": 1.0
+  },
+  "4_random": {
+   "n": 100,
+   "call_acc": 0.81,
+   "name_acc": 0.98
+  },
+  "4_close": {
+   "n": 100,
+   "call_acc": 0.73,
+   "name_acc": 0.9
+  },
+  "8_random": {
+   "n": 100,
+   "call_acc": 0.75,
+   "name_acc": 0.94
+  },
+  "8_close": {
+   "n": 100,
+   "call_acc": 0.64,
+   "name_acc": 0.84
+  }
+ },
+ "fails_sample": [
+  {
+   "id": "getTodayBoxOfficeRanking#1#8_close",
+   "q": "현재 박스오피스 순위가 궁금해요",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"박스오피스\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#2#8_close",
+   "q": "오늘자 영화 랭킹 알려줘",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"오늘자\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"recommendLottoNumber\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#4_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"get_movie_details\", \"arguments\": {\"title\": \"미드나리\", \"year\": 2023}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_random",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTimeForLocation\", \"arguments\": {\"location\": \"부산\"}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#3#8_close",
+   "q": "요즘 어떤 영화가 재밌어?",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getCurrentTopSeries\", \"arguments\": {}}"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#4_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "이 요청에 맞는 도구가 없어요.\n<function=getMovieDetails>\n<parameter=title>\n최근 영화 순위\n</parameter>\n<parameter=year>\n2026\n</parameter>\n</function>\n</tool_call>\n<function=getMo"
+  },
+  {
+   "id": "getTodayBoxOfficeRanking#4#8_close",
+   "q": "최근 영화 순위 트렌드를 알고싶습니다",
+   "gt": "{\"name\":\"getTodayBoxOfficeRanking\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"getTopTrendingVideos\", \"arguments\": {\"category\": \"최근 영화 순위\"}}"
+  },
+  {
+   "id": "recommendLottoNumber#7#8_close",
+   "q": "이번주에 찍을 로또번호좀 골라줘",
+   "gt": "{\"name\":\"recommendLottoNumber\",\"arguments\":\"{}\"}",
+   "out": "{\"name\": \"informLottoNumberByDate\", \"arguments\": {\"date\": \"2026-09-12\"}}"
+  },
+  {
+   "id": "informWeather#9#4_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "informWeather#9#8_close",
+   "q": "오늘 노원구 날씨 알려줘",
+   "gt": "{\"name\":\"informWeather\",\"arguments\":\"{\\\"location\\\":\\\"노원구\\\"}\"}",
+   "out": "{\"name\": \"getWeatherForecastForNext7Days\", \"arguments\": {\"location\": \"노원구\"}}"
+  },
+  {
+   "id": "calculate_bmi#24#8_random",
+   "q": "몸무게75키로에 키180으로 BMI 계산해줄래?",
+   "gt": "{\"name\":\"calculate_bmi\",\"arguments\":\"{\\\"height\\\":180,\\\"weight\\\":75}\"}",
+   "out": "{\"name\": \"calculate_bmi\", \"arguments\": {\"height\": 75, \"weight\": 180}}"
+  }
+ ]
+}
