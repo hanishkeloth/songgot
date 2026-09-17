@@ -198,6 +198,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | Songgot-X 0.8B v8 (previous weights: v8, 200k rows, 1 epoch; 2026-09-13) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
 | Qwen3.5-2B + v12 rows (200k, 1 epoch; single run, no average or continuation; not published) | 2B | 88.0 | 84.0 | 73.0 | 81.0 | 72.0 | 79.6 | 94.2 |
 | Qwen3.5-2B, v13 continuation of the run above (not published) | 2B | 86.0 | 82.0 | 79.0 | 81.0 | 76.0 | 80.8 | 95.6 |
+| Qwen3.5-2B, average of the v12 run and its v13 continuation (not published) | 2B | 86.0 | 83.0 | 78.0 | 80.0 | 75.0 | 80.4 | 95.4 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 77.0 | 76.0 | 71.0 | 73.0 | 69.0 | 73.2 | 97.2 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
 | DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.6 |
@@ -226,6 +227,11 @@ KV cache type costs nothing measurable at these prompt lengths.
 
 ## 6. Honest reading
 
+- Qwen3.5-2B on the same recipe: a single v12 run scores 79.6 (4.4 above the 0.8B trained on the same rows), its v13
+  continuation 80.8 / 95.6, and the average of the two 80.4. The best 2B checkpoint is 1.4 points under the published
+  0.8B (82.2), inside one standard error, at three times the download; the 0.8B had three independently trained members
+  to average and the 2B one, so the comparison favours the 0.8B by construction. The 2B line stops here unless a second
+  size is needed for a product reason; the per-token KV cost of the two is identical.
 - Songgot-nano, 320M pretraining tokens and one post-training epoch on the v3 set, scores 0.0 on
   both call and name accuracy. It answers with tool names from its own post-training catalogue
   (create_event, get_subway_arrival, lookup_exchange_rate) instead of the names in the prompt, and
