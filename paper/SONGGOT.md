@@ -197,6 +197,7 @@ written by the build from the run logs; a row reads "training" until its run has
 | Qwen3.5-0.8B + v11 (v10 set + payload/19xx-year rows; not published) | 0.8B | 75.0 | 73.0 | 66.0 | 70.0 | 62.0 | 69.2 | 94.4 |
 | Songgot-X 0.8B v8 (previous weights: v8, 200k rows, 1 epoch; 2026-09-13) | 0.8B | 67.0 | 66.0 | 60.0 | 62.0 | 54.0 | 61.8 | 94.8 |
 | Qwen3.5-2B + v12 rows (200k, 1 epoch; single run, no average or continuation; not published) | 2B | 88.0 | 84.0 | 73.0 | 81.0 | 72.0 | 79.6 | 94.2 |
+| Qwen3.5-2B, v13 continuation of the run above (not published) | 2B | 86.0 | 82.0 | 79.0 | 81.0 | 76.0 | 80.8 | 95.6 |
 | Kanana-2-1.3B-Instruct (Kakao) | 1.3B | 77.0 | 76.0 | 71.0 | 73.0 | 69.0 | 73.2 | 97.2 |
 | EXAONE-4.0-1.2B (LG) | 1.28B | 73.0 | 65.0 | 53.0 | 66.0 | 58.0 | 63.0 | 85.2 |
 | DNA3.0-0.8B (Dnotitia) | 0.8B | 0.0 | 8.0 | 6.0 | 6.0 | 4.0 | 4.8 | 12.6 |
